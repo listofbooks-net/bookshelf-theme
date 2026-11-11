@@ -486,6 +486,7 @@ p.is-style-status-dnf::before {
 	--bookshelf-shelf-pad: var(--wp--preset--spacing--30);
 	margin: 0;
 	padding: 0 0 var(--wp--preset--spacing--30);
+	align-items: flex-start;
 	list-style: none;
 	overflow-x: auto;
 	scroll-snap-type: x proximity;
@@ -494,6 +495,7 @@ p.is-style-status-dnf::before {
 }
 
 .bookshelf-shelf > * {
+	box-sizing: border-box;
 	flex: none;
 	width: calc(9rem + 2 * var(--bookshelf-shelf-pad));
 	margin: 0;
@@ -946,6 +948,10 @@ p.is-style-status-dnf::before {
 }
 
 /* Reading log ----------------------------------------------------- */
+
+.bookshelf-stats.is-layout-grid {
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+}
 
 .bookshelf-stats {
 	padding-top: var(--wp--preset--spacing--40);
