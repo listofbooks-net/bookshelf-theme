@@ -11,7 +11,7 @@
 <!-- wp:group {"tagName":"section","align":"full","className":"bookshelf-section bookshelf-not-found","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull bookshelf-section bookshelf-not-found" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--60)"><!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group alignwide"><!-- wp:paragraph {"className":"bookshelf-not-found-code"} -->
-<p class="bookshelf-not-found-code" aria-hidden="true">404</p>
+<p class="bookshelf-not-found-code">404</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":1} -->
@@ -22,7 +22,17 @@
 <p class="has-muted-color has-text-color has-large-font-size"><?php esc_html_e( 'The link may be old, or the page may have been moved or renamed. Try a search, or start again from the front page.', 'bookshelf' ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:search {"label":"<?php echo esc_attr__( 'Search', 'bookshelf' ); ?>","showLabel":false,"placeholder":"<?php echo esc_attr__( 'Search by title, author or genre', 'bookshelf' ); ?>","buttonText":"<?php echo esc_attr__( 'Search', 'bookshelf' ); ?>","buttonPosition":"button-inside"} /-->
+<!-- wp:search <?php
+echo serialize_block_attributes( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON-encoded block attributes.
+	array(
+		'label'          => __( 'Search', 'bookshelf' ),
+		'showLabel'      => false,
+		'placeholder'    => __( 'Search by title, author or genre', 'bookshelf' ),
+		'buttonText'     => __( 'Search', 'bookshelf' ),
+		'buttonPosition' => 'button-inside',
+	)
+);
+?> /-->
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"is-style-outline"} -->

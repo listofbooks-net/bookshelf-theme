@@ -4,8 +4,7 @@
  * Slug: bookshelf/author-bio
  * Categories: bookshelf-book-blog
  * Keywords: author, bio, reviewer, byline
- * Block Types: core/post-content
- * Post Types: wp_template
+ * Inserter: no
  * Description: The post author's name and biographical info, taken from their profile.
  *
  * @package Bookshelf

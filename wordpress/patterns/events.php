@@ -11,9 +11,9 @@
  */
 
 $bookshelf_events = array(
-	array( '19', __( 'Nov', 'bookshelf' ), __( 'In conversation: The Bell Foundry', 'bookshelf' ), __( 'Wren & Ash Books, York · 7 pm · Free, booking advised', 'bookshelf' ), __( 'Book a place', 'bookshelf' ) ),
-	array( '3', __( 'Dec', 'bookshelf' ), __( 'Reading and signing', 'bookshelf' ), __( 'Harbour Street Library, Whitby · 6:30 pm · Free', 'bookshelf' ), __( 'Details', 'bookshelf' ) ),
-	array( '22', __( 'Jan', 'bookshelf' ), __( 'Writing small towns: a workshop', 'bookshelf' ), __( 'Online · 10 am to 1 pm GMT · 12 places', 'bookshelf' ), __( 'Join the waitlist', 'bookshelf' ) ),
+	array( '19', _x( 'Nov', 'abbreviated month name', 'bookshelf' ), __( 'In conversation: The Bell Foundry', 'bookshelf' ), __( 'Wren & Ash Books, York · 7 pm · Free, booking advised', 'bookshelf' ), __( 'Book a place', 'bookshelf' ) ),
+	array( '3', _x( 'Dec', 'abbreviated month name', 'bookshelf' ), __( 'Reading and signing', 'bookshelf' ), __( 'Harbour Street Library, Whitby · 6:30 pm · Free', 'bookshelf' ), __( 'Details', 'bookshelf' ) ),
+	array( '22', _x( 'Jan', 'abbreviated month name', 'bookshelf' ), __( 'Writing small towns: a workshop', 'bookshelf' ), __( 'Online · 10 am to 1 pm GMT · 12 places', 'bookshelf' ), __( 'Join the waitlist', 'bookshelf' ) ),
 );
 ?>
 <!-- wp:group {"tagName":"section","align":"full","anchor":"events","className":"bookshelf-section","layout":{"type":"constrained"}} -->

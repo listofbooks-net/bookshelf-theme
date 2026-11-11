@@ -18,7 +18,18 @@
 <!-- wp:site-tagline /--></div>
 <!-- /wp:group -->
 
-<!-- wp:search {"label":"<?php echo esc_attr__( 'Search', 'bookshelf' ); ?>","showLabel":false,"placeholder":"<?php echo esc_attr__( 'Search reviews', 'bookshelf' ); ?>","buttonText":"<?php echo esc_attr__( 'Search', 'bookshelf' ); ?>","buttonPosition":"button-inside","buttonUseIcon":true} /--></div>
+<!-- wp:search <?php
+echo serialize_block_attributes( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON-encoded block attributes.
+	array(
+		'label'          => __( 'Search', 'bookshelf' ),
+		'showLabel'      => false,
+		'placeholder'    => __( 'Search reviews', 'bookshelf' ),
+		'buttonText'     => __( 'Search', 'bookshelf' ),
+		'buttonPosition' => 'button-inside',
+		'buttonUseIcon'  => true,
+	)
+);
+?> /--></div>
 <!-- /wp:group -->
 
 <!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"bottom":"var:preset|spacing|30"}}},"layout":{"type":"default"}} -->

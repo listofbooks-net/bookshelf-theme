@@ -57,7 +57,7 @@ $bookshelf_rating_key = array(
 
 <!-- wp:quote -->
 <blockquote class="wp-block-quote"><!-- wp:paragraph -->
-<p><?php esc_html_e( '“A reader lives a thousand lives before he dies. The man who never reads lives only one.”', 'bookshelf' ); ?></p>
+<p><?php esc_html_e( '“I finished it at two in the morning and then sat in the dark for a while, which is the highest praise I know how to give.”', 'bookshelf' ); ?></p>
 <!-- /wp:paragraph --></blockquote>
 <!-- /wp:quote -->
 
@@ -70,5 +70,11 @@ $bookshelf_rating_key = array(
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><?php esc_html_e( 'Recommendations, disagreements and photos of your own teetering piles are all welcome at', 'bookshelf' ); ?> <a href="mailto:hello@example.com">hello@example.com</a>.</p>
+<p><?php
+printf(
+	/* translators: %s: email address, as a link. */
+	esc_html__( 'Recommendations, disagreements and photos of your own teetering piles are all welcome at %s.', 'bookshelf' ),
+	'<a href="mailto:hello@example.com">hello@example.com</a>'
+);
+?></p>
 <!-- /wp:paragraph -->

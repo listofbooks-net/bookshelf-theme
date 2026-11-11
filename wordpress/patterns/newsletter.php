@@ -11,8 +11,8 @@
  */
 
 ?>
-<!-- wp:group {"tagName":"section","align":"full","className":"bookshelf-section bookshelf-band","layout":{"type":"constrained"}} -->
-<section class="wp-block-group alignfull bookshelf-section bookshelf-band"><!-- wp:columns {"verticalAlignment":"bottom","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|40","left":"var:preset|spacing|60"}}}} -->
+<!-- wp:group {"tagName":"section","align":"full","anchor":"newsletter","className":"bookshelf-section bookshelf-band","layout":{"type":"constrained"}} -->
+<section id="newsletter" class="wp-block-group alignfull bookshelf-section bookshelf-band"><!-- wp:columns {"verticalAlignment":"bottom","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|40","left":"var:preset|spacing|60"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-bottom"><!-- wp:column {"verticalAlignment":"bottom","style":{"spacing":{"blockGap":"var:preset|spacing|30"}}} -->
 <div class="wp-block-column is-vertically-aligned-bottom"><!-- wp:paragraph {"className":"is-style-eyebrow"} -->
 <p class="is-style-eyebrow"><?php esc_html_e( 'The Sunday letter', 'bookshelf' ); ?></p>

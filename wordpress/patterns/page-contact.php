@@ -21,7 +21,13 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><?php esc_html_e( 'Recommendations and disagreements are equally welcome:', 'bookshelf' ); ?> <a href="mailto:hello@example.com">hello@example.com</a></p>
+<p><?php
+printf(
+	/* translators: %s: email address, as a link. */
+	esc_html__( 'Recommendations and disagreements are equally welcome: %s', 'bookshelf' ),
+	'<a href="mailto:hello@example.com">hello@example.com</a>'
+);
+?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -29,7 +35,13 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><?php esc_html_e( 'Please read the review policy on the about page first, then write to', 'bookshelf' ); ?> <a href="mailto:books@example.com">books@example.com</a></p>
+<p><?php
+printf(
+	/* translators: %s: email address, as a link. */
+	esc_html__( 'Please read the review policy on the about page first, then write to %s', 'bookshelf' ),
+	'<a href="mailto:books@example.com">books@example.com</a>'
+);
+?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
