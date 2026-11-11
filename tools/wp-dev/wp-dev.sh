@@ -65,7 +65,7 @@ case "${1:-}" in
 		start
 		wp plugin is-installed theme-check || wp plugin install theme-check
 		wp plugin activate theme-check >/dev/null
-		wp eval-file /opt/wp-dev/theme-check.php bookshelf
+		wp theme-check run bookshelf --format=json | node -e "const r=JSON.parse(require(\"fs\").readFileSync(0,\"utf8\")); for (const m of r) console.log(m.type.padEnd(12), m.value.replace(/<[^>]+>/g, \"\")); console.log(r.filter(m => m.type === \"REQUIRED\").length + \" REQUIRED, \" + r.filter(m => m.type === \"WARNING\").length + \" WARNING, \" + r.filter(m => m.type === \"RECOMMENDED\").length + \" RECOMMENDED, \" + r.filter(m => m.type === \"INFO\").length + \" INFO\");"
 		;;
 	style)
 		wp eval-file /opt/wp-dev/set-style.php "${2:?usage: style <paper|lamplight>}"
