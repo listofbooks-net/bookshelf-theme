@@ -68,13 +68,17 @@ if ( ! function_exists( 'bookshelf_exclude_featured_post' ) ) :
 	 *
 	 * The featured card shows the newest sticky post. The blog index would list
 	 * that post again, so it is left out of the main query, and any other sticky
-	 * posts are listed by date like the rest. If the featured card is removed
-	 * from the Blog Home template, remove this hook with it.
+	 * posts are listed by date like the rest. Once the owner deletes the card
+	 * from the Blog Home template, the post is listed normally again.
 	 *
 	 * @param WP_Query $query The query being set up.
 	 */
 	function bookshelf_exclude_featured_post( $query ) {
 		if ( is_admin() || ! $query->is_main_query() || ! $query->is_home() ) {
+			return;
+		}
+		$home = get_block_template( get_stylesheet() . '//home', 'wp_template' );
+		if ( ! $home || ( false === strpos( $home->content, 'bookshelf/featured-review' ) && false === strpos( $home->content, 'bookshelf-feature' ) ) ) {
 			return;
 		}
 		$sticky = get_option( 'sticky_posts' );

@@ -49,7 +49,7 @@ By default WordPress shows your latest posts on the front page, and Bookshelf us
 
 = Choose the featured review =
 
-The card under the front page introduction shows your newest sticky post. To feature a review, edit it and turn on "Stick to the top of the blog" in the post settings. The same post is left out of the grid below it. With no sticky post the card shows nothing and the grid lists every post. If you delete the card from the Blog Home template, unstick your posts too, or the newest sticky post will not be listed on the front page.
+The card under the front page introduction shows your newest sticky post. To feature a review, edit it and turn on "Stick to the top of the blog" in the post settings. The same post is left out of the grid below it. With no sticky post the card shows nothing and the grid lists every post. If you delete the card from the Blog Home template, the grid lists every post again.
 
 = Reading log without plugins =
 
