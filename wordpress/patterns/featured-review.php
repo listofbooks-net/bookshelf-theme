@@ -1,0 +1,42 @@
+<?php
+/**
+ * Title: Featured review
+ * Slug: bookshelf/featured-review
+ * Categories: bookshelf-book-blog, featured
+ * Keywords: latest, featured, review, post, hero
+ * Viewport Width: 1280
+ * Description: The most recent post in a large card: cover, category, title, excerpt and a link.
+ *
+ * @package Bookshelf
+ */
+
+?>
+<!-- wp:group {"tagName":"section","align":"full","anchor":"latest-review","className":"bookshelf-section is-tight","layout":{"type":"constrained"}} -->
+<section id="latest-review" class="wp-block-group alignfull bookshelf-section is-tight"><!-- wp:query {"queryId":10,"query":{"perPage":1,"pages":1,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"align":"wide"} -->
+<div class="wp-block-query alignwide"><!-- wp:post-template -->
+<!-- wp:group {"tagName":"article","className":"bookshelf-feature is-style-card","layout":{"type":"default"}} -->
+<article class="wp-block-group bookshelf-feature is-style-card"><!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|50","left":"var:preset|spacing|60"}}}} -->
+<div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center","width":"18rem"} -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:18rem"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"2/3","className":"is-style-book-cover"} /--></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"verticalAlignment":"center","style":{"spacing":{"blockGap":"var:preset|spacing|30"}}} -->
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:post-terms {"term":"category","prefix":"<?php echo esc_attr__( 'Latest review · ', 'bookshelf' ); ?>","className":"is-style-eyebrow"} /-->
+
+<!-- wp:post-title {"level":2,"isLink":true} /-->
+
+<!-- wp:post-excerpt {"excerptLength":45,"fontSize":"large","style":{"typography":{"lineHeight":"1.55"}}} /-->
+
+<!-- wp:group {"className":"bookshelf-entry-meta","style":{"spacing":{"blockGap":"var:preset|spacing|20 var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
+<div class="wp-block-group bookshelf-entry-meta"><!-- wp:post-date /-->
+
+<!-- wp:post-time-to-read /--></div>
+<!-- /wp:group -->
+
+<!-- wp:read-more {"content":"<?php echo esc_attr__( 'Read the review', 'bookshelf' ); ?>","className":"wp-element-button"} /--></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></article>
+<!-- /wp:group -->
+<!-- /wp:post-template --></div>
+<!-- /wp:query --></section>
+<!-- /wp:group -->

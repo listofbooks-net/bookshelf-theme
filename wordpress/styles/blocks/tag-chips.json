@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.6/theme.json",
+	"version": 3,
+	"title": "Tag chips",
+	"slug": "tag-chips",
+	"blockTypes": [
+		"core/post-terms"
+	],
+	"styles": {
+		"typography": {
+			"fontSize": "var:preset|font-size|small",
+			"fontWeight": "600"
+		}
+	}
+}

@@ -99,7 +99,7 @@ ${cssBlock(colorLines('dark', false))}
 }
 
 function palette(mode) {
-	return Object.entries(tokens.color).map(([slug, t]) => ({ color: t[mode], name: t.name, slug }));
+	return Object.entries(tokens.color).map(([slug, t]) => ({ color: t[mode], name: t.name, slug: t.wordpressSlug ?? slug }));
 }
 
 function setPath(object, path, value) {
