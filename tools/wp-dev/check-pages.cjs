@@ -23,7 +23,7 @@ const pages = {
 	'home-page-2': '/?query-11-page=2',
 };
 const viewports = { desktop: { width: 1280, height: 900 }, mobile: { width: 390, height: 844 } };
-const CREDIT = 'https://listofbooks.net';
+const CREDIT = 'https://www.listofbooks.net';
 
 (async () => {
 	fs.mkdirSync(out, { recursive: true });

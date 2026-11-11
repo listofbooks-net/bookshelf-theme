@@ -45,7 +45,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph -->
-<p><a href="https://listofbooks.net"><?php esc_html_e( 'Theme by List of Books', 'bookshelf' ); ?></a></p>
+<p><a href="https://www.listofbooks.net/"><?php esc_html_e( 'Theme by List of Books', 'bookshelf' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
