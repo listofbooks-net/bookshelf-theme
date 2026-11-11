@@ -19,6 +19,7 @@ repo="$(cd "$here/../.." && pwd)"
 export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-bookshelf-wp}"
 port_file="$here/.port${COMPOSE_PROJECT_NAME#bookshelf-wp}"
 
+mkdir -p "$repo/dist"
 compose() { docker compose --progress quiet -f "$here/compose.yaml" "$@"; }
 port_in_use() { ss -Hltn "sport = :$1" | grep -q .; }
 
