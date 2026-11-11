@@ -429,6 +429,18 @@ p.is-style-status-dnf::before {
 	white-space: nowrap;
 }
 
+/* Four-up book grids: taller rows than columns, as in a bookcase */
+:root .bookshelf-book-grid {
+	row-gap: var(--wp--preset--spacing--60);
+}
+
+@media (max-width: 480px) {
+	:root .bookshelf-book-grid {
+		column-gap: var(--wp--preset--spacing--30);
+		row-gap: var(--wp--preset--spacing--50);
+	}
+}
+
 /* Compact card: small cover beside the details */
 .bookshelf-book-card.is-compact {
 	display: grid;

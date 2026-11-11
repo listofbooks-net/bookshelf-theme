@@ -34,7 +34,7 @@ $bookshelf_books = array(
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|40 var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"19rem"}} -->
+<!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|40","left":"var:preset|spacing|50"}}},"layout":{"type":"grid","minimumColumnWidth":"19rem"}} -->
 <div class="wp-block-group alignwide">
 <?php
 foreach ( $bookshelf_books as $bookshelf_book ) {

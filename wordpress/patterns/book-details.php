@@ -22,7 +22,7 @@
 <p class="bookshelf-book-author"><?php esc_html_e( 'by Mira Hollis', 'bookshelf' ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"className":"bookshelf-details","style":{"spacing":{"blockGap":"var:preset|spacing|20 var:preset|spacing|30","margin":{"top":"var:preset|spacing|30"}}},"fontSize":"small","layout":{"type":"grid","columnCount":2,"minimumColumnWidth":null}} -->
+<!-- wp:group {"className":"bookshelf-details","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|20","left":"var:preset|spacing|30"},"margin":{"top":"var:preset|spacing|30"}}},"fontSize":"small","layout":{"type":"grid","columnCount":2,"minimumColumnWidth":null}} -->
 <div class="wp-block-group bookshelf-details has-small-font-size" style="margin-top:var(--wp--preset--spacing--30)"><!-- wp:paragraph -->
 <p><?php esc_html_e( 'Series', 'bookshelf' ); ?></p>
 <!-- /wp:paragraph -->

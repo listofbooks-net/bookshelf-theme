@@ -30,9 +30,9 @@ $bookshelf_events = array(
 <!-- wp:group {"align":"wide","className":"bookshelf-events","layout":{"type":"default"}} -->
 <div class="wp-block-group alignwide bookshelf-events">
 <?php foreach ( $bookshelf_events as $bookshelf_event ) : ?>
-<!-- wp:group {"className":"bookshelf-event","style":{"spacing":{"blockGap":"var:preset|spacing|30 var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
+<!-- wp:group {"className":"bookshelf-event","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|30","left":"var:preset|spacing|40"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
 <div class="wp-block-group bookshelf-event"><!-- wp:group {"className":"bookshelf-event-date","style":{"border":{"width":"1px","color":"var:preset|color|contrast","radius":"6px"},"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"},"blockGap":"0"}},"layout":{"type":"default"}} -->
-<div class="wp-block-group bookshelf-event-date has-border-color has-contrast-border-color" style="border-width:1px;border-radius:6px;padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)"><!-- wp:paragraph {"className":"bookshelf-event-day"} -->
+<div class="wp-block-group bookshelf-event-date has-border-color has-contrast-border-color" style="border-color:var(--wp--preset--color--contrast);border-width:1px;border-radius:6px;padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)"><!-- wp:paragraph {"className":"bookshelf-event-day"} -->
 <p class="bookshelf-event-day"><?php echo esc_html( $bookshelf_event[0] ); ?></p>
 <!-- /wp:paragraph -->
 

@@ -49,8 +49,8 @@ $bookshelf_books = array(
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|60 var:preset|spacing|50"}},"layout":{"type":"grid","columnCount":4,"minimumColumnWidth":"9rem"}} -->
-<div class="wp-block-group alignwide">
+<!-- wp:group {"align":"wide","className":"bookshelf-book-grid","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","columnCount":4,"minimumColumnWidth":"9rem"}} -->
+<div class="wp-block-group alignwide bookshelf-book-grid">
 <?php
 foreach ( $bookshelf_books as $bookshelf_book ) {
 	echo bookshelf_author_card( $bookshelf_book ) . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- block markup built from escaped parts.
