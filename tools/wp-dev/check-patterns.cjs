@@ -3,11 +3,22 @@
 //
 //   node tools/wp-dev/check-patterns.cjs <site url>
 //
-// Set PLAYWRIGHT_MODULE and CHROMIUM_PATH as for check-pages.cjs.
+// Logs in as WP_ADMIN_USER / WP_ADMIN_PASS (default admin / admin, the login
+// wp-dev.sh installs). Set PLAYWRIGHT_MODULE and CHROMIUM_PATH as for
+// check-pages.cjs.
 
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
 const base = process.argv[2];
+if (!base) {
+	console.error('usage: node check-patterns.cjs <site url>');
+	process.exit(2);
+}
+const adminUser = process.env.WP_ADMIN_USER || 'admin';
+const adminPass = process.env.WP_ADMIN_PASS || 'admin';
+// The patterns, templates and template parts the theme ships. Fewer parsed
+// sources than this means the REST calls returned a partial list.
+const MIN_SOURCES = 30;
 
 (async () => {
 	const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
@@ -15,8 +26,8 @@ const base = process.argv[2];
 	const errors = [];
 	page.on('pageerror', (e) => errors.push(e.message));
 	await page.goto(`${base}/wp-login.php`);
-	await page.fill('#user_login', 'admin');
-	await page.fill('#user_pass', 'admin');
+	await page.fill('#user_login', adminUser);
+	await page.fill('#user_pass', adminPass);
 	await page.click('#wp-submit');
 	await page.waitForURL(/wp-admin/);
 	await page.goto(`${base}/wp-admin/post-new.php`, { waitUntil: 'domcontentloaded' });
@@ -49,5 +60,5 @@ const base = process.argv[2];
 	for (const line of report.invalid) console.log(line);
 	if (errors.length) console.log('page errors:', errors.join('; '));
 	console.log(`${report.count} sources parsed, ${report.invalid.length} invalid blocks.`);
-	process.exit(report.invalid.length || report.count < 30 ? 1 : 0);
+	process.exit(report.invalid.length || errors.length || report.count < MIN_SOURCES ? 1 : 0);
 })();

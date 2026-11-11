@@ -24,6 +24,9 @@ if ( 'paper' !== $choice ) {
 }
 
 $admins = get_users( array( 'role' => 'administrator', 'number' => 1 ) );
+if ( ! $admins ) {
+	WP_CLI::error( 'No administrator user found.' );
+}
 wp_set_current_user( $admins[0]->ID );
 $post_id = WP_Theme_JSON_Resolver::get_user_global_styles_post_id();
 $result  = wp_update_post(

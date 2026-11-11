@@ -5,7 +5,7 @@
 #   tools/build-zip.sh            writes dist/bookshelf-<version>.zip and prints its path
 #
 # Only files below wordpress/ go in; the design reference, tools and harness
-# never ship. Editor and OS leftovers are excluded.
+# never ship. Dotfiles, node_modules and editor and OS leftovers are excluded.
 set -euo pipefail
 
 repo="$(cd "$(dirname "$0")/.." && pwd)"
@@ -23,7 +23,7 @@ trap 'rm -rf "$stage"' EXIT
 
 mkdir -p "$repo/dist" "$stage/bookshelf"
 cp -R "$theme/." "$stage/bookshelf/"
-find "$stage/bookshelf" \( -name '.DS_Store' -o -name 'Thumbs.db' -o -name '*.orig' -o -name '*.rej' -o -name '*.swp' -o -name '*~' -o -name '*.log' -o -name '*.map' \) -delete
+find "$stage/bookshelf" -depth \( -name '.*' -o -name node_modules -o -name 'Thumbs.db' -o -name '*.orig' -o -name '*.rej' -o -name '*~' -o -name '*.log' -o -name '*.map' \) -exec rm -rf {} +
 
 rm -f "$out"
 # -X drops extra file attributes and -D skips directory entries, so the zip holds only files.

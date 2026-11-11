@@ -2,7 +2,7 @@
 # Local WordPress for developing and checking the Bookshelf theme.
 #
 #   tools/wp-dev/wp-dev.sh up          start WordPress, install it, activate bookshelf, load demo content
-#   tools/wp-dev/wp-dev.sh check       run the Theme Check plugin against bookshelf
+#   tools/wp-dev/wp-dev.sh check       run Theme Check against bookshelf; exit 1 on any REQUIRED or WARNING
 #   tools/wp-dev/wp-dev.sh style <paper|lamplight>   switch the site's style variation
 #   tools/wp-dev/wp-dev.sh wp <args>   run any wp-cli command
 #   tools/wp-dev/wp-dev.sh url         print the site URL
@@ -35,13 +35,21 @@ pick_port() {
 	exit 1
 }
 
-export WP_PORT="$(pick_port)"
+WP_PORT="$(pick_port)"
+export WP_PORT
 url="http://localhost:$WP_PORT"
 wp() { compose --profile cli run --rm -T cli wp "$@"; }
 
 start() {
 	compose up -d --wait db wordpress >/dev/null
-	until wp core version >/dev/null 2>&1; do sleep 1; done
+	local tries=0
+	until wp core version >/dev/null 2>&1; do
+		if (( ++tries > 120 )); then
+			echo "WordPress did not become ready within 120 attempts. Check: docker compose logs" >&2
+			exit 1
+		fi
+		sleep 1
+	done
 }
 
 install() {
@@ -66,7 +74,7 @@ case "${1:-}" in
 		start
 		wp plugin is-installed theme-check || wp plugin install theme-check
 		wp plugin activate theme-check >/dev/null
-		wp theme-check run bookshelf --format=json | node -e "const r=JSON.parse(require(\"fs\").readFileSync(0,\"utf8\")); for (const m of r) console.log(m.type.padEnd(12), m.value.replace(/<[^>]+>/g, \"\")); console.log(r.filter(m => m.type === \"REQUIRED\").length + \" REQUIRED, \" + r.filter(m => m.type === \"WARNING\").length + \" WARNING, \" + r.filter(m => m.type === \"RECOMMENDED\").length + \" RECOMMENDED, \" + r.filter(m => m.type === \"INFO\").length + \" INFO\");"
+		wp theme-check run bookshelf --format=json | node "$here/summarize-theme-check.cjs"
 		;;
 	style)
 		wp eval-file /opt/wp-dev/set-style.php "${2:?usage: style <paper|lamplight>}"
@@ -81,15 +89,19 @@ case "${1:-}" in
 		exec "$0" zip-test-run "$(basename "$zip")"
 		;;
 	zip-test-run)
+		home="$(mktemp)"
+		trap 'rm -f "$home"; compose down -v >/dev/null 2>&1 || true' EXIT
 		compose down -v >/dev/null 2>&1 || true
 		start
 		install
 		wp theme install "/opt/dist/$2" --activate
 		wp theme status bookshelf
-		code="$(curl -s -o /tmp/bookshelf-zip-home.html -w '%{http_code}' "$url/")"
+		code="$(curl -s -o "$home" -w '%{http_code}' "$url/" || true)"
 		echo "front page HTTP $code"
-		grep -c 'wp-content/themes/bookshelf/' /tmp/bookshelf-zip-home.html | sed 's/^/theme asset references on front page: /'
-		compose down -v >/dev/null
+		refs="$(grep -c 'wp-content/themes/bookshelf/' "$home" || true)"
+		echo "theme asset references on front page: $refs"
+		[[ "$code" == 200 && "$refs" -gt 0 ]] || { echo "zip-test failed: front page must return 200 and load theme assets" >&2; exit 1; }
+		echo "zip-test passed"
 		;;
 	*)
 		sed -n '2,15p' "$0"
