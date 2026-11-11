@@ -2,7 +2,7 @@
 
 Bookshelf is a free WordPress block theme for people who love books. It is built for a book blog first, and it also gives you patterns for an author website and a reading log. Each use is optional: the theme creates no pages, posts or categories, and every section can be removed in one click. It comes in two styles, Paper (light) and Lamplight (dark), and bundles its fonts, so it makes no third-party requests.
 
-Requires WordPress 6.6 and PHP 7.4. License: GPLv2 or later.
+Requires WordPress 6.9 and PHP 7.4. License: GPLv2 or later.
 
 ## Layout
 

@@ -1,6 +1,6 @@
 === Bookshelf ===
 Contributors: listofbooks
-Requires at least: 6.6
+Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.0.0
@@ -13,7 +13,7 @@ A warm, readable block theme for book blogs, author websites and reading logs.
 
 Bookshelf is a block theme for people who love books. It is built for book review blogs first, and it also gives you everything an author website or a reading log needs, as patterns you add only when you want them.
 
-* A blog front page with a featured review, a four-column grid of recent reviews, a "currently reading" strip, a contents list of your genres and a newsletter band. Each one is a separate block you can delete in one click.
+* A blog front page with a featured review (your newest sticky post), a four-column grid of your other posts that follows Settings > Reading and paginates, a "currently reading" strip, a contents list of your genres and a newsletter band. Each one is a separate block you can delete in one click.
 * A single review layout with a book details panel, a pull quote, a verdict box, an author bio and threaded comments.
 * Author site patterns: an introduction with your portrait, a new release band with where-to-buy notes, a books grid whose Buy and Learn more buttons line up across every card, praise quotes and an events list.
 * Reading log patterns: yearly statistics, shelves of covers, and book cards with status badges (Reading, Read, Want to read, Did not finish) and ratings.
@@ -46,6 +46,10 @@ You can also insert single sections anywhere. In the block inserter, open Patter
 = Make it a book blog without a static front page =
 
 By default WordPress shows your latest posts on the front page, and Bookshelf uses the Blog Home template for it. To use the Author home page as your front page instead, go to Settings > Reading, choose "A static page", and pick that page as the homepage and another page as the posts page.
+
+= Choose the featured review =
+
+The card under the front page introduction shows your newest sticky post. To feature a review, edit it and turn on "Stick to the top of the blog" in the post settings. The same post is left out of the grid below it. With no sticky post the card shows nothing and the grid lists every post. If you delete the card from the Blog Home template, unstick your posts too, or the newest sticky post will not be listed on the front page.
 
 = Reading log without plugins =
 
