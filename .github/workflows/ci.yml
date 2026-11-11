@@ -1,0 +1,64 @@
+name: CI
+
+# GitHub Actions is disabled on this repository on purpose. Run this file
+# locally with act, for example:  act pull_request -W .github/workflows/ci.yml
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tokens:
+    name: Design tokens are up to date
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node tools/build-tokens.mjs --check
+
+  theme-json:
+    name: theme.json and style variations match the WordPress schema
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci --prefix tools --no-audit --no-fund
+      - run: node tools/check-theme-json.mjs
+
+  php-lint:
+    name: PHP syntax (${{ matrix.php }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      # The files are copied into the container, not bind-mounted, so this
+      # works the same on a hosted runner and under act.
+      - name: php -l on every PHP file, theme and dev harness
+        run: |
+          set -euo pipefail
+          cid="$(docker create "php:${{ matrix.php }}-cli" sh -c 'find /theme /harness -name "*.php" -print0 | sort -z | xargs -0 -n1 php -l')"
+          trap 'docker rm -f "$cid" >/dev/null' EXIT
+          docker cp wordpress/. "$cid:/theme"
+          docker cp tools/wp-dev/. "$cid:/harness"
+          docker start -a "$cid"
