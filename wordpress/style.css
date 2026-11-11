@@ -4,7 +4,7 @@ Theme URI: https://www.listofbooks.net/
 Author: List of Books
 Author URI: https://www.listofbooks.net/
 Description: A warm, readable block theme for people who love books. Bookshelf is built for book blogs first, with patterns for author websites and reading logs that you add only when you want them. Every section on the front page is a separate block you can remove in one click, and nothing is created on your site until you choose it. Includes a light "Paper" style and a dark "Lamplight" style, locally bundled Fraunces and Literata fonts, book cover and status badge block styles, and page patterns for an author home, books, events, a reading log, an about page and a contact page.
-Requires at least: 6.6
+Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 7.4
 Version: 1.0.0
@@ -50,7 +50,6 @@ a:hover {
 :focus-visible {
 	outline: 2px solid var(--wp--preset--color--accent);
 	outline-offset: 3px;
-	border-radius: 2px;
 }
 
 ::selection {
@@ -432,12 +431,30 @@ p.is-style-status-dnf::before {
 
 /* Four-up book grids: taller rows than columns, as in a bookcase */
 :root .bookshelf-book-grid {
+	--bookshelf-columns: 4;
+	--bookshelf-column-min: 9rem;
+	--bookshelf-column-gap: var(--wp--preset--spacing--50);
 	row-gap: var(--wp--preset--spacing--60);
+}
+
+:root .bookshelf-praise .is-layout-grid {
+	--bookshelf-columns: 3;
+	--bookshelf-column-min: 16rem;
+	--bookshelf-column-gap: var(--wp--preset--spacing--50);
+}
+
+/* WordPress 6.9 sets a fixed column count and drops the minimum column width
+   when a grid block has both, so the columns never wrap on a phone. Say it here
+   so every supported version wraps the same way. The repeated :root outranks the
+   rule 6.9 adds to force a single column below 600px on post template grids. */
+:root:root:root:root :is(.bookshelf-book-grid, .bookshelf-praise .is-layout-grid) {
+	column-gap: var(--bookshelf-column-gap);
+	grid-template-columns: repeat(auto-fill, minmax(max(min(var(--bookshelf-column-min), 100%), (100% - var(--bookshelf-column-gap) * (var(--bookshelf-columns) - 1)) / var(--bookshelf-columns)), 1fr));
 }
 
 @media (max-width: 480px) {
 	:root .bookshelf-book-grid {
-		column-gap: var(--wp--preset--spacing--30);
+		--bookshelf-column-gap: var(--wp--preset--spacing--30);
 		row-gap: var(--wp--preset--spacing--50);
 	}
 }
@@ -466,6 +483,7 @@ p.is-style-status-dnf::before {
 /* Reading progress: a decorative bar; the text beside it carries the number */
 .bookshelf-progress {
 	height: 6px;
+	padding: 0;
 	border-radius: 3px;
 	overflow: hidden;
 }
@@ -1002,7 +1020,7 @@ p.is-style-status-dnf::before {
 }
 
 @media (min-width: 768px) {
-	.bookshelf-list .bookshelf-book-card {
+	:root .bookshelf-list .bookshelf-book-card {
 		grid-template-columns: 9rem minmax(0, 1fr);
 		gap: var(--wp--preset--spacing--50);
 	}
