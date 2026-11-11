@@ -9,12 +9,36 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const tokens = JSON.parse(readFileSync(join(root, 'design/tokens.json'), 'utf8'));
-const THEME_SCHEMA = 'https://schemas.wp.org/wp/6.6/theme.json';
+const THEME_SCHEMA = 'https://schemas.wp.org/wp/6.9/theme.json';
 
-function clampEnds(value) {
-	const match = /^clamp\(\s*([^,]+),.*,\s*([^,]+)\)$/.exec(value);
-	if (!match) throw new Error(`font size is not a clamp(): ${value}`);
-	return { min: match[1].trim(), max: match[2].trim() };
+const PX_PER_REM = 16;
+
+function toRem(length) {
+	const match = /^(-?\d*\.?\d+)(rem|px)$/.exec(String(length).trim());
+	if (!match) throw new Error(`expected a rem or px length, got: ${length}`);
+	return match[2] === 'rem' ? Number(match[1]) : Number(match[1]) / PX_PER_REM;
+}
+
+const trim = (n) => String(Number(n.toFixed(4)));
+
+// A font size is either fixed ({ value }) or fluid ({ min, max }). A fluid size
+// is the straight line from min at fluidViewport.min to max at fluidViewport.max,
+// the same line WordPress draws from settings.typography.fluid, so tokens.css
+// and theme.json render identical sizes at every width.
+function fontSizeCss(size) {
+	if (size.value !== undefined) return size.value;
+	const vpMin = toRem(tokens.fluidViewport.min);
+	const vpMax = toRem(tokens.fluidViewport.max);
+	const min = toRem(size.min);
+	const max = toRem(size.max);
+	const slope = (max - min) / (vpMax - vpMin);
+	const intercept = min - slope * vpMin;
+	return `clamp(${size.min}, ${trim(intercept)}rem + ${trim(slope * 100)}vw, ${size.max})`;
+}
+
+function fontSizeNote(size) {
+	const px = (length) => trim(toRem(length) * PX_PER_REM);
+	return size.value !== undefined ? `${px(size.value)}px` : `${px(size.min)} -> ${px(size.max)}px`;
 }
 
 function cssBlock(lines) {
@@ -34,7 +58,7 @@ function colorLines(mode, withNotes) {
 function buildTokensCss() {
 	const { light, dark } = tokens.modes;
 	const fonts = Object.entries(tokens.fontFamily).map(([slug, f]) => ({ text: `  --font-${slug}: ${f.stack};` }));
-	const sizes = Object.entries(tokens.fontSize).map(([slug, s]) => ({ text: `  --size-${slug}: ${s.value};`, note: s.note }));
+	const sizes = Object.entries(tokens.fontSize).map(([slug, s]) => ({ text: `  --size-${slug}: ${fontSizeCss(s)};`, note: fontSizeNote(s) }));
 	const spaces = Object.entries(tokens.spacing).map(([slug, s]) => ({ text: `  --space-${slug}: ${s.value};`, note: s.note }));
 	const widths = Object.entries(tokens.width).map(([slug, v]) => ({ text: `  --width-${slug}: ${v};` }));
 	const custom = Object.entries(tokens.custom).map(([slug, c]) => ({ text: `  --${slug}: ${c.value};`, note: c.note }));
@@ -132,17 +156,20 @@ function buildThemeJson(file) {
 			...(existingFaces[slug] ? { fontFace: existingFaces[slug] } : {}),
 		})),
 	);
+	const existingFluid = theme.settings?.typography?.fluid;
 	setPath(theme, ['settings', 'typography', 'fluid'], {
+		...(typeof existingFluid === 'object' && existingFluid !== null ? existingFluid : {}),
 		minViewportWidth: tokens.fluidViewport.min,
 		maxViewportWidth: tokens.fluidViewport.max,
 	});
 	setPath(
 		theme,
 		['settings', 'typography', 'fontSizes'],
-		Object.entries(tokens.fontSize).map(([slug, s]) => {
-			const { min, max } = clampEnds(s.value);
-			return { name: s.name, slug, size: max, fluid: { min, max } };
-		}),
+		Object.entries(tokens.fontSize).map(([slug, s]) =>
+			s.value !== undefined
+				? { name: s.name, slug, size: s.value, fluid: false }
+				: { name: s.name, slug, size: s.max, fluid: { min: s.min, max: s.max } },
+		),
 	);
 	setPath(
 		theme,

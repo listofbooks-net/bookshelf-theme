@@ -35,11 +35,11 @@
   --font-body: "Literata", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
 
   /* Fluid font sizes: min at 360px wide, max at 1280px wide */
-  --size-small: clamp(0.875rem, 0.85rem + 0.11vw, 0.9375rem);    /* 14 -> 15px */
-  --size-medium: clamp(1.0625rem, 1.01rem + 0.22vw, 1.1875rem);  /* 17 -> 19px */
-  --size-large: clamp(1.25rem, 1.14rem + 0.45vw, 1.5rem);        /* 20 -> 24px */
-  --size-x-large: clamp(1.625rem, 1.38rem + 1.1vw, 2.25rem);     /* 26 -> 36px */
-  --size-xx-large: clamp(2.125rem, 1.6rem + 2.3vw, 3.5rem);      /* 34 -> 56px */
+  --size-small: clamp(0.875rem, 0.8505rem + 0.1087vw, 0.9375rem);    /* 14 -> 15px */
+  --size-medium: clamp(1.0625rem, 1.0136rem + 0.2174vw, 1.1875rem);  /* 17 -> 19px */
+  --size-large: clamp(1.25rem, 1.1522rem + 0.4348vw, 1.5rem);        /* 20 -> 24px */
+  --size-x-large: clamp(1.625rem, 1.3804rem + 1.087vw, 2.25rem);     /* 26 -> 36px */
+  --size-xx-large: clamp(2.125rem, 1.587rem + 2.3913vw, 3.5rem);     /* 34 -> 56px */
 
   /* Spacing scale (4/8 rhythm; the larger steps breathe with the viewport) */
   --space-20: 0.5rem;                               /* 8px */
