@@ -5,7 +5,7 @@
  * Categories: bookshelf-book-blog, banner
  * Keywords: intro, hero, welcome, heading
  * Viewport Width: 1280
- * Description: A short welcome with a large headline and a link to the latest review.
+ * Description: A short welcome with a large headline and a link to the reviews.
  *
  * @package Bookshelf
  */
@@ -27,7 +27,7 @@
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="#latest-review"><?php esc_html_e( 'Read the latest review', 'bookshelf' ); ?></a></div>
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="#reviews"><?php esc_html_e( 'Browse the reviews', 'bookshelf' ); ?></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group --></section>

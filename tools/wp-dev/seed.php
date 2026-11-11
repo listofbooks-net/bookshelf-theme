@@ -11,8 +11,6 @@ if ( ! defined( 'WP_CLI' ) ) {
 	exit( 1 );
 }
 
-$theme_dir = get_template_directory();
-
 function bookshelf_seed_pattern( $slug ) {
 	$pattern = WP_Block_Patterns_Registry::get_instance()->get_registered( $slug );
 	if ( ! $pattern ) {
@@ -37,7 +35,9 @@ function bookshelf_seed_cover( $cover ) {
 	}
 	$uploads = wp_upload_dir();
 	$target  = $uploads['path'] . "/$cover.svg";
-	copy( get_template_directory() . "/assets/images/covers/$cover.svg", $target );
+	if ( ! copy( get_template_directory() . "/assets/images/covers/$cover.svg", $target ) ) {
+		WP_CLI::error( "Could not copy cover $cover.svg to $target." );
+	}
 	$id = wp_insert_attachment(
 		array(
 			'post_title'     => $cover,
@@ -74,15 +74,21 @@ function bookshelf_seed_term( $name, $taxonomy ) {
 	if ( ! $term ) {
 		$term = wp_insert_term( $name, $taxonomy );
 	}
+	if ( is_wp_error( $term ) ) {
+		WP_CLI::error( $term );
+	}
 	return (int) $term['term_id'];
 }
 
 update_option( 'blogname', 'Marginalia' );
 update_option( 'blogdescription', 'Book notes & reviews by Nora Vale' );
 update_option( 'show_on_front', 'posts' );
-update_option( 'posts_per_page', 10 );
+update_option( 'posts_per_page', 8 );
 
 $admin = get_user_by( 'login', 'admin' );
+if ( ! $admin ) {
+	WP_CLI::error( 'User "admin" not found. Install WordPress through wp-dev.sh.' );
+}
 wp_update_user(
 	array(
 		'ID'           => $admin->ID,
@@ -131,6 +137,7 @@ foreach ( $reviews as $review ) {
 }
 
 $orchard = get_page_by_path( 'the-salt-orchard', OBJECT, 'post' );
+update_option( 'sticky_posts', array( $orchard->ID ) );
 if ( ! get_comments( array( 'post_id' => $orchard->ID, 'count' => true ) ) ) {
 	$first = wp_insert_comment( array( 'comment_post_ID' => $orchard->ID, 'comment_author' => 'Hannah M.', 'comment_author_email' => 'hannah@example.com', 'comment_content' => '“Writes weather the way other novelists write villains” is exactly it. The storm chapter had me checking my own windows. I agree about the ending, though; it felt like a different book for twenty pages.', 'comment_date' => '2026-11-04 19:12:00', 'comment_approved' => 1 ) );
 	wp_insert_comment( array( 'comment_post_ID' => $orchard->ID, 'comment_parent' => $first, 'user_id' => $admin->ID, 'comment_author' => 'Nora Vale', 'comment_author_email' => 'admin@example.com', 'comment_content' => 'A different book for twenty pages, yes! I keep wondering whether an editor asked for more resolution.', 'comment_date' => '2026-11-04 21:40:00', 'comment_approved' => 1 ) );
@@ -156,6 +163,9 @@ foreach ( $pages as $page ) {
 			'comment_status' => 'closed',
 		)
 	);
+	if ( is_wp_error( $id ) ) {
+		WP_CLI::error( $id );
+	}
 	update_post_meta( $id, '_wp_page_template', $template );
 	$page_ids[ $slug ] = $id;
 }
@@ -185,7 +195,7 @@ $menu = implode(
 		$link( 'About', get_permalink( $page_ids['about'] ), $page_ids['about'] ),
 	)
 );
-bookshelf_seed_post(
+$navigation = bookshelf_seed_post(
 	array(
 		'post_type'    => 'wp_navigation',
 		'post_name'    => 'primary',
@@ -193,5 +203,8 @@ bookshelf_seed_post(
 		'post_content' => $menu,
 	)
 );
+if ( is_wp_error( $navigation ) ) {
+	WP_CLI::error( $navigation );
+}
 
 WP_CLI::success( sprintf( 'Seeded %d reviews, %d pages and the primary menu.', count( $reviews ), count( $pages ) ) );

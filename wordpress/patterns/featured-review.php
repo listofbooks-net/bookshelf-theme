@@ -3,16 +3,16 @@
  * Title: Featured review
  * Slug: bookshelf/featured-review
  * Categories: bookshelf-book-blog, featured
- * Keywords: latest, featured, review, post, hero
+ * Keywords: sticky, featured, review, post, hero
  * Viewport Width: 1280
- * Description: The most recent post in a large card: cover, category, title, excerpt and a link.
+ * Description: Your sticky post in a large card: cover, category, title, excerpt and a link. Mark a post sticky to feature it.
  *
  * @package Bookshelf
  */
 
 ?>
-<!-- wp:group {"tagName":"section","align":"full","anchor":"latest-review","className":"bookshelf-section is-tight","layout":{"type":"constrained"}} -->
-<section id="latest-review" class="wp-block-group alignfull bookshelf-section is-tight"><!-- wp:query {"queryId":10,"query":{"perPage":1,"pages":1,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"align":"wide"} -->
+<!-- wp:group {"tagName":"section","align":"full","anchor":"featured-review","className":"bookshelf-section is-tight bookshelf-first-page-only","layout":{"type":"constrained"}} -->
+<section id="featured-review" class="wp-block-group alignfull bookshelf-section is-tight bookshelf-first-page-only"><!-- wp:query {"queryId":10,"query":{"perPage":1,"pages":1,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"only","inherit":false},"align":"wide"} -->
 <div class="wp-block-query alignwide"><!-- wp:post-template -->
 <!-- wp:group {"tagName":"article","className":"bookshelf-feature is-style-card","layout":{"type":"default"}} -->
 <article class="wp-block-group bookshelf-feature is-style-card"><!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|50","left":"var:preset|spacing|60"}}}} -->
@@ -21,7 +21,15 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"center","style":{"spacing":{"blockGap":"var:preset|spacing|30"}}} -->
-<div class="wp-block-column is-vertically-aligned-center"><!-- wp:post-terms {"term":"category","prefix":"<?php echo esc_attr__( 'Latest review · ', 'bookshelf' ); ?>","className":"is-style-eyebrow"} /-->
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:post-terms <?php
+echo serialize_block_attributes( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON-encoded block attributes.
+	array(
+		'term'      => 'category',
+		'prefix'    => __( 'Featured review · ', 'bookshelf' ),
+		'className' => 'is-style-eyebrow',
+	)
+);
+?> /-->
 
 <!-- wp:post-title {"level":2,"isLink":true} /-->
 
@@ -33,7 +41,14 @@
 <!-- wp:post-time-to-read /--></div>
 <!-- /wp:group -->
 
-<!-- wp:read-more {"content":"<?php echo esc_attr__( 'Read the review', 'bookshelf' ); ?>","className":"wp-element-button"} /--></div>
+<!-- wp:read-more <?php
+echo serialize_block_attributes( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON-encoded block attributes.
+	array(
+		'content'   => __( 'Read the review', 'bookshelf' ),
+		'className' => 'wp-element-button',
+	)
+);
+?> /--></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></article>
 <!-- /wp:group -->
