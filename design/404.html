@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found · Marginalia</title>
+  <meta name="description" content="This page could not be found.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&amp;display=swap">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/theme.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="demo-bar" aria-label="Theme demo pages">
+    <div class="wrap demo-bar__inner">
+      <p class="demo-bar__label">Bookshelf theme demo</p>
+      <ul>
+          <li><a href="index.html">Blog home</a></li>
+          <li><a href="review.html">Single review</a></li>
+          <li><a href="author.html">Author site</a></li>
+          <li><a href="reading-log.html">Reading log</a></li>
+          <li><a href="archive.html">Archive</a></li>
+          <li><a href="page.html">Page</a></li>
+          <li><a href="404.html" aria-current="page">404</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="site-header">
+    <div class="wrap">
+      <div class="site-header__bar">
+        <div class="site-branding">
+          <p class="site-title"><a href="index.html" rel="home">Marginalia</a></p>
+          <p class="site-tagline">Book notes &amp; reviews by Nora Vale</p>
+        </div>
+        <div class="site-tools">
+          <form class="search-form" role="search" action="archive.html" method="get">
+            <label class="visually-hidden" for="search-header">Search reviews</label>
+            <input class="input" id="search-header" type="search" name="s" placeholder="Search reviews">
+            <button class="icon-button" type="submit" aria-label="Search"><svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/></svg></button>
+          </form>
+          <button class="icon-button theme-toggle" type="button" aria-pressed="false" data-theme-toggle hidden>
+            <span class="visually-hidden">Dark theme</span>
+            <svg class="od-icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+            <svg class="od-icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+          </button>
+        </div>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Reviews</a></li>
+          <li><a href="reading-log.html">Reading log</a></li>
+          <li><a href="archive.html">Archive</a></li>
+          <li><a href="page.html">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap">
+      <section class="not-found" aria-labelledby="nf-title">
+        <p class="not-found__code" aria-hidden="true">404</p>
+        <h1 id="nf-title">This page has wandered off the shelf</h1>
+        <p class="lead muted">The link may be old, or the page may have been moved or renamed. Try a search, or start again from the front page.</p>
+        <form class="search-form" role="search" action="archive.html" method="get">
+          <label class="visually-hidden" for="search-404">Search reviews</label>
+          <input class="input" id="search-404" type="search" name="s" placeholder="Search by title, author or genre">
+          <button class="icon-button" type="submit"><svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/></svg> Search</button>
+        </form>
+        <div class="buttons">
+          <a class="button button--outline" href="index.html">Back to the front page</a>
+          <a class="button button--outline" href="archive.html">Browse all reviews</a>
+        </div>
+      </section>
+
+      <section class="shelf-section" aria-labelledby="suggest-title">
+        <div class="section-head">
+          <h2 id="suggest-title">Or pick something to read</h2>
+          <p>Recent favourites</p>
+        </div>
+        <ul class="shelf" tabindex="0" aria-label="Recent favourites, scrollable shelf">
+          <li>
+              <article class="book-card book-card--compact">
+                <a class="cover-link book-card__cover" href="review.html" tabindex="-1" aria-hidden="true"><img class="cover" src="assets/covers/salt-orchard.svg" width="400" height="600" alt="" loading="lazy"></a>
+                <div class="book-card__body">
+                  <h3 class="book-card__title"><a href="review.html">The Salt Orchard</a></h3>
+                  <p class="book-card__author">Mira Hollis</p>
+                  <div class="rating-line"><span class="rating" style="--rating: 4.5" role="img" aria-label="Rated 4.5 out of 5"></span><span aria-hidden="true">4.5</span><span class="badge badge--read">Read</span></div>
+                </div>
+              </article>
+          </li>
+          <li>
+              <article class="book-card book-card--compact">
+                <a class="cover-link book-card__cover" href="review.html" tabindex="-1" aria-hidden="true"><img class="cover" src="assets/covers/fieldwork.svg" width="400" height="600" alt="" loading="lazy"></a>
+                <div class="book-card__body">
+                  <h3 class="book-card__title"><a href="review.html">Fieldwork</a></h3>
+                  <p class="book-card__author">Dara Quell</p>
+                  <div class="rating-line"><span class="rating" style="--rating: 5" role="img" aria-label="Rated 5 out of 5"></span><span aria-hidden="true">5</span><span class="badge badge--read">Read</span></div>
+                </div>
+              </article>
+          </li>
+          <li>
+              <article class="book-card book-card--compact">
+                <a class="cover-link book-card__cover" href="review.html" tabindex="-1" aria-hidden="true"><img class="cover" src="assets/covers/paper-moths.svg" width="400" height="600" alt="" loading="lazy"></a>
+                <div class="book-card__body">
+                  <h3 class="book-card__title"><a href="review.html">A House of Paper Moths</a></h3>
+                  <p class="book-card__author">Celia Marr</p>
+                  <div class="rating-line"><span class="rating" style="--rating: 4.5" role="img" aria-label="Rated 4.5 out of 5"></span><span aria-hidden="true">4.5</span><span class="badge badge--read">Read</span></div>
+                </div>
+              </article>
+          </li>
+          <li>
+              <article class="book-card book-card--compact">
+                <a class="cover-link book-card__cover" href="review.html" tabindex="-1" aria-hidden="true"><img class="cover" src="assets/covers/winter-pears.svg" width="400" height="600" alt="" loading="lazy"></a>
+                <div class="book-card__body">
+                  <h3 class="book-card__title"><a href="review.html">Winter Pears</a></h3>
+                  <p class="book-card__author">Lotte Brenner</p>
+                  <div class="rating-line"><span class="rating" style="--rating: 4.5" role="img" aria-label="Rated 4.5 out of 5"></span><span aria-hidden="true">4.5</span><span class="badge badge--read">Read</span></div>
+                </div>
+              </article>
+          </li>
+          <li>
+              <article class="book-card book-card--compact">
+                <a class="cover-link book-card__cover" href="review.html" tabindex="-1" aria-hidden="true"><img class="cover" src="assets/covers/glass-cartographer.svg" width="400" height="600" alt="" loading="lazy"></a>
+                <div class="book-card__body">
+                  <h3 class="book-card__title"><a href="review.html">The Glass Cartographer</a></h3>
+                  <p class="book-card__author">Ravi Anand-Moss</p>
+                  <div class="rating-line"><span class="rating" style="--rating: 4" role="img" aria-label="Rated 4 out of 5"></span><span aria-hidden="true">4</span><span class="badge badge--read">Read</span></div>
+                </div>
+              </article>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-title"><a href="index.html">Marginalia</a></p>
+          <p>Slow, honest reviews of novels, essays and poetry, written at the kitchen table, mostly on Sunday mornings.</p>
+        </div>
+        <nav aria-label="Browse">
+          <h2>Browse</h2>
+          <ul class="footer-links">
+            <li><a href="index.html">Reviews</a></li>
+            <li><a href="reading-log.html">Reading log</a></li>
+            <li><a href="archive.html">Archive</a></li>
+            <li><a href="page.html">About</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Genres">
+          <h2>Genres</h2>
+          <ul class="footer-links">
+            <li><a href="archive.html">Literary fiction</a></li>
+            <li><a href="archive.html">Fantasy</a></li>
+            <li><a href="archive.html">Historical</a></li>
+            <li><a href="archive.html">Poetry</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="site-footer__bottom">
+        <p>&copy; 2026 Marginalia. All reviews are my own.</p>
+        <p><a href="https://listofbooks.net">Theme by List of Books</a></p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
