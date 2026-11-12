@@ -1,4 +1,4 @@
-name: ${COMPOSE_PROJECT_NAME:-bookshelf-wp}
+name: ${COMPOSE_PROJECT_NAME:-readerly-wp}
 
 x-wp-env: &wp-env
   WORDPRESS_DB_HOST: db
@@ -42,7 +42,7 @@ services:
       <<: *wp-env
     volumes:
       - wp:/var/www/html
-      - ${THEME_SOURCE:-../../wordpress}:${THEME_TARGET:-/var/www/html/wp-content/themes/bookshelf}:ro
+      - ${THEME_SOURCE:-../../wordpress}:${THEME_TARGET:-/var/www/html/wp-content/themes/readerly}:ro
 
   cli:
     image: wordpress:cli-php8.4
@@ -55,7 +55,7 @@ services:
       HOME: /tmp
     volumes:
       - wp:/var/www/html
-      - ${THEME_SOURCE:-../../wordpress}:${THEME_TARGET:-/var/www/html/wp-content/themes/bookshelf}:ro
+      - ${THEME_SOURCE:-../../wordpress}:${THEME_TARGET:-/var/www/html/wp-content/themes/readerly}:ro
       - .:/opt/wp-dev:ro
       - ${DIST_DIR:-../../dist}:/opt/dist:ro
 

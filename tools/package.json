@@ -1,8 +1,8 @@
 {
-	"name": "bookshelf-tools",
+	"name": "readerly-tools",
 	"private": true,
 	"type": "module",
-	"description": "Development tools for the Bookshelf theme. Not part of the theme zip.",
+	"description": "Development tools for the Readerly theme. Not part of the theme zip.",
 	"devDependencies": {
 		"ajv": "8.17.1"
 	}

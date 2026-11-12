@@ -1,5 +1,5 @@
 /*
- * Bookshelf — optional enhancements. Every page works without this file.
+ * Readerly — optional enhancements. Every page works without this file.
  *  - Light/dark toggle (remembers the choice; otherwise follows the system)
  *  - Friendly confirmation for demo forms (newsletter, comments)
  *  - Search term echo on the archive page
@@ -7,7 +7,7 @@
  */
 (function () {
   var root = document.documentElement;
-  var STORAGE_KEY = "bookshelf-theme";
+  var STORAGE_KEY = "readerly-theme";
   var darkQuery = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
 
   function readStoredTheme() {

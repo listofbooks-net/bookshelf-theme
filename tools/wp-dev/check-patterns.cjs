@@ -1,4 +1,4 @@
-// Parses every Bookshelf pattern, template and template part in the block
+// Parses every Readerly pattern, template and template part in the block
 // editor and reports any block the editor would flag as invalid. Exits 1 on failure.
 //
 //   node tools/wp-dev/check-patterns.cjs <site url>
@@ -36,10 +36,10 @@ const MIN_SOURCES = 30;
 	const report = await page.evaluate(async () => {
 		const sources = [];
 		const patterns = await wp.apiFetch({ path: '/wp/v2/block-patterns/patterns' });
-		for (const p of patterns.filter((p) => p.name.startsWith('bookshelf/'))) sources.push([`pattern ${p.name}`, p.content]);
+		for (const p of patterns.filter((p) => p.name.startsWith('readerly/'))) sources.push([`pattern ${p.name}`, p.content]);
 		for (const type of ['wp_template', 'wp_template_part']) {
 			const items = await wp.apiFetch({ path: `/wp/v2/${type === 'wp_template' ? 'templates' : 'template-parts'}?context=edit&per_page=100` });
-			for (const t of items.filter((t) => t.theme === 'bookshelf')) sources.push([`${type} ${t.slug}`, t.content.raw]);
+			for (const t of items.filter((t) => t.theme === 'readerly')) sources.push([`${type} ${t.slug}`, t.content.raw]);
 		}
 		const invalid = [];
 		const walk = (blocks, label) => {
