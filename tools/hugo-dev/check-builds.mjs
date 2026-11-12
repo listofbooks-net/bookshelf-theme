@@ -14,7 +14,7 @@ import { parse } from 'node-html-parser';
 import { checkParity } from './check-parity.mjs';
 import { checkMarkup } from './check-markup.mjs';
 import { startServer } from '../jekyll-dev/serve.mjs';
-import { BASE, htmlFiles, contentPages, urlOf } from './lib.mjs';
+import { BASE, htmlFiles, contentPages, urlOf, isAlias } from './lib.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = join(here, '../..');
@@ -38,7 +38,11 @@ function runNode(args) {
 	});
 }
 
-const normalise = (html) => html.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
+// Hugo's own differences are not the theme's: it puts <meta name="generator"> at a
+// different spot in the head on each version, and writes alias redirect pages (such
+// as /page/1/) with different whitespace and a robots meta. Alias pages are compared
+// by their file names only.
+const normalise = (html) => html.replace(/<meta name="generator"[^>]*>/, '').replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
 
 for (const site of sites) {
 	const a = join(out, 'min', site);
@@ -48,6 +52,7 @@ for (const site of sites) {
 	const filesB = htmlFiles(b);
 	if (filesA.join() !== filesB.join()) failures.push(`different pages: min has ${filesA.length}, latest has ${filesB.length}`);
 	for (const file of filesA.filter((f) => filesB.includes(f))) {
+		if (isAlias(readFileSync(join(b, file), 'utf8'))) continue;
 		const x = normalise(readFileSync(join(a, file), 'utf8'));
 		const y = normalise(readFileSync(join(b, file), 'utf8'));
 		if (x !== y) {

@@ -7,6 +7,10 @@
 set -euo pipefail
 mkdir -p /out
 status=0
+# The demo names its theme by the path it has in a checkout (theme and themesDir).
+# A config file wins over --themesDir, so the copy built here drops both lines and
+# the flags below load the same theme from /themes.
+sed -i '/^theme = /d;/^themesDir = /d' /src/sites/demo/hugo.toml
 for dir in /src/sites/*/; do
 	name="$(basename "$dir")"
 	code=0
