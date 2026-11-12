@@ -18,9 +18,16 @@ set -euo pipefail
 
 version="${1:?usage: tools/publish-hugo.sh <version, for example 1.0.0>}"
 [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "version must look like 1.0.0" >&2; exit 1; }
+major="${version%%.*}"
 repo="$(cd "$(dirname "$0")/.." && pwd)"
 theme_remote="${THEME_REMOTE:-git@github.com:listofbooks-net/hugo-theme-readerly.git}"
 cd "$repo"
+
+# Go modules resolve a v2+ tag only when the module path ends in /v<major>.
+if (( major >= 2 )); then
+	grep -q "^module github.com/listofbooks-net/hugo-theme-readerly/v$major\$" hugo/theme/go.mod ||
+		{ echo "hugo/theme/go.mod must declare the /v$major module path for v$version" >&2; exit 1; }
+fi
 
 [[ -z "$(git status --porcelain)" ]] || { echo "the working tree is not clean" >&2; exit 1; }
 [[ "$(git branch --show-current)" == main ]] || { echo "publish from main" >&2; exit 1; }

@@ -1,6 +1,7 @@
 # One image per Hugo version: docker build --build-arg HUGO_VERSION=<v> --build-arg HUGO_SHA256=<sum> tools/hugo-dev
 # The official extended release, checked against the checksum the release publishes.
-FROM debian:bookworm-slim
+# The tarball is linux-amd64, so the base image is too, also on an arm64 host.
+FROM --platform=linux/amd64 debian:bookworm-slim
 ARG HUGO_VERSION
 ARG HUGO_SHA256
 RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends ca-certificates curl >/dev/null \

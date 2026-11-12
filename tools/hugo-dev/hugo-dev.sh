@@ -56,7 +56,8 @@ stage_sites() {
 
 build_version() {
 	local label="$1" stage="$2" cid status=0
-	cid="$(docker create "readerly-hugo:$(version_of "$label")" bash /src/build-sites.sh)"
+	cid="$(docker create "readerly-hugo:$(version_of "$label")" bash /src/build-sites.sh)" ||
+		{ echo "no image readerly-hugo:$(version_of "$label"); run $0 images first" >&2; return 1; }
 	docker cp "$stage/src/." "$cid:/src"
 	docker cp "$stage/themes/." "$cid:/themes"
 	docker start -a "$cid" || status=$?

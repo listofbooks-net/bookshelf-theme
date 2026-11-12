@@ -2,12 +2,15 @@
 //   attributes parse: no attribute name is the debris of a broken quoted value
 //   headings: no empty h1 to h6
 //   fixtures: the cases the fixtures exist to prove
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'node-html-parser';
 import { BASE, contentPages } from './lib.mjs';
 
-const read = (root, file) => parse(readFileSync(join(root, file), 'utf8'));
+const read = (root, file) => {
+	if (!existsSync(join(root, file))) throw new Error(`${file} was not built`);
+	return parse(readFileSync(join(root, file), 'utf8'));
+};
 
 export function checkMarkup(builtDir, site) {
 	const root = join(builtDir, site);
@@ -23,7 +26,13 @@ export function checkMarkup(builtDir, site) {
 			if (heading.textContent.trim() === '') failures.push(`${file}: an empty <${heading.tagName.toLowerCase()}>`);
 		}
 	}
-	return [...failures, ...(fixtureCases[site]?.(root) ?? [])];
+	let cases = [];
+	try {
+		cases = fixtureCases[site]?.(root) ?? [];
+	} catch (error) {
+		cases = [`${site}: ${error.message}`];
+	}
+	return [...failures, ...cases];
 }
 
 const expect = (failures, ok, message) => ok || failures.push(message);
