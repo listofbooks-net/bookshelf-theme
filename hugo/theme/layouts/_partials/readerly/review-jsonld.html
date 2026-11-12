@@ -1,5 +1,5 @@
 {{- /* schema.org Review of a Book, for a review with a rating and a book author. jsonify escapes "<", so a value cannot end the script element. */ -}}
-{{- if and .Params.rating .Params.book_author -}}
+{{- if and (ne .Params.rating nil) .Params.book_author -}}
 {{- $e := partial "readerly/entry.html" . -}}
 {{- $book := dict "@type" "Book" "name" $e.title "author" (dict "@type" "Person" "name" $e.book_author) -}}
 {{- with $e.pages }}{{ $book = merge $book (dict "numberOfPages" .) }}{{ end -}}

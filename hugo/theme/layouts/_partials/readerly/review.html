@@ -28,7 +28,7 @@
             <span>{{ T "min_read" (dict "Count" .ReadingTime) }}</span>
           </p>
         </header>
-        {{- if or $e.cover $e.book_author .Params.series $e.pages .Params.publication $e.rating $e.status }}
+        {{- if or $e.cover $e.book_author .Params.series $e.pages .Params.publication $e.rated $e.status }}
 
         <aside class="book-panel" aria-labelledby="book-panel-title">
           <div>{{ partial "readerly/cover.html" (dict "entry" $e "described" true) }}</div>
@@ -38,7 +38,7 @@
             <p class="book-panel__author">{{ T "by" (dict "Name" .) }}</p>
             {{- end }}
             {{- $badge := partial "readerly/badge.html" $e.status }}
-            {{- if or .Params.series $e.pages .Params.publication $e.rating $badge }}
+            {{- if or .Params.series $e.pages .Params.publication $e.rated $badge }}
             <dl class="details">
               {{- with .Params.series }}
               <dt>{{ T "series" }}</dt>
@@ -52,9 +52,9 @@
               <dt>{{ T "published" }}</dt>
               <dd>{{ . }}</dd>
               {{- end }}
-              {{- with $e.rating }}
+              {{- if $e.rated }}
               <dt>{{ T "my_rating" }}</dt>
-              <dd><span class="rating-line">{{ partial "readerly/rating.html" (dict "value" . "large" true) }}</span></dd>
+              <dd><span class="rating-line">{{ partial "readerly/rating.html" (dict "value" $e.rating "large" true) }}</span></dd>
               {{- end }}
               {{- with $badge }}
               <dt>{{ T "status" }}</dt>
@@ -73,8 +73,8 @@
           <section class="verdict" aria-labelledby="verdict-title">
             <div class="verdict__head">
               <h2 id="verdict-title">{{ T "my_verdict" }}</h2>
-              {{- with $e.rating }}
-              <div class="rating-line">{{ partial "readerly/rating.html" (dict "value" . "large" true) }}</div>
+              {{- if $e.rated }}
+              <div class="rating-line">{{ partial "readerly/rating.html" (dict "value" $e.rating "large" true) }}</div>
               {{- end }}
             </div>
             {{- with .summary }}

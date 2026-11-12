@@ -10,8 +10,8 @@
             {{- if or $e.book_author .Params.series }}
             <p class="muted">{{ with $e.book_author }}{{ T "by" (dict "Name" .) }}{{ end }}{{ if and $e.book_author .Params.series }} &middot; {{ end }}{{ .Params.series }}</p>
             {{- end }}
-            {{- with $e.rating }}
-            <div class="rating-line">{{ partial "readerly/rating.html" (dict "value" . "large" true) }}</div>
+            {{- if $e.rated }}
+            <div class="rating-line">{{ partial "readerly/rating.html" (dict "value" $e.rating "large" true) }}</div>
             {{- end }}
             {{- with $e.summary }}
             <p class="lead">{{ . }}</p>

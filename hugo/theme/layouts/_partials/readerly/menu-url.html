@@ -4,6 +4,6 @@
   {{- $href = .RelPermalink -}}
 {{- else -}}
   {{- $href = .URL -}}
-  {{- if not (hasPrefix $href site.Home.RelPermalink) }}{{ $href = partial "readerly/url.html" $href }}{{ end -}}
+  {{- if not (or (hasPrefix $href site.Home.RelPermalink) (eq $href (strings.TrimSuffix "/" site.Home.RelPermalink))) }}{{ $href = partial "readerly/url.html" $href }}{{ end -}}
 {{- end -}}
 {{- return $href -}}

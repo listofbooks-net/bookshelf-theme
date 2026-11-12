@@ -5,7 +5,7 @@
 {{- $ratings := slice -}}
 {{- range $read -}}
   {{- with .pages }}{{ $pages = add $pages (int .) }}{{ end -}}
-  {{- with .rating }}{{ $ratings = $ratings | append (float .) }}{{ end -}}
+  {{- if .rated }}{{ $ratings = $ratings | append (float .rating) }}{{ end -}}
 {{- end -}}
 <section class="section section--tight">
       <div class="wrap">

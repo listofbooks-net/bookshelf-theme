@@ -1,8 +1,8 @@
 {{- /* "You might also like": the newest other reviews in this review's first genre, up to params.readerly.relatedPosts (0 turns it off). */ -}}
-{{- $limit := int (site.Params.readerly.relatedPosts | default 0) -}}
+{{- $limit := math.Max 0 (int (site.Params.readerly.relatedPosts | default 0)) | int -}}
 {{- with .GetTerms "categories" -}}
 {{- $genre := index . 0 -}}
-{{- $related := first $limit (where $genre.Pages.ByDate.Reverse "RelPermalink" "ne" $.RelPermalink) -}}
+{{- $related := first $limit (where (where $genre.Pages.ByDate.Reverse "Section" "in" site.MainSections) "RelPermalink" "ne" $.RelPermalink) -}}
 {{- if and $limit $related }}
 
         <section class="section section--tight" aria-labelledby="related-title">

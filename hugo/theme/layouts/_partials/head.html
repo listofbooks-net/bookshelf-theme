@@ -26,7 +26,7 @@
   {{- with $description }}
   <meta name="description" content="{{ . }}">
   {{- end }}
-  <meta name="color-scheme" content="{{ if eq $style "paper" }}light{{ else if eq $style "lamplight" }}dark{{ else }}light dark{{ end }}">
+  <meta name="color-scheme" content="{{ if ne site.Params.readerly.styleToggle false }}light dark{{ else if eq $style "paper" }}light{{ else if eq $style "lamplight" }}dark{{ else }}light dark{{ end }}">
   <link rel="canonical" href="{{ $url }}">
   <meta property="og:type" content="{{ if $isReview }}article{{ else }}website{{ end }}">
   <meta property="og:site_name" content="{{ site.Title }}">

@@ -214,7 +214,7 @@ On page 2 and later of the home page, only `recent-reviews` shows.
 
 ## Archive, genres and search
 
-The list page of your reviews' section (for example `/reviews/` or `/posts/`) is the archive. It lists every review, newest first, and the search box in the header and on the 404 page searches it. Search runs in the visitor's browser, with no index file and no external service.
+The list page of your reviews' section (for example `/reviews/` or `/posts/`) is the archive. With several `mainSections`, the first one's list page is the archive and the search box searches it. It lists every review, newest first, and the search box in the header and on the 404 page searches it. Search runs in the visitor's browser, with no index file and no external service.
 
 Each genre (`categories`) and tag has its own page, paginated. To give a genre page a description, create `content/categories/<genre>/_index.md`:
 
@@ -273,7 +273,7 @@ copyright = "All reviews are my own."
 | Key | Default | What it does |
 | --- | --- | --- |
 | `menus.main` | none | Header links. |
-| `menus.footer` | none | Footer link columns: each top-level entry is a column heading, and its children are the links. |
+| `menus.footer` | none | Footer link columns: each top-level entry is a column heading, and its children are the links. A top-level entry with no children is not shown. |
 | `copyright` | none | Printed after "© year site title." in the footer. A value that contains © is printed on its own. |
 | `params.description` | none | The meta description of pages that have none of their own. |
 | `params.tagline` | none | The line under the site title. |
