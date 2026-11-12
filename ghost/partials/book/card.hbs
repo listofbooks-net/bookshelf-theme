@@ -4,7 +4,7 @@
   <div class="book-card__body">
     <{{#if heading}}{{heading}}{{else}}h3{{/if}} class="book-card__title">{{#if link}}<a href="{{url}}">{{title}}</a>{{else}}{{title}}{{/if}}</{{#if heading}}{{heading}}{{else}}h3{{/if}}>
     {{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}<p class="book-card__author">{{split name separator="#by:"}}</p>{{/match}}{{/foreach}}
-    {{#has tag="#reading,#read,#want-to-read,#did-not-finish"}}<div class="rating-line">{{> "book/rating"}}{{> "book/badge"}}</div>{{else}}{{#foreach tags visibility="internal"}}{{#match name "~^" "#rating:"}}<div class="rating-line">{{> "book/stars" value=(split name separator="#rating:")}}</div>{{/match}}{{/foreach}}{{/has}}
+    {{#has tag="#reading,#read,#want-to-read,#did-not-finish"}}<div class="rating-line">{{> "book/rating"}}{{> "book/badge"}}</div>{{else}}{{#foreach tags visibility="internal"}}{{#match ",#rating:0,#rating:0.5,#rating:1,#rating:1.5,#rating:2,#rating:2.5,#rating:3,#rating:3.5,#rating:4,#rating:4.5,#rating:5," "~" (concat "," name ",")}}<div class="rating-line">{{> "book/stars" value=(split name separator="#rating:")}}</div>{{/match}}{{/foreach}}{{/has}}
     {{> "book/progress"}}
   </div>
 </article>
@@ -30,7 +30,7 @@
     {{#if featured}}<span class="eyebrow">{{t "Featured"}}{{#primary_tag}} &middot; {{name}}{{/primary_tag}}</span>{{else}}{{#primary_tag}}<span class="eyebrow">{{name}}</span>{{/primary_tag}}{{/if}}
     <{{#if heading}}{{heading}}{{else}}h3{{/if}} class="book-card__title"><a href="{{url}}">{{title}}</a></{{#if heading}}{{heading}}{{else}}h3{{/if}}>
     {{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}<p class="book-card__author">{{t "by {author}" author=(split name separator="#by:")}}</p>{{/match}}{{/foreach}}
-    {{#foreach tags visibility="internal"}}{{#match name "~^" "#rating:"}}<div class="rating-line">{{> "book/stars" value=(split name separator="#rating:")}}</div>{{/match}}{{/foreach}}
+    {{#foreach tags visibility="internal"}}{{#match ",#rating:0,#rating:0.5,#rating:1,#rating:1.5,#rating:2,#rating:2.5,#rating:3,#rating:3.5,#rating:4,#rating:4.5,#rating:5," "~" (concat "," name ",")}}<div class="rating-line">{{> "book/stars" value=(split name separator="#rating:")}}</div>{{/match}}{{/foreach}}
     {{#if blurb}}
     <p class="book-card__excerpt{{#match blurb "clamp"}} od-clamp-3{{/match}}">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="40"}}{{/if}}</p>
     {{/if}}

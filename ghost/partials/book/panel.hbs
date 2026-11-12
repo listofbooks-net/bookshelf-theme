@@ -17,7 +17,7 @@
               <dt>{{t "Published"}}</dt>
               <dd>{{split name separator="#published:"}}</dd>
               {{/match}}{{/foreach}}
-              {{#foreach ../tags visibility="internal"}}{{#match name "~^" "#rating:"}}
+              {{#foreach ../tags visibility="internal"}}{{#match ",#rating:0,#rating:0.5,#rating:1,#rating:1.5,#rating:2,#rating:2.5,#rating:3,#rating:3.5,#rating:4,#rating:4.5,#rating:5," "~" (concat "," name ",")}}
               <dt>{{t "My rating"}}</dt>
               <dd><span class="rating-line">{{> "book/stars" value=(split name separator="#rating:") large=true}}</span></dd>
               {{/match}}{{/foreach}}

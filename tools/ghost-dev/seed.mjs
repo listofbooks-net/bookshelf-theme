@@ -202,6 +202,9 @@ async function loadReviews() {
 	const dir = join(demo, '_posts');
 	const files = readdirSync(dir).sort();
 	const reviewTitles = new Set();
+	// The theme treats every public tag as a genre, so a Jekyll tag becomes a public Ghost tag only when
+	// it is some review's genre. Series and ratings already travel as internal #series: and #rating: tags.
+	const genres = new Set(files.map((file) => parseFrontMatter(read(join(dir, file))).data.genre).filter(Boolean));
 	for (const file of files) {
 		const { data, body } = parseFrontMatter(read(join(dir, file)));
 		const [, day, slug] = file.match(/^(\d{4}-\d{2}-\d{2})-(.+)\.md$/);
@@ -212,7 +215,7 @@ async function loadReviews() {
 		for (const [, path] of images) html = html.replace(path, await asset(path));
 		html = toCards(html);
 		if (data.verdict) html += `\n${card(verdictHtml(data.verdict, data.rating))}`;
-		const publicTags = [data.genre, ...(data.tags ?? [])].filter(Boolean);
+		const publicTags = [data.genre, ...(data.tags ?? []).filter((tag) => genres.has(tag))].filter(Boolean);
 		await create('posts', {
 			title: data.title,
 			slug,

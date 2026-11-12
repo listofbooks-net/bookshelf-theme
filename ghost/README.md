@@ -42,13 +42,13 @@ A review is an ordinary Ghost post.
 
 - **Cover**: the post's feature image. Add alt text, for example "Cover of The Salt Orchard by Mira Hollis".
 - **Summary**: the post's excerpt. It shows under the title and on cards.
-- **Genre**: the first public tag. It is the post's primary tag. Add more public tags for series, themes and so on.
+- **Genre**: the first public tag. It is the post's primary tag. Readerly treats every public tag as a genre: tags show as chips on the review, in "Browse by genre" on the home page and as related genres on tag pages. Keep series, ratings and other facts in internal tags (below), so the genre lists stay genres.
 - **Book facts**: internal tags, which start with `#`. Readers never see the tags themselves; the theme reads them.
 
 | Internal tag | Example | Shows |
 | --- | --- | --- |
 | `#by:<name>` | `#by:Mira Hollis` | "by Mira Hollis" on cards and in the book panel. A post with this tag is a book review. |
-| `#rating:<0.5 to 5>` | `#rating:4.5` | Stars on cards, in the book panel, and in the Review structured data. Half stars are allowed. |
+| `#rating:<0 to 5>` | `#rating:4.5` | Stars on cards, in the book panel, and in the Review structured data. Use whole or half numbers, such as `4` or `4.5`; the theme ignores any other value. |
 | `#series:<text>` | `#series:The Tidewater Books · Book 2 of 3` | A Series row in the book panel. |
 | `#pages:<number>` | `#pages:384` | A Pages row, the reading progress bar, and the pages count on the reading log. |
 | `#published:<text>` | `#published:2026 · Harrow & Lane` | A Published row in the book panel. |
@@ -101,7 +101,7 @@ For a book you have not reviewed, create a **page** instead of a post: title, fe
 For authors who want to present their own books:
 
 1. Create a page, for example with your name as the title. Set **Template** to **Author site**. Its feature image is your portrait, its excerpt is the text under your name, and `#eyebrow:Novelist` sets the label above it.
-2. Create a page for each of your books. Tag it `#book`, give it a public tag for the kind of book (for example "Novel"), set its publish date to the book's publication date, and add `#pages:` and `#buy:<link to a bookshop>` if you like. Mark your newest book as featured to show it as the new release.
+2. Create a page for each of your books. Tag it `#book`, give it a public tag for the kind of book (for example "Novel"), set its publish date to the book's publication date, and add `#pages:` and `#buy:<link to a bookshop>` if you like. A `#buy:` link must start with `http` or `/`. Mark your newest book as featured to show it as the new release.
 3. Anything you write in the author page's body shows below your books. For quotes from reviews and for events, add HTML cards with this markup:
 
 ```html

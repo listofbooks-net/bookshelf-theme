@@ -61,12 +61,12 @@ main { overflow-x: clip; }
 
 .kg-gallery-image img { border-radius: var(--radius); }
 
-.entry-content blockquote:not([class]) {
+.entry-content > blockquote:not([class]) {
   padding-left: var(--space-40);
   border-left: 2px solid var(--color-accent);
   font-style: italic;
 }
-.entry-content blockquote.kg-blockquote-alt {
+.entry-content > blockquote.kg-blockquote-alt {
   margin-block: var(--space-60);
   padding-block: var(--space-40);
   border-block: var(--border-width) solid var(--color-contrast);
