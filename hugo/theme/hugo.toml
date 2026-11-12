@@ -1,0 +1,10 @@
+# Theme defaults. A site's own hugo.toml overrides any of these.
+[module]
+  [module.hugoVersion]
+    min = "0.146.0"
+
+[params.readerly]
+  style = "auto"
+  styleToggle = true
+  relatedPosts = 3
+  dateFormat = "2 January 2006"

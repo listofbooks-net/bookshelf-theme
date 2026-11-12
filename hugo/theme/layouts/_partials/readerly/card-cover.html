@@ -1,0 +1,6 @@
+{{- /* A card's cover: linked and decorative when the card has a link, else described. */ -}}
+{{- with .entry.url -}}
+<a class="cover-link book-card__cover" href="{{ . }}" tabindex="-1" aria-hidden="true">{{ partial "readerly/cover.html" (dict "entry" $.entry) }}</a>
+{{- else -}}
+<div class="book-card__cover">{{ partial "readerly/cover.html" (dict "entry" $.entry "described" true) }}</div>
+{{- end -}}

@@ -1,0 +1,19 @@
+{{- /* "You might also like": the newest other reviews in this review's first genre, up to params.readerly.relatedPosts (0 turns it off). */ -}}
+{{- $limit := math.Max 0 (int (site.Params.readerly.relatedPosts | default 0)) | int -}}
+{{- with .GetTerms "categories" -}}
+{{- $genre := index . 0 -}}
+{{- $related := first $limit (where (where $genre.Pages.ByDate.Reverse "Section" "in" site.MainSections) "RelPermalink" "ne" $.RelPermalink) -}}
+{{- if and $limit $related }}
+
+        <section class="section section--tight" aria-labelledby="related-title">
+          {{ partial "readerly/section-head.html" (dict "id" "related-title" "heading" (T "you_might_also_like") "more_url" $genre.RelPermalink "more_label" (T "more_in" (dict "Name" (lower (partial "readerly/term-name.html" $genre))))) }}
+          <ul class="book-grid book-grid--related">
+            {{- range $related }}
+            <li>
+              {{ partial "readerly/book-card.html" (dict "entry" (partial "readerly/entry.html" .)) }}
+            </li>
+            {{- end }}
+          </ul>
+        </section>
+{{- end -}}
+{{- end -}}

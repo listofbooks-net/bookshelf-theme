@@ -1,0 +1,82 @@
+{{- /*
+One book card. Every card on every page comes from here, with every degrade rule for cards.
+  .entry    a book entry (readerly/entry.html) or an own book (data/books.yaml)
+  .variant  "grid" (default), "list", "compact" or "own"
+  .excerpt  "clamp", "full" or empty for none (grid and list)
+  .heading  "h2" or "h3" (default)
+*/ -}}
+{{- $e := .entry -}}
+{{- $variant := .variant | default "grid" -}}
+{{- $heading := .heading | default "h3" -}}
+{{- if eq $variant "own" }}{{ $e = merge $e (dict "title" .entry.title "url" (partial "readerly/url.html" .entry.url) "cover" (partial "readerly/url.html" .entry.cover)) }}{{ end -}}
+{{- $href := $e.url -}}
+{{- $cover := "" -}}
+{{- if or $e.cover $e.book_author $e.rated $e.status (eq $variant "own") -}}
+  {{- $cover = partial "readerly/card-cover.html" (dict "entry" $e) -}}
+{{- end -}}
+{{- $title := partial "readerly/card-title.html" (dict "entry" $e "heading" $heading) -}}
+{{- if eq $variant "compact" -}}
+<article class="book-card book-card--compact">
+  {{ $cover }}
+  <div class="book-card__body">
+    {{ $title }}
+    {{- with $e.book_author }}
+    <p class="book-card__author">{{ . }}</p>
+    {{- end }}
+    {{- if or $e.rated (in (slice "reading" "read" "want" "dnf") $e.status) }}
+    <div class="rating-line">{{ partial "readerly/rating.html" (dict "value" $e.rating) }}{{ partial "readerly/badge.html" $e.status }}</div>
+    {{- end }}
+    {{- if and (eq $e.status "reading") $e.pages $e.current_page }}
+    {{- $percent := math.Round (div (mul (float $e.current_page) 100) $e.pages) }}
+    <div class="progress"><progress max="{{ $e.pages }}" value="{{ $e.current_page }}" aria-label="{{ T "progress_through" (dict "Name" $e.title) }}">{{ $percent }}%</progress><p class="progress__label"><span>{{ T "page_of" (dict "Count" $e.current_page "Total" $e.pages) }}</span><span class="od-nowrap">{{ $percent }}%</span></p></div>
+    {{- else if and (eq $e.status "dnf") $e.current_page }}
+    <p class="book-card__meta">{{ if $e.pages }}{{ T "stopped_at_of" (dict "Count" $e.current_page "Total" $e.pages) }}{{ else }}{{ T "stopped_at" (dict "Count" $e.current_page) }}{{ end }}</p>
+    {{- end }}
+  </div>
+</article>
+{{- else if eq $variant "own" -}}
+<article class="book-card book-card--author">
+  {{ $cover }}
+  <div class="book-card__body">
+    {{- if or $e.year $e.kind }}
+    <span class="eyebrow">{{ $e.year }}{{ if and $e.year $e.kind }} &middot; {{ end }}{{ $e.kind }}</span>
+    {{- end }}
+    {{ $title }}
+    {{- with $e.blurb }}
+    <p class="book-card__excerpt">{{ . }}</p>
+    {{- end }}
+    {{- if or $e.buy_url $href }}
+    <div class="book-card__actions">
+      {{- with $e.buy_url }}
+      <a class="button" href="{{ partial "readerly/url.html" . }}">{{ T "buy" }}<span class="visually-hidden"> {{ $e.title }}</span></a>
+      {{- end }}
+      {{- with $href }}
+      <a class="button button--outline" href="{{ . }}">{{ T "learn_more" }}<span class="visually-hidden"> {{ T "learn_more_about" (dict "Name" $e.title) }}</span></a>
+      {{- end }}
+    </div>
+    {{- end }}
+  </div>
+</article>
+{{- else -}}
+<article class="book-card">
+  {{ $cover }}
+  <div class="book-card__body">
+    {{- with $e.genre }}
+    <span class="eyebrow">{{ . }}</span>
+    {{- end }}
+    {{ $title }}
+    {{- with $e.book_author }}
+    <p class="book-card__author">{{ T "by" (dict "Name" .) }}</p>
+    {{- end }}
+    {{- if $e.rated }}
+    <div class="rating-line">{{ partial "readerly/rating.html" (dict "value" $e.rating) }}</div>
+    {{- end }}
+    {{- if $.excerpt }}{{ with $e.summary }}
+    <p class="book-card__excerpt{{ if eq $.excerpt "clamp" }} od-clamp-3{{ end }}">{{ . }}</p>
+    {{- end }}{{ end }}
+    {{- with $e.date }}
+    <p class="book-card__meta">{{ partial "readerly/date.html" (dict "date" .) }}</p>
+    {{- end }}
+  </div>
+</article>
+{{- end -}}

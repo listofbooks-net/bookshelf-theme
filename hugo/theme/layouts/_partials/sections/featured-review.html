@@ -1,0 +1,25 @@
+{{- with partial "readerly/featured.html" . -}}
+{{- $e := partial "readerly/entry.html" . -}}
+<section class="section section--tight" aria-labelledby="latest-title">
+      <div class="wrap">
+        <article class="feature">
+          <a class="cover-link" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">{{ partial "readerly/cover.html" (dict "entry" $e) }}</a>
+          <div class="feature__body">
+            <span class="eyebrow">{{ if .Params.featured }}{{ T "featured_review" }}{{ else }}{{ T "latest_review" }}{{ end }}{{ with $e.genre }} &middot; {{ . }}{{ end }}</span>
+            <h2 class="feature__title" id="latest-title"><a href="{{ .RelPermalink }}">{{ $e.title }}</a></h2>
+            {{- if or $e.book_author .Params.series }}
+            <p class="muted">{{ with $e.book_author }}{{ T "by" (dict "Name" .) }}{{ end }}{{ if and $e.book_author .Params.series }} &middot; {{ end }}{{ .Params.series }}</p>
+            {{- end }}
+            {{- if $e.rated }}
+            <div class="rating-line">{{ partial "readerly/rating.html" (dict "value" $e.rating "large" true) }}</div>
+            {{- end }}
+            {{- with $e.summary }}
+            <p class="lead">{{ . }}</p>
+            {{- end }}
+            <p class="book-card__meta">{{ partial "readerly/date.html" (dict "date" .Date) }} &middot; {{ T "min_read" (dict "Count" .ReadingTime) }}</p>
+            <a class="button" href="{{ .RelPermalink }}">{{ T "read_the_review" }} {{ partial "readerly/icon.html" (dict "name" "arrow-right") }}</a>
+          </div>
+        </article>
+      </div>
+    </section>
+{{- end -}}

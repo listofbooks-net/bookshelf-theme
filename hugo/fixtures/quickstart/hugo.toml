@@ -1,0 +1,21 @@
+# What `hugo new site` writes, plus a plain-string author and a menu of plain URLs.
+baseURL = "https://example.org/"
+title = "My New Hugo Site"
+
+[params]
+  author = "Jane Doe"
+
+[[menus.main]]
+  name = "Home"
+  url = "/"
+  weight = 1
+
+[[menus.main]]
+  name = "Posts"
+  url = "/posts/"
+  weight = 2
+
+[[menus.main]]
+  name = "About"
+  url = "/about/"
+  weight = 3

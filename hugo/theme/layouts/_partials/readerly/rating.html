@@ -1,0 +1,5 @@
+{{- /* Stars for .value (0 to 5). .large adds " / 5". Nothing without a value. The value is cast to a number, so front matter cannot inject CSS. */ -}}
+{{- if ne .value nil -}}
+{{- $v := float .value -}}
+<span class="rating{{ if .large }} rating--large{{ end }}" style="--rating: {{ $v }}" role="img" aria-label="{{ T "rated" (dict "Count" $v) }}"></span><span aria-hidden="true">{{ $v }}{{ if .large }} / 5{{ end }}</span>
+{{- end -}}

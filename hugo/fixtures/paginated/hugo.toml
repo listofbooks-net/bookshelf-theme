@@ -1,0 +1,7 @@
+# Two reviews a page and a custom pager path: page 2 of the blog is /blog/seite/2/.
+baseURL = "https://example.org/"
+title = "Paginated"
+
+[pagination]
+  pagerSize = 2
+  path = "seite"

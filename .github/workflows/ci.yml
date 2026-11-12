@@ -87,3 +87,28 @@ jobs:
           trap 'docker rm -f "$cid" >/dev/null' EXIT
           docker cp . "$cid:/repo"
           docker start -a "$cid"
+
+  hugo:
+    name: Hugo theme on the minimum Hugo version and the latest
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      # Builds the demo and the fixtures on both versions. A build that writes
+      # anything to stderr fails.
+      - name: Build every site on both Hugo versions
+        run: |
+          set -euo pipefail
+          tools/hugo-dev/hugo-dev.sh images
+          tools/hugo-dev/hugo-dev.sh build
+      # Same-HTML, link, design-parity and browser checks, in the Playwright
+      # image that matches tools/package.json.
+      - name: Check the builds
+        run: |
+          set -euo pipefail
+          cid="$(docker create -w /repo mcr.microsoft.com/playwright:v1.61.0-noble bash -c 'npm ci --prefix tools --no-audit --no-fund >/dev/null && node tools/hugo-dev/check-builds.mjs tools/hugo-dev/out')"
+          trap 'docker rm -f "$cid" >/dev/null' EXIT
+          docker cp . "$cid:/repo"
+          docker start -a "$cid"

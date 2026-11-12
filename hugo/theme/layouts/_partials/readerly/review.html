@@ -1,0 +1,131 @@
+{{- /* A post in a main section. Each part renders only when its data exists, so a post with no book keys is a plain article and one with every key is a full review. */ -}}
+{{- $e := partial "readerly/entry.html" . -}}
+{{- $author := partial "readerly/post-author.html" . -}}
+{{- $terms := slice -}}
+{{- range (.GetTerms "categories") | append (.GetTerms "tags") -}}
+  {{- if not (in $terms .) }}{{ $terms = $terms | append . }}{{ end -}}
+{{- end -}}
+{{- $siteAuthor := site.Params.author -}}
+<article class="review">
+      <div class="wrap wrap--content">
+        <header class="entry-header">
+          {{- with $terms }}
+          <ul class="tags" aria-label="{{ T "genres_and_tags" }}">
+            {{- range . }}
+            <li>{{ partial "readerly/term-link.html" (dict "term" . "class" "tag") }}</li>
+            {{- end }}
+          </ul>
+          {{- end }}
+          <h1>{{ .Title }}</h1>
+          {{- with .Params.lead }}
+          <p class="lead">{{ . }}</p>
+          {{- end }}
+          <p class="entry-meta">
+            {{- with $author }}
+            <span>{{ T "byline" }} {{ with .url }}<a href="{{ . }}">{{ $author.name }}</a>{{ else }}{{ .name }}{{ end }}</span>
+            {{- end }}
+            {{ partial "readerly/date.html" (dict "date" .Date) }}
+            <span>{{ T "min_read" (dict "Count" .ReadingTime) }}</span>
+          </p>
+        </header>
+        {{- if or $e.cover $e.book_author .Params.series $e.pages .Params.publication $e.rated $e.status }}
+
+        <aside class="book-panel" aria-labelledby="book-panel-title">
+          <div>{{ partial "readerly/cover.html" (dict "entry" $e "described" true) }}</div>
+          <div>
+            <h2 class="book-panel__title" id="book-panel-title">{{ $e.title }}</h2>
+            {{- with $e.book_author }}
+            <p class="book-panel__author">{{ T "by" (dict "Name" .) }}</p>
+            {{- end }}
+            {{- $badge := partial "readerly/badge.html" $e.status }}
+            {{- if or .Params.series $e.pages .Params.publication $e.rated $badge }}
+            <dl class="details">
+              {{- with .Params.series }}
+              <dt>{{ T "series" }}</dt>
+              <dd>{{ . }}</dd>
+              {{- end }}
+              {{- with $e.pages }}
+              <dt>{{ T "pages" }}</dt>
+              <dd>{{ . }}</dd>
+              {{- end }}
+              {{- with .Params.publication }}
+              <dt>{{ T "published" }}</dt>
+              <dd>{{ . }}</dd>
+              {{- end }}
+              {{- if $e.rated }}
+              <dt>{{ T "my_rating" }}</dt>
+              <dd><span class="rating-line">{{ partial "readerly/rating.html" (dict "value" $e.rating "large" true) }}</span></dd>
+              {{- end }}
+              {{- with $badge }}
+              <dt>{{ T "status" }}</dt>
+              <dd>{{ . }}{{ if not $e.finished.IsZero }} <span class="muted">{{ T "finished_on" (dict "Date" ($e.finished | time.Format "2 January")) }}</span>{{ end }}</dd>
+              {{- end }}
+            </dl>
+            {{- end }}
+          </div>
+        </aside>
+        {{- end }}
+
+        <div class="entry-content">
+{{ .Content }}
+          {{- with .Params.verdict }}
+
+          <section class="verdict" aria-labelledby="verdict-title">
+            <div class="verdict__head">
+              <h2 id="verdict-title">{{ T "my_verdict" }}</h2>
+              {{- if $e.rated }}
+              <div class="rating-line">{{ partial "readerly/rating.html" (dict "value" $e.rating "large" true) }}</div>
+              {{- end }}
+            </div>
+            {{- with .summary }}
+            <p class="verdict__summary">{{ . }}</p>
+            {{- end }}
+            {{- if or .liked .disliked }}
+            <div class="verdict__lists">
+              {{- with .liked }}
+              <div>
+                <h3>{{ T "what_worked" }}</h3>
+                <ul>
+                  {{- range . }}
+                  <li>{{ . }}</li>
+                  {{- end }}
+                </ul>
+              </div>
+              {{- end }}
+              {{- with .disliked }}
+              <div>
+                <h3>{{ T "less_so" }}</h3>
+                <ul>
+                  {{- range . }}
+                  <li>{{ . }}</li>
+                  {{- end }}
+                </ul>
+              </div>
+              {{- end }}
+            </div>
+            {{- end }}
+          </section>
+          {{- end }}
+        </div>
+        {{- if and (reflect.IsMap $siteAuthor) $siteAuthor.name $siteAuthor.bio }}
+
+        <aside class="bio-card" aria-labelledby="bio-title">
+          {{- with $siteAuthor.avatar }}
+          <img src="{{ partial "readerly/url.html" . }}" width="400" height="400" alt="{{ T "portrait_of" (dict "Name" $siteAuthor.name) }}">
+          {{- end }}
+          <div class="bio-card__body">
+            <span class="eyebrow">{{ T "reviewed_by" }}</span>
+            <h2 class="bio-card__name" id="bio-title">{{ $siteAuthor.name }}</h2>
+            <p>{{ $siteAuthor.bio }}</p>
+            {{- if $siteAuthor.links }}
+            <p>{{ range $i, $l := $siteAuthor.links }}{{ if $i }} &middot; {{ end }}<a href="{{ partial "readerly/url.html" $l.url }}">{{ $l.title }}</a>{{ end }}</p>
+            {{- else if $siteAuthor.url }}
+            <p><a href="{{ partial "readerly/url.html" $siteAuthor.url }}">{{ T "more_about" (dict "Name" $siteAuthor.name) }}</a></p>
+            {{- end }}
+          </div>
+        </aside>
+        {{- end }}
+        {{- partial "readerly/related.html" . }}
+        {{- partial "comments.html" . }}
+      </div>
+    </article>

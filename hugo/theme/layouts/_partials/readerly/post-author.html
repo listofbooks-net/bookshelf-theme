@@ -1,0 +1,11 @@
+{{- /* The person who wrote a post, as (dict "name" "url"), or false: the post's author (a name or a map), else params.author (a name or a map). Only a map carries a url. */ -}}
+{{- $author := false -}}
+{{- $source := .Params.author | default site.Params.author -}}
+{{- if reflect.IsMap $source -}}
+  {{- with $source.name }}{{ $author = dict "name" . "url" (partial "readerly/url.html" $source.url) }}{{ end -}}
+{{- else if reflect.IsSlice $source -}}
+  {{- with $source }}{{ $author = dict "name" (delimit . ", ") "url" "" }}{{ end -}}
+{{- else if $source -}}
+  {{- $author = dict "name" (string $source) "url" "" -}}
+{{- end -}}
+{{- return $author -}}

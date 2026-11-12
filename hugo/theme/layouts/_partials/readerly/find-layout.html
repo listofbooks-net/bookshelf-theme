@@ -1,0 +1,4 @@
+{{- /* The first page whose front matter sets layout: <.>, or false. */ -}}
+{{- $found := false -}}
+{{- range first 1 (where site.Pages "Layout" .) }}{{ $found = . }}{{ end -}}
+{{- return $found -}}

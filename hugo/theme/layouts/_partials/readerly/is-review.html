@@ -1,0 +1,3 @@
+{{- /* True for a post in a main section, which renders with the review layout. */ -}}
+{{- $review := and (eq .Kind "page") (in site.MainSections .Section) -}}
+{{- return $review -}}

@@ -1,0 +1,7 @@
+{{- /* A card's title in .heading (h2 or h3), linked when the entry has a URL. */ -}}
+{{- $inner := .entry.title -}}
+{{- if eq .heading "h2" -}}
+<h2 class="book-card__title">{{ with .entry.url }}<a href="{{ . }}">{{ $inner }}</a>{{ else }}{{ $inner }}{{ end }}</h2>
+{{- else -}}
+<h3 class="book-card__title">{{ with .entry.url }}<a href="{{ . }}">{{ $inner }}</a>{{ else }}{{ $inner }}{{ end }}</h3>
+{{- end -}}

@@ -1,0 +1,106 @@
+# Every interface string in Readerly. To change one, or to translate the theme,
+# add the same key to i18n/<language>.yaml in your site.
+skip: Skip to content
+search_reviews: Search reviews
+search_placeholder: Search by title, author or genre
+search: Search
+dark_theme: Dark theme
+primary_nav: Primary
+by: "by {{ .Name }}"
+byline: By
+min_read: "{{ .Count }} min read"
+latest_review: Latest review
+featured_review: Featured review
+read_the_review: Read the review
+recent_reviews: Recent reviews
+all_reviews: All reviews
+browse_all_reviews: Browse all reviews
+page_n: "Page {{ .Count }}"
+page: Page
+pagination: Pagination
+newer: Newer
+older: Older
+currently_reading: Currently reading
+my_reading_log: My reading log
+browse_by_genre: Browse by genre
+reviews_and_counting:
+  one: "1 review and counting"
+  other: "{{ .Count }} reviews and counting"
+reviews:
+  one: "1 review"
+  other: "{{ .Count }} reviews"
+books:
+  one: "1 book"
+  other: "{{ .Count }} books"
+rated: "Rated {{ .Count }} out of 5"
+status_reading: Reading
+status_read: Read
+status_want: Want to read
+status_dnf: Did not finish
+status_dnf_short: DNF
+progress_through: "Progress through {{ .Name }}"
+page_of: "Page {{ .Count }} of {{ .Total }}"
+stopped_at: "Stopped at page {{ .Count }}"
+stopped_at_of: "Stopped at page {{ .Count }} of {{ .Total }}"
+cover_of: "Cover of {{ .Name }}"
+no_cover: "No cover image yet: {{ .Name }}"
+shelf_read: Read
+shelf_read_year: "Read in {{ .Year }}"
+shelf_read_note: Most recently finished first
+shelf_want: Want to read
+shelf_dnf: Did not finish
+scrollable_shelf: "{{ .Name }}, scrollable shelf"
+stats_label: "{{ .Year }} reading statistics"
+stats_label_all: Reading statistics
+stat_books: Books read
+stat_pages: Pages read
+stat_rating: Average rating
+stat_dnf: Did not finish
+genres_and_tags: Genres and tags
+related_genres: Related genres
+series: Series
+pages: Pages
+published: Published
+my_rating: My rating
+status: Status
+finished_on: "finished {{ .Date }}"
+my_verdict: My verdict
+what_worked: What worked
+less_so: Less so
+reviewed_by: Reviewed by
+more_about: "More about {{ .Name }}"
+portrait_of: "Portrait of {{ .Name }}"
+you_might_also_like: You might also like
+more_in: "More {{ .Name }}"
+review: review
+email_address: Email address
+subscribe: Subscribe
+new_release: New release
+buy_the_book: Buy the book
+learn_more: Learn more
+learn_more_about: "about {{ .Name }}"
+buy: Buy
+where_to_buy: Where to buy
+my_books: My books
+kind_words: Kind words
+events: Events
+event_details: Details
+about_author: "About {{ .Name }}"
+genre: Genre
+genres: Genres
+tag: Tag
+tags: Tags
+archive: Archive
+you_searched_for: You searched for
+match_none: No reviews match.
+match_one: 1 review matches.
+match_many: "%n reviews match."
+not_found_title: This page has wandered off the shelf
+not_found_lead: The link may be old, or the page may have been moved or renamed. Try a search, or start again from the front page.
+not_found_lead_no_search: The link may be old, or the page may have been moved or renamed. Start again from the front page.
+back_to_front: Back to the front page
+pick_something: Or pick something to read
+recent_favourites: Recent favourites
+reviews_noun:
+  one: review
+  other: reviews

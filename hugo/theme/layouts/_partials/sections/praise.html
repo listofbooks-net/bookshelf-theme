@@ -1,0 +1,20 @@
+{{- with (partial "readerly/data.html" .).praise -}}
+{{- $config := $.Params.praise | default dict -}}
+<section class="section" aria-labelledby="praise-title">
+      <div class="wrap">
+        {{ partial "readerly/section-head.html" (dict "id" "praise-title" "heading" ($config.heading | default (T "kind_words")) "note" $config.note) }}
+        <ul class="praise">
+          {{- range . }}
+          <li>
+            <figure>
+              <blockquote><p>&ldquo;{{ .quote }}&rdquo;</p></blockquote>
+              {{- if or .source .context }}
+              <figcaption>{{ with .source }}<strong>{{ . }}</strong>{{ end }}{{ if and .source .context }} {{ end }}{{ .context }}</figcaption>
+              {{- end }}
+            </figure>
+          </li>
+          {{- end }}
+        </ul>
+      </div>
+    </section>
+{{- end -}}

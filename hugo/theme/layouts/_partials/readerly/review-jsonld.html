@@ -1,0 +1,10 @@
+{{- /* schema.org Review of a Book, for a review with a rating and a book author. jsonify escapes "<", so a value cannot end the script element. */ -}}
+{{- if and (ne .Params.rating nil) .Params.book_author -}}
+{{- $e := partial "readerly/entry.html" . -}}
+{{- $book := dict "@type" "Book" "name" $e.title "author" (dict "@type" "Person" "name" $e.book_author) -}}
+{{- with $e.pages }}{{ $book = merge $book (dict "numberOfPages" .) }}{{ end -}}
+{{- with $e.cover }}{{ $book = merge $book (dict "image" (cond (or (strings.Contains . "://") (hasPrefix . "//")) . (absURL .))) }}{{ end -}}
+{{- $review := dict "@context" "https://schema.org" "@type" "Review" "url" .Permalink "datePublished" (.Date.Format "2006-01-02") "name" .Title "reviewRating" (dict "@type" "Rating" "ratingValue" $e.rating "bestRating" 5 "worstRating" 0) "itemReviewed" $book -}}
+{{- with partial "readerly/post-author.html" . }}{{ $review = merge $review (dict "author" (dict "@type" "Person" "name" .name)) }}{{ end -}}
+<script type="application/ld+json">{{ jsonify $review | replaceRE "</" `<\/` | safeJS }}</script>
+{{- end -}}

@@ -1,0 +1,19 @@
+{{- /* The intro block from the page's intro: eyebrow, heading (Markdown), lead (Markdown) and buttons. The heading falls back to the page title. */ -}}
+{{- $intro := .Params.intro | default dict -}}
+<div class="intro">
+          {{- with $intro.eyebrow }}
+          <span class="eyebrow">{{ . }}</span>
+          {{- end }}
+          <h1>{{ $intro.heading | default .Title | default site.Title | markdownify }}</h1>
+          {{- with $intro.lead }}
+          <p class="lead muted">{{ . | markdownify }}</p>
+          {{- end }}
+          {{- with $intro.buttons }}
+          <div class="buttons">
+            {{- range $i, $b := . }}
+            <a class="button{{ if $i }} button--outline{{ end }}" href="{{ partial "readerly/url.html" $b.url }}">{{ $b.title }}</a>
+            {{- end }}
+          </div>
+          {{- end }}
+        </div>
+{{- /**/ -}}

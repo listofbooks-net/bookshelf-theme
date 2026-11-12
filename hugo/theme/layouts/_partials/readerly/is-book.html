@@ -1,0 +1,3 @@
+{{- /* True when a review post presents a book: it has a cover, a book author or a rating. */ -}}
+{{- $book := or .Params.cover .Params.book_author (ne .Params.rating nil) -}}
+{{- return $book -}}

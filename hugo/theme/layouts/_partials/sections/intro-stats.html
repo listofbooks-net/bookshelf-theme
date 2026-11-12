@@ -1,0 +1,30 @@
+{{- /* The intro with the reading statistics under it. The page's year scopes books read, pages read and the average rating to the books finished that year. */ -}}
+{{- $read := partial "readerly/entries.html" (dict "status" "read" "year" .Params.year) -}}
+{{- $dnf := len (partial "readerly/entries.html" (dict "status" "dnf")) -}}
+{{- $pages := 0 -}}
+{{- $ratings := slice -}}
+{{- range $read -}}
+  {{- with .pages }}{{ $pages = add $pages (int .) }}{{ end -}}
+  {{- if .rated }}{{ $ratings = $ratings | append (float .rating) }}{{ end -}}
+{{- end -}}
+<section class="section section--tight">
+      <div class="wrap">
+        {{ partial "readerly/intro.html" . }}
+        {{- if or $read $dnf }}
+        <ul class="stats" aria-label="{{ with .Params.year }}{{ T "stats_label" (dict "Year" .) }}{{ else }}{{ T "stats_label_all" }}{{ end }}">
+          {{- with $read }}
+          <li><p class="od-stat"><span class="stats__number">{{ lang.FormatNumber 0 (len .) }}</span><span class="stats__label">{{ T "stat_books" }}</span></p></li>
+          {{- end }}
+          {{- if gt $pages 0 }}
+          <li><p class="od-stat"><span class="stats__number">{{ lang.FormatNumber 0 $pages }}</span><span class="stats__label">{{ T "stat_pages" }}</span></p></li>
+          {{- end }}
+          {{- with $ratings }}
+          <li><p class="od-stat"><span class="stats__number">{{ lang.FormatNumber 1 (div (math.Sum .) (len .)) }}</span><span class="stats__label">{{ T "stat_rating" }}</span></p></li>
+          {{- end }}
+          {{- if gt $dnf 0 }}
+          <li><p class="od-stat"><span class="stats__number">{{ lang.FormatNumber 0 $dnf }}</span><span class="stats__label">{{ T "stat_dnf" }}</span></p></li>
+          {{- end }}
+        </ul>
+        {{- end }}
+      </div>
+    </section>

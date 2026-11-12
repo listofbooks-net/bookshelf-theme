@@ -1,0 +1,12 @@
+{{- /*
+The page's paginator, or false. The only file that calls .Paginate, so every caller
+paginates the same list: a term page its reviews, and any list page that shows
+recent-reviews every review.
+*/ -}}
+{{- $pager := false -}}
+{{- if eq .Kind "term" -}}
+  {{- $pager = .Paginate .Pages.ByDate.Reverse -}}
+{{- else if and (in (slice "home" "section" "taxonomy") .Kind) (in (partial "readerly/section-names.html" .) "recent-reviews") -}}
+  {{- $pager = .Paginate (partial "readerly/reviews.html" .) -}}
+{{- end -}}
+{{- return $pager -}}

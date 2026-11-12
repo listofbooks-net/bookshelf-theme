@@ -1,0 +1,8 @@
+{{- /* A URL from config, front matter or data: links to other sites, anchors and queries as written, paths on this site under the baseURL. */ -}}
+{{- $url := . | default "" | string -}}
+{{- $external := or (findRE `^[a-zA-Z][a-zA-Z0-9+.-]*:` $url 1) (hasPrefix $url "//") (hasPrefix $url "#") (hasPrefix $url "?") -}}
+{{- if and (not $external) (ne $url "") -}}
+  {{- /* relURL resolves "/x" against the host, not the baseURL, so the slash goes first. */ -}}
+  {{- $url = relURL (strings.TrimPrefix "/" $url) -}}
+{{- end -}}
+{{- return $url -}}

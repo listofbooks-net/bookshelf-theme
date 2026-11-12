@@ -1,0 +1,36 @@
+{{- /* Upcoming titled events from data/events.yaml, soonest first. Events before the build date are left out. */ -}}
+{{- $today := now.Format "20060102" -}}
+{{- $upcoming := slice -}}
+{{- range (partial "readerly/data.html" .).events -}}
+  {{- if and .title .date -}}
+    {{- $date := time.AsTime .date -}}
+    {{- if ge ($date.Format "20060102") $today }}{{ $upcoming = $upcoming | append (merge . (dict "date" $date)) }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- with sort $upcoming "date" -}}
+{{- $config := $.Params.events | default dict -}}
+<section class="section" id="events" aria-labelledby="events-title">
+      <div class="wrap">
+        {{ partial "readerly/section-head.html" (dict "id" "events-title" "heading" ($config.heading | default (T "events")) "note" $config.note) }}
+        <ul class="events">
+          {{- range . }}
+          {{- $event := . }}
+          <li>
+            <article class="event">
+              <time class="event__date" datetime="{{ .date.Format "2006-01-02" }}"><span class="event__day">{{ .date.Day }}</span> <span class="event__month">{{ .date | time.Format "Jan" }}</span></time>
+              <div>
+                <h3 class="event__title">{{ .title }}</h3>
+                {{- with .where }}
+                <p class="event__where">{{ . }}</p>
+                {{- end }}
+              </div>
+              {{- with .url }}
+              <a class="button button--outline" href="{{ partial "readerly/url.html" . }}">{{ $event.label | default (T "event_details") }}<span class="visually-hidden">: {{ $event.title }}</span></a>
+              {{- end }}
+            </article>
+          </li>
+          {{- end }}
+        </ul>
+      </div>
+    </section>
+{{- end -}}

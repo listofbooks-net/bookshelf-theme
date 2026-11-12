@@ -1,0 +1,7 @@
+{{- /* Terms with their review counts, as a table of contents. */ -}}
+<ul class="toc">
+          {{- range . }}
+          <li><a href="{{ .Page.RelPermalink }}"><span class="toc__name">{{ partial "readerly/term-name.html" .Page }}</span><span class="toc__count">{{ .Count }}<span class="visually-hidden"> {{ T "reviews_noun" .Count }}</span></span></a></li>
+          {{- end }}
+        </ul>
+{{- /**/ -}}

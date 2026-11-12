@@ -1,0 +1,18 @@
+{{- /* Every titled book in data/books.yaml. */ -}}
+{{- $books := slice -}}
+{{- range (partial "readerly/data.html" .).books }}{{ if .title }}{{ $books = $books | append . }}{{ end }}{{ end -}}
+{{- with $books -}}
+{{- $config := $.Params.books | default dict -}}
+<section class="section" id="books" aria-labelledby="books-title">
+      <div class="wrap">
+        {{ partial "readerly/section-head.html" (dict "id" "books-title" "heading" ($config.heading | default (T "my_books")) "note" $config.note) }}
+        <ul class="book-grid book-grid--four">
+          {{- range . }}
+          <li>
+          {{ partial "readerly/book-card.html" (dict "entry" . "variant" "own") }}
+          </li>
+          {{- end }}
+        </ul>
+      </div>
+    </section>
+{{- end -}}

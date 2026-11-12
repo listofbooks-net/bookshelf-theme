@@ -1,0 +1,3 @@
+{{- /* A link to a term page: .term, .class, .content (HTML that replaces the name). */ -}}
+<a{{ with .class }} class="{{ . }}"{{ end }} href="{{ .term.RelPermalink }}">{{ .content | default (partial "readerly/term-name.html" .term) }}</a>
+{{- /**/ -}}

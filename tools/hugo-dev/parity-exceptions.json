@@ -1,0 +1,38 @@
+[
+	{
+		"page": "index.html",
+		"side": "demo",
+		"selector": ".pagination",
+		"reason": "The demo has ten reviews and pagerSize 9, so the home page links to page 2. The design shows a site with one page of reviews."
+	},
+	{
+		"page": "index.html",
+		"side": "design",
+		"selector": ".form-status",
+		"reason": "The design's newsletter form confirms a fake submission in place. The theme's form posts to the site's newsletter provider, which shows its own confirmation."
+	},
+	{
+		"page": "author.html",
+		"side": "design",
+		"selector": ".form-status",
+		"reason": "The design's newsletter form confirms a fake submission in place. The theme's form posts to the site's newsletter provider, which shows its own confirmation."
+	},
+	{
+		"page": "author.html",
+		"side": "both",
+		"selector": ".site-tools",
+		"reason": "The design's author page is a separate author site with no reviews to search. The demo's author page sits inside the Marginalia blog, which has an archive and so a search form."
+	},
+	{
+		"page": "review.html",
+		"side": "design",
+		"selector": ".comments",
+		"reason": "The theme ships no comment system, because every hosted one makes third-party requests. layouts/_partials/comments.html is the empty hook where a site owner adds one."
+	},
+	{
+		"page": "archive.html",
+		"side": "design",
+		"selector": ".pagination",
+		"reason": "The demo's Literary fiction category has fewer reviews than pagerSize 9, so it has one page and no pager. The design shows a pager."
+	}
+]

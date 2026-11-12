@@ -1,0 +1,18 @@
+<!doctype html>
+{{- $style := site.Params.readerly.style | default "auto" }}
+<html lang="{{ partial "readerly/locale.html" . }}"{{ if eq $style "paper" }} data-theme="light"{{ else if eq $style "lamplight" }} data-theme="dark"{{ end }}>
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body>
+  <a class="skip-link" href="#main">{{ T "skip" }}</a>
+
+  {{ partial "header.html" . }}
+
+  <main id="main">
+{{ block "main" . }}{{ end }}
+  </main>
+
+  {{ partial "footer.html" . }}
+</body>
+</html>

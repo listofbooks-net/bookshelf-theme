@@ -1,0 +1,26 @@
+{{- /*
+The book entry: one shape for a review post and for a row of data/reading_log.yaml.
+Every card, shelf, statistic and the JSON-LD read this dict, so this is the only
+file that knows there are two sources.
+  title, book_author, cover (URL), url, rating, rated (a rating is set, 0 included), status, pages, current_page,
+  finished (time, zero when unknown), genre, date (posts only), summary, page (posts only)
+*/ -}}
+{{- $p := dict -}}
+{{- $e := dict -}}
+{{- if reflect.IsMap . -}}
+  {{- $p = . -}}
+  {{- $e = dict "title" (.book_title | default .title) "url" (partial "readerly/url.html" .url) "genre" .genre "cover" (partial "readerly/url.html" .cover) -}}
+{{- else -}}
+  {{- $p = .Params -}}
+  {{- $genre := "" -}}
+  {{- with .GetTerms "categories" }}{{ $genre = partial "readerly/term-name.html" (index . 0) }}{{ end -}}
+  {{- $cover := "" -}}
+  {{- with .Params.cover -}}
+    {{- with $.Resources.Get . }}{{ $cover = .RelPermalink }}{{ else }}{{ $cover = partial "readerly/url.html" . }}{{ end -}}
+  {{- end -}}
+  {{- $e = dict "title" (.Params.book_title | default .Title) "url" .RelPermalink "genre" $genre "cover" $cover "date" .Date "summary" (.Summary | plainify | htmlUnescape | strings.TrimSpace) "page" . -}}
+{{- end -}}
+{{- $finished := time.AsTime "0001-01-01" -}}
+{{- with $p.finished }}{{ $finished = time.AsTime . }}{{ end -}}
+{{- $e = merge $e (dict "book_author" $p.book_author "rating" $p.rating "rated" (ne $p.rating nil) "status" $p.status "pages" $p.pages "current_page" $p.current_page "finished" $finished) -}}
+{{- return $e -}}

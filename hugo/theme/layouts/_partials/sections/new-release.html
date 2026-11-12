@@ -1,0 +1,46 @@
+{{- /* The first book in data/books.yaml with featured: true and a title. */ -}}
+{{- $release := false -}}
+{{- range (partial "readerly/data.html" .).books -}}
+  {{- if and (not $release) .featured .title }}{{ $release = . }}{{ end -}}
+{{- end -}}
+{{- with $release -}}
+{{- $cover := dict "title" .title "book_author" .book_author "cover" (partial "readerly/url.html" .cover) -}}
+{{- $buy := .buy_url | default (cond (gt (len (.where_to_buy | default slice)) 0) "#where-to-buy" "") -}}
+<section class="section section--band" id="new-release" aria-labelledby="release-title">
+      <div class="wrap">
+        <div class="release">
+          <div class="release__cover">{{ partial "readerly/cover.html" (dict "entry" $cover "described" true) }}</div>
+          <div class="release__body">
+            <span class="eyebrow">{{ .label | default (T "new_release") }}</span>
+            <h2 id="release-title">{{ .title }}</h2>
+            {{- with .lead | default .blurb }}
+            <p class="lead">{{ . | markdownify }}</p>
+            {{- end }}
+            {{- with .facts }}
+            <p class="release__facts">{{ . }}</p>
+            {{- end }}
+            {{- if or $buy .url }}
+            <div class="buttons">
+              {{- with $buy }}
+              <a class="button" href="{{ partial "readerly/url.html" . }}">{{ T "buy_the_book" }}</a>
+              {{- end }}
+              {{- with .url }}
+              <a class="button{{ if $buy }} button--outline{{ end }}" href="{{ partial "readerly/url.html" . }}">{{ $release.url_label | default (T "learn_more") }}</a>
+              {{- end }}
+            </div>
+            {{- end }}
+          </div>
+        </div>
+        {{- with .where_to_buy }}
+        <div class="where-to-buy" id="where-to-buy">
+          <h3>{{ T "where_to_buy" }}</h3>
+          <ul>
+            {{- range . }}
+            <li>{{ . | markdownify }}</li>
+            {{- end }}
+          </ul>
+        </div>
+        {{- end }}
+      </div>
+    </section>
+{{- end -}}

@@ -1,0 +1,31 @@
+{{- $copyright := site.Copyright -}}
+<footer class="site-footer">
+    <div class="wrap">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-title"><a href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a></p>
+          {{- with site.Params.readerly.footerAbout }}
+          <p>{{ . }}</p>
+          {{- end }}
+        </div>
+        {{- range site.Menus.footer }}{{ if .HasChildren }}
+        <nav aria-label="{{ .Name }}">
+          <h2>{{ .Name }}</h2>
+          <ul class="footer-links">
+            {{- range .Children }}
+            <li><a href="{{ partial "readerly/menu-url.html" . }}">{{ .Name }}</a></li>
+            {{- end }}
+          </ul>
+        </nav>
+        {{- end }}{{ end }}
+      </div>
+      <div class="site-footer__bottom">
+        {{- if or (strings.Contains $copyright "©") (strings.Contains $copyright "&copy;") }}
+        <p>{{ $copyright | markdownify }}</p>
+        {{- else }}
+        <p>&copy; {{ now.Year }} {{ site.Title }}.{{ with $copyright }} {{ . | markdownify }}{{ end }}</p>
+        {{- end }}
+        {{ partial "credit.html" . }}
+      </div>
+    </div>
+  </footer>

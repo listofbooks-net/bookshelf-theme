@@ -1,0 +1,32 @@
+{{- $hero := .Params.hero | default dict -}}
+{{- $name := .Title | default site.Title -}}
+<section class="section" id="about" aria-label="{{ T "about_author" (dict "Name" $name) }}">
+      <div class="wrap">
+        <div class="author-hero">
+          {{- with $hero.portrait }}
+          <div class="author-hero__portrait">
+            <img src="{{ partial "readerly/url.html" . }}" width="800" height="1000" alt="{{ T "portrait_of" (dict "Name" $name) }}">
+          </div>
+          {{- end }}
+          <div class="author-hero__body">
+            {{- with $hero.eyebrow }}
+            <span class="eyebrow">{{ . }}</span>
+            {{- end }}
+            <h1>{{ $name }}</h1>
+            {{- with $hero.lead }}
+            <p class="lead">{{ . | markdownify }}</p>
+            {{- end }}
+            {{- with $hero.text }}
+            <p class="muted">{{ . | markdownify }}</p>
+            {{- end }}
+            {{- with $hero.buttons }}
+            <div class="buttons">
+              {{- range $i, $b := . }}
+              <a class="button{{ if $i }} button--outline{{ end }}" href="{{ partial "readerly/url.html" $b.url }}">{{ $b.title }}</a>
+              {{- end }}
+            </div>
+            {{- end }}
+          </div>
+        </div>
+      </div>
+    </section>

@@ -1,0 +1,9 @@
+{{- /* A cover for the entry .entry: its image, or the typeset placeholder. .described gives the image alt text; without it the cover sits in a link that repeats the title. */ -}}
+{{- $e := .entry -}}
+{{- $name := $e.title -}}
+{{- with $e.book_author }}{{ $name = printf "%s %s" $name (T "by" (dict "Name" .)) }}{{ end -}}
+{{- with $e.cover -}}
+<img class="cover" src="{{ . }}" width="400" height="600" alt="{{ if $.described }}{{ T "cover_of" (dict "Name" $name) }}{{ end }}" loading="lazy">
+{{- else -}}
+<div class="cover cover--placeholder" role="img" aria-label="{{ T "no_cover" (dict "Name" $name) }}"><strong>{{ $e.title }}</strong>{{ with $e.book_author }}<span>{{ . }}</span>{{ end }}</div>
+{{- end -}}

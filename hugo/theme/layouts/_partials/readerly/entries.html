@@ -1,0 +1,25 @@
+{{- /*
+Every book entry with the status .status: review posts first, then data/reading_log.yaml.
+The read shelf is sorted by finished, newest first, entries with no date last.
+With .year, only entries finished in that year are kept.
+*/ -}}
+{{- $status := .status -}}
+{{- $year := .year -}}
+{{- $entries := slice -}}
+{{- range where (partial "readerly/reviews.html" .) "Params.status" $status -}}
+  {{- $entries = $entries | append (partial "readerly/entry.html" .) -}}
+{{- end -}}
+{{- range where ((partial "readerly/data.html" .).reading_log | default slice) "status" $status -}}
+  {{- $entries = $entries | append (partial "readerly/entry.html" .) -}}
+{{- end -}}
+{{- if eq $status "read" -}}
+  {{- $entries = sort $entries "finished" "desc" -}}
+{{- end -}}
+{{- with $year -}}
+  {{- $kept := slice -}}
+  {{- range $entries -}}
+    {{- if and (not .finished.IsZero) (eq .finished.Year (int $year)) }}{{ $kept = $kept | append . }}{{ end -}}
+  {{- end -}}
+  {{- $entries = $kept -}}
+{{- end -}}
+{{- return $entries -}}

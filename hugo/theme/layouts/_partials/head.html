@@ -1,0 +1,59 @@
+{{- $isReview := partial "readerly/is-review.html" . -}}
+{{- $pager := partial "readerly/paginator.html" . -}}
+{{- $style := site.Params.readerly.style | default "auto" -}}
+{{- $title := site.Title -}}
+{{- if and $isReview .Params.book_author -}}
+  {{- $title = printf "%s %s: %s · %s" (.Params.book_title | default .Title) (T "by" (dict "Name" .Params.book_author)) (T "review") site.Title -}}
+{{- else if and .Title (not .IsHome) -}}
+  {{- $title = printf "%s · %s" (partial "readerly/term-name.html" .) site.Title -}}
+{{- else if site.Params.tagline -}}
+  {{- $title = printf "%s: %s" site.Title site.Params.tagline -}}
+{{- end -}}
+{{- with $pager }}{{ if gt .PageNumber 1 }}{{ $title = printf "%s · %s" $title (T "page_n" (dict "Count" .PageNumber)) }}{{ end }}{{ end -}}
+{{- $intro := .Params.intro | default dict -}}
+{{- $description := "" -}}
+{{- with .Description | default .Params.lead | default $intro.lead -}}
+  {{- $description = . | markdownify | plainify -}}
+{{- else -}}
+  {{- $description = .Summary | plainify | default site.Params.description | default "" -}}
+{{- end -}}
+{{- $description = $description | htmlUnescape | strings.TrimSpace | truncate 200 "…" -}}
+{{- $url := .Permalink -}}
+{{- with $pager }}{{ $url = absURL .URL }}{{ end -}}
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ $title }}</title>
+  {{- with $description }}
+  <meta name="description" content="{{ . }}">
+  {{- end }}
+  <meta name="color-scheme" content="{{ if ne site.Params.readerly.styleToggle false }}light dark{{ else if eq $style "paper" }}light{{ else if eq $style "lamplight" }}dark{{ else }}light dark{{ end }}">
+  <link rel="canonical" href="{{ $url }}">
+  <meta property="og:type" content="{{ if $isReview }}article{{ else }}website{{ end }}">
+  <meta property="og:site_name" content="{{ site.Title }}">
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:url" content="{{ $url }}">
+  {{- with $description }}
+  <meta property="og:description" content="{{ . }}">
+  {{- end }}
+  {{- if $isReview }}{{ with (partial "readerly/entry.html" .).cover }}
+  <meta property="og:image" content="{{ if or (strings.Contains . "://") (hasPrefix . "//") }}{{ . }}{{ else }}{{ absURL . }}{{ end }}">
+  {{- end }}{{ end }}
+  {{- with site.Params.readerly.favicon }}
+  <link rel="icon" href="{{ partial "readerly/url.html" . }}"{{ if strings.HasSuffix . ".svg" }} type="image/svg+xml"{{ end }}>
+  {{- end }}
+  {{- with resources.Get "readerly/css/readerly.css" | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+  {{- end }}
+  {{- with site.Params.readerly.customCSS }}
+  <link rel="stylesheet" href="{{ partial "readerly/url.html" . }}">
+  {{- end }}
+  {{- with .OutputFormats.Get "rss" }}
+  <link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .RelPermalink }}">
+  {{- end }}
+  {{- if ne site.Params.readerly.styleToggle false }}{{ with resources.Get "readerly/js/theme.js" | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+  {{- end }}{{ end }}
+  {{- if $isReview }}
+  {{ partial "readerly/review-jsonld.html" . }}
+  {{- end }}
+  {{- partial "head-custom.html" . }}

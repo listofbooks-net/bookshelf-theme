@@ -1,0 +1,1 @@
+{{ define "main" }}{{ partial "readerly/archive.html" (dict "page" . "posts" .RegularPagesRecursive.ByDate.Reverse "count" (len .RegularPagesRecursive) "search" true) }}{{ end }}

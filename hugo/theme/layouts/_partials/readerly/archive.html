@@ -1,0 +1,62 @@
+{{- /*
+An archive: a section's posts (every one, with search) or a term's posts (paginated).
+  .page, .posts, .count, .search (the list filters by ?s=), .pager (print the pager)
+filter.js hides the cards that do not match ?s= in the browser.
+*/ -}}
+{{- $p := .page -}}
+{{- $eyebrow := $p.Params.eyebrow -}}
+{{- if not $eyebrow -}}
+  {{- if eq $p.Kind "term" }}{{ $eyebrow = T (cond (eq $p.Data.Plural "categories") "genre" "tag") }}{{ else }}{{ $eyebrow = T "archive" }}{{ end -}}
+{{- end -}}
+{{- $related := slice -}}
+{{- if eq $p.Kind "term" -}}
+  {{- range $p.Pages -}}
+    {{- range (.GetTerms "categories") | append (.GetTerms "tags") -}}
+      {{- if and (ne .RelPermalink $p.RelPermalink) (not (in $related .)) }}{{ $related = $related | append . }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<div class="wrap">
+      <header class="archive-header">
+        <span class="eyebrow">{{ $eyebrow }}</span>
+        <h1>{{ partial "readerly/term-name.html" $p | default (T "archive") }}</h1>
+        {{- with $p.Params.lead }}
+        <p class="lead">{{ . }}</p>
+        {{- end }}
+        <p class="muted"><small>{{ T "reviews" .count }}</small></p>
+        {{- with $related }}
+        <ul class="tags" aria-label="{{ T "related_genres" }}">
+          {{- range . }}
+          <li>{{ partial "readerly/term-link.html" (dict "term" . "class" "tag") }}</li>
+          {{- end }}
+        </ul>
+        {{- end }}
+      </header>
+      {{- with $p.Content }}
+      <div class="entry-content">
+{{ . }}
+      </div>
+      {{- end }}
+      {{- if .search }}
+
+      <p class="search-note" role="status" data-search-note hidden data-none="{{ T "match_none" }}" data-one="{{ T "match_one" }}" data-many="{{ T "match_many" }}">{{ T "you_searched_for" }} &ldquo;<strong data-search-term></strong>&rdquo;.</p>
+      {{- end }}
+      {{- with .posts }}
+
+      <ul class="book-grid book-grid--list"{{ if and $.search (not $.pager) }} data-filter-list{{ end }}>
+          {{- range . }}
+          {{- $e := partial "readerly/entry.html" . }}
+          {{- $terms := slice }}{{ range (.GetTerms "categories") | append (.GetTerms "tags") }}{{ $terms = $terms | append (partial "readerly/term-name.html" .) }}{{ end }}
+          <li{{ if $.search }} data-search="{{ lower (delimit (slice .Title $e.title ($e.book_author | default "") (.Params.series | default "") (delimit $terms " ")) " ") }}"{{ end }}>
+          {{ partial "readerly/book-card.html" (dict "entry" $e "variant" "list" "heading" "h2" "excerpt" "full") }}
+          </li>
+          {{- end }}
+      </ul>
+      {{- if $.search }}{{ with resources.Get "readerly/js/filter.js" | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" defer></script>
+      {{- end }}{{ end }}
+      {{- end }}
+      {{- if .pager }}
+      {{ partial "readerly/pagination.html" $p }}
+      {{- end }}
+    </div>
