@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Local WordPress for developing and checking the Bookshelf theme.
+# Local WordPress for developing and checking the Readerly theme.
 #
-#   tools/wp-dev/wp-dev.sh up          start WordPress, install it, activate bookshelf, load demo content
-#   tools/wp-dev/wp-dev.sh check       run Theme Check against bookshelf; exit 1 on any REQUIRED or WARNING
+#   tools/wp-dev/wp-dev.sh up          start WordPress, install it, activate readerly, load demo content
+#   tools/wp-dev/wp-dev.sh check       run Theme Check against readerly; exit 1 on any REQUIRED or WARNING
 #   tools/wp-dev/wp-dev.sh style <paper|lamplight>   switch the site's style variation
 #   tools/wp-dev/wp-dev.sh wp <args>   run any wp-cli command
 #   tools/wp-dev/wp-dev.sh url         print the site URL
@@ -16,8 +16,8 @@ set -euo pipefail
 
 here="$(cd "$(dirname "$0")" && pwd)"
 repo="$(cd "$here/../.." && pwd)"
-export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-bookshelf-wp}"
-port_file="$here/.port${COMPOSE_PROJECT_NAME#bookshelf-wp}"
+export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-readerly-wp}"
+port_file="$here/.port${COMPOSE_PROJECT_NAME#readerly-wp}"
 
 mkdir -p "$repo/dist"
 compose() { docker compose --progress quiet -f "$here/compose.yaml" "$@"; }
@@ -66,7 +66,7 @@ case "${1:-}" in
 	up)
 		start
 		install
-		wp theme activate bookshelf
+		wp theme activate readerly
 		wp eval-file /opt/wp-dev/seed.php
 		echo "WordPress is up at $url (admin / admin)"
 		;;
@@ -74,7 +74,7 @@ case "${1:-}" in
 		start
 		wp plugin is-installed theme-check || wp plugin install theme-check
 		wp plugin activate theme-check >/dev/null
-		wp theme-check run bookshelf --format=json | node "$here/summarize-theme-check.cjs"
+		wp theme-check run readerly --format=json | node "$here/summarize-theme-check.cjs"
 		;;
 	style)
 		wp eval-file /opt/wp-dev/set-style.php "${2:?usage: style <paper|lamplight>}"
@@ -85,7 +85,7 @@ case "${1:-}" in
 	clean) compose down -v; rm -f "$port_file" ;;
 	zip-test)
 		zip="$(realpath "${2:?usage: zip-test <path to zip>}")"
-		export COMPOSE_PROJECT_NAME=bookshelf-wp-zip DIST_DIR="$(dirname "$zip")" THEME_TARGET=/opt/theme-source-unused
+		export COMPOSE_PROJECT_NAME=readerly-wp-zip DIST_DIR="$(dirname "$zip")" THEME_TARGET=/opt/theme-source-unused
 		exec "$0" zip-test-run "$(basename "$zip")"
 		;;
 	zip-test-run)
@@ -95,10 +95,10 @@ case "${1:-}" in
 		start
 		install
 		wp theme install "/opt/dist/$2" --activate
-		wp theme status bookshelf
+		wp theme status readerly
 		code="$(curl -s -o "$home" -w '%{http_code}' "$url/" || true)"
 		echo "front page HTTP $code"
-		refs="$(grep -c 'wp-content/themes/bookshelf/' "$home" || true)"
+		refs="$(grep -c 'wp-content/themes/readerly/' "$home" || true)"
 		echo "theme asset references on front page: $refs"
 		[[ "$code" == 200 && "$refs" -gt 0 ]] || { echo "zip-test failed: front page must return 200 and load theme assets" >&2; exit 1; }
 		echo "zip-test passed"

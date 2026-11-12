@@ -1,21 +1,21 @@
 <?php
 /**
  * Title: Featured review
- * Slug: bookshelf/featured-review
- * Categories: bookshelf-book-blog, featured
+ * Slug: readerly/featured-review
+ * Categories: readerly-book-blog, featured
  * Keywords: sticky, featured, review, post, hero
  * Viewport Width: 1280
  * Description: Your sticky post in a large card: cover, category, title, excerpt and a link. Mark a post sticky to feature it.
  *
- * @package Bookshelf
+ * @package Readerly
  */
 
 ?>
-<!-- wp:group {"tagName":"section","align":"full","anchor":"featured-review","className":"bookshelf-section is-tight bookshelf-first-page-only","layout":{"type":"constrained"}} -->
-<section id="featured-review" class="wp-block-group alignfull bookshelf-section is-tight bookshelf-first-page-only"><!-- wp:query {"queryId":10,"query":{"perPage":1,"pages":1,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"only","inherit":false},"align":"wide"} -->
+<!-- wp:group {"tagName":"section","align":"full","anchor":"featured-review","className":"readerly-section is-tight readerly-first-page-only","layout":{"type":"constrained"}} -->
+<section id="featured-review" class="wp-block-group alignfull readerly-section is-tight readerly-first-page-only"><!-- wp:query {"queryId":10,"query":{"perPage":1,"pages":1,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"only","inherit":false},"align":"wide"} -->
 <div class="wp-block-query alignwide"><!-- wp:post-template -->
-<!-- wp:group {"tagName":"article","className":"bookshelf-feature is-style-card","layout":{"type":"default"}} -->
-<article class="wp-block-group bookshelf-feature is-style-card"><!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|50","left":"var:preset|spacing|60"}}}} -->
+<!-- wp:group {"tagName":"article","className":"readerly-feature is-style-card","layout":{"type":"default"}} -->
+<article class="wp-block-group readerly-feature is-style-card"><!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|50","left":"var:preset|spacing|60"}}}} -->
 <div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center","width":"18rem"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:18rem"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"2/3","className":"is-style-book-cover"} /--></div>
 <!-- /wp:column -->
@@ -25,7 +25,7 @@
 echo serialize_block_attributes( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON-encoded block attributes.
 	array(
 		'term'      => 'category',
-		'prefix'    => __( 'Featured review · ', 'bookshelf' ),
+		'prefix'    => __( 'Featured review · ', 'readerly' ),
 		'className' => 'is-style-eyebrow',
 	)
 );
@@ -35,8 +35,8 @@ echo serialize_block_attributes( // phpcs:ignore WordPress.Security.EscapeOutput
 
 <!-- wp:post-excerpt {"excerptLength":45,"fontSize":"large","style":{"typography":{"lineHeight":"1.55"}}} /-->
 
-<!-- wp:group {"className":"bookshelf-entry-meta","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|20","left":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
-<div class="wp-block-group bookshelf-entry-meta"><!-- wp:post-date /-->
+<!-- wp:group {"className":"readerly-entry-meta","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|20","left":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
+<div class="wp-block-group readerly-entry-meta"><!-- wp:post-date /-->
 
 <!-- wp:post-time-to-read /--></div>
 <!-- /wp:group -->
@@ -44,7 +44,7 @@ echo serialize_block_attributes( // phpcs:ignore WordPress.Security.EscapeOutput
 <!-- wp:read-more <?php
 echo serialize_block_attributes( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON-encoded block attributes.
 	array(
-		'content'   => __( 'Read the review', 'bookshelf' ),
+		'content'   => __( 'Read the review', 'readerly' ),
 		'className' => 'wp-element-button',
 	)
 );

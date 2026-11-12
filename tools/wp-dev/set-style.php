@@ -1,6 +1,6 @@
 <?php
 /**
- * Switches the site's global styles to a Bookshelf style variation.
+ * Switches the site's global styles to a Readerly style variation.
  * Usage: wp eval-file set-style.php <paper|lamplight>
  */
 

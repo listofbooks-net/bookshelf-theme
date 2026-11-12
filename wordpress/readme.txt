@@ -1,4 +1,4 @@
-=== Bookshelf ===
+=== Readerly ===
 Contributors: listofbooks
 Requires at least: 6.9
 Tested up to: 7.1
@@ -11,7 +11,7 @@ A warm, readable block theme for book blogs, author websites and reading logs.
 
 == Description ==
 
-Bookshelf is a block theme for people who love books. It is built for book review blogs first, and it also gives you everything an author website or a reading log needs, as patterns you add only when you want them.
+Readerly is a block theme for people who love books. It is built for book review blogs first, and it also gives you everything an author website or a reading log needs, as patterns you add only when you want them.
 
 * A blog front page with a featured review (your newest sticky post), a four-column grid of your other posts that follows Settings > Reading and paginates, a "currently reading" strip, a contents list of your genres and a newsletter band. Each one is a separate block you can delete in one click.
 * A single review layout with a book details panel, a pull quote, a verdict box, an author bio and threaded comments.
@@ -21,20 +21,20 @@ Bookshelf is a block theme for people who love books. It is built for book revie
 * Block styles for book covers, cards, eyebrow labels, ratings, tag chips and status badges.
 * Fraunces and Literata fonts, bundled with the theme. The theme makes no requests to font services or other third-party hosts.
 
-Bookshelf does not create pages, posts, menus or categories on your site. Nothing changes until you choose a pattern.
+Readerly does not create pages, posts, menus or categories on your site. Nothing changes until you choose a pattern.
 
 == Choosing what you use ==
 
-Bookshelf serves three uses: a book blog, an author website and a reading log. Use any of them, all of them, or none.
+Readerly serves three uses: a book blog, an author website and a reading log. Use any of them, all of them, or none.
 
 = Turn a use on =
 
 1. Go to Pages > Add New Page.
-2. In the "Choose a pattern" window, pick one of the Bookshelf page patterns: Author home page, My books page, Events page, Reading log page, About page, or Contact and newsletter page.
+2. In the "Choose a pattern" window, pick one of the Readerly page patterns: Author home page, My books page, Events page, Reading log page, About page, or Contact and newsletter page.
 3. For the Author home, My books, Events and Reading log pages, open the Template panel in the page settings and choose "Landing page (no title, full width)".
 4. Publish the page, then add it to your menu in Appearance > Editor > Navigation.
 
-You can also insert single sections anywhere. In the block inserter, open Patterns and look in the "Bookshelf: Book blog", "Bookshelf: Author site" and "Bookshelf: Reading log" categories.
+You can also insert single sections anywhere. In the block inserter, open Patterns and look in the "Readerly: Book blog", "Readerly: Author site" and "Readerly: Reading log" categories.
 
 = Turn a use off =
 
@@ -45,7 +45,7 @@ You can also insert single sections anywhere. In the block inserter, open Patter
 
 = Make it a book blog without a static front page =
 
-By default WordPress shows your latest posts on the front page, and Bookshelf uses the Blog Home template for it. To use the Author home page as your front page instead, go to Settings > Reading, choose "A static page", and pick that page as the homepage and another page as the posts page.
+By default WordPress shows your latest posts on the front page, and Readerly uses the Blog Home template for it. To use the Author home page as your front page instead, go to Settings > Reading, choose "A static page", and pick that page as the homepage and another page as the posts page.
 
 = Choose the featured review =
 
@@ -80,8 +80,8 @@ Go to Appearance > Editor > Styles and choose "Lamplight".
 
 == Copyright ==
 
-Bookshelf WordPress Theme, (C) 2026 List of Books.
-Bookshelf is distributed under the terms of the GNU GPL.
+Readerly WordPress Theme, (C) 2026 List of Books.
+Readerly is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

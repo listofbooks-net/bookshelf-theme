@@ -1,16 +1,16 @@
 <?php
 /**
  * Title: Comments
- * Slug: bookshelf/comments
+ * Slug: readerly/comments
  * Inserter: no
  *
- * @package Bookshelf
+ * @package Readerly
  */
 
 ?>
-<!-- wp:comments {"className":"bookshelf-comments","style":{"spacing":{"padding":{"top":"var:preset|spacing|60"}}}} -->
-<div class="wp-block-comments bookshelf-comments" style="padding-top:var(--wp--preset--spacing--60)"><!-- wp:group {"className":"bookshelf-section-head","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-<div class="wp-block-group bookshelf-section-head"><!-- wp:comments-title {"showPostTitle":false} /--></div>
+<!-- wp:comments {"className":"readerly-comments","style":{"spacing":{"padding":{"top":"var:preset|spacing|60"}}}} -->
+<div class="wp-block-comments readerly-comments" style="padding-top:var(--wp--preset--spacing--60)"><!-- wp:group {"className":"readerly-section-head","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+<div class="wp-block-group readerly-section-head"><!-- wp:comments-title {"showPostTitle":false} /--></div>
 <!-- /wp:group -->
 
 <!-- wp:comment-template -->

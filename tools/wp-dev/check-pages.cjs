@@ -95,7 +95,7 @@ async function checkPage(context, name, path, vpName) {
 		if (info.h1 !== 1) problems.push(`expected exactly one h1, found ${info.h1}`);
 
 		if (vpName === 'mobile') {
-			const toggle = page.locator('.bookshelf-header .wp-block-navigation__responsive-container-open').first();
+			const toggle = page.locator('.readerly-header .wp-block-navigation__responsive-container-open').first();
 			if (await toggle.isVisible()) {
 				await toggle.click();
 				await page.waitForTimeout(300);

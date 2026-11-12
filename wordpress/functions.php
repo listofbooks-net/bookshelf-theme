@@ -1,68 +1,68 @@
 <?php
 /**
- * Bookshelf functions and definitions.
+ * Readerly functions and definitions.
  *
- * @package Bookshelf
+ * @package Readerly
  */
 
 require_once get_template_directory() . '/inc/book-cards.php';
 
-if ( ! function_exists( 'bookshelf_setup' ) ) :
+if ( ! function_exists( 'readerly_setup' ) ) :
 	/**
 	 * Loads the stylesheet into the editor so blocks look the same there as on the site.
 	 */
-	function bookshelf_setup() {
+	function readerly_setup() {
 		add_editor_style( 'style.css' );
 	}
 endif;
-add_action( 'after_setup_theme', 'bookshelf_setup' );
+add_action( 'after_setup_theme', 'readerly_setup' );
 
-if ( ! function_exists( 'bookshelf_enqueue_styles' ) ) :
+if ( ! function_exists( 'readerly_enqueue_styles' ) ) :
 	/**
 	 * Enqueues the theme stylesheet on the front end.
 	 */
-	function bookshelf_enqueue_styles() {
+	function readerly_enqueue_styles() {
 		wp_enqueue_style(
-			'bookshelf-style',
+			'readerly-style',
 			get_parent_theme_file_uri( 'style.css' ),
 			array(),
 			wp_get_theme()->get( 'Version' )
 		);
 	}
 endif;
-add_action( 'wp_enqueue_scripts', 'bookshelf_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', 'readerly_enqueue_styles' );
 
-if ( ! function_exists( 'bookshelf_register_pattern_categories' ) ) :
+if ( ! function_exists( 'readerly_register_pattern_categories' ) ) :
 	/**
 	 * Registers one pattern category for each way to use the theme.
 	 */
-	function bookshelf_register_pattern_categories() {
+	function readerly_register_pattern_categories() {
 		register_block_pattern_category(
-			'bookshelf-book-blog',
+			'readerly-book-blog',
 			array(
-				'label'       => __( 'Bookshelf: Book blog', 'bookshelf' ),
-				'description' => __( 'Sections for a book review blog.', 'bookshelf' ),
+				'label'       => __( 'Readerly: Book blog', 'readerly' ),
+				'description' => __( 'Sections for a book review blog.', 'readerly' ),
 			)
 		);
 		register_block_pattern_category(
-			'bookshelf-author-site',
+			'readerly-author-site',
 			array(
-				'label'       => __( 'Bookshelf: Author site', 'bookshelf' ),
-				'description' => __( 'Sections and pages for an author website.', 'bookshelf' ),
+				'label'       => __( 'Readerly: Author site', 'readerly' ),
+				'description' => __( 'Sections and pages for an author website.', 'readerly' ),
 			)
 		);
 		register_block_pattern_category(
-			'bookshelf-reading-log',
+			'readerly-reading-log',
 			array(
-				'label'       => __( 'Bookshelf: Reading log', 'bookshelf' ),
-				'description' => __( 'Shelves, book cards and reading statistics.', 'bookshelf' ),
+				'label'       => __( 'Readerly: Reading log', 'readerly' ),
+				'description' => __( 'Shelves, book cards and reading statistics.', 'readerly' ),
 			)
 		);
 	}
 endif;
-add_action( 'init', 'bookshelf_register_pattern_categories' );
+add_action( 'init', 'readerly_register_pattern_categories' );
 
-if ( ! function_exists( 'bookshelf_exclude_featured_post' ) ) :
+if ( ! function_exists( 'readerly_exclude_featured_post' ) ) :
 	/**
 	 * Keeps the featured review out of the blog's post grid.
 	 *
@@ -73,12 +73,12 @@ if ( ! function_exists( 'bookshelf_exclude_featured_post' ) ) :
 	 *
 	 * @param WP_Query $query The query being set up.
 	 */
-	function bookshelf_exclude_featured_post( $query ) {
+	function readerly_exclude_featured_post( $query ) {
 		if ( is_admin() || ! $query->is_main_query() || ! $query->is_home() ) {
 			return;
 		}
 		$home = get_block_template( get_stylesheet() . '//home', 'wp_template' );
-		if ( ! $home || ( false === strpos( $home->content, 'bookshelf/featured-review' ) && false === strpos( $home->content, 'bookshelf-feature' ) ) ) {
+		if ( ! $home || ( false === strpos( $home->content, 'readerly/featured-review' ) && false === strpos( $home->content, 'readerly-feature' ) ) ) {
 			return;
 		}
 		$sticky = get_option( 'sticky_posts' );
@@ -103,23 +103,23 @@ if ( ! function_exists( 'bookshelf_exclude_featured_post' ) ) :
 		$query->set( 'ignore_sticky_posts', true );
 	}
 endif;
-add_action( 'pre_get_posts', 'bookshelf_exclude_featured_post' );
+add_action( 'pre_get_posts', 'readerly_exclude_featured_post' );
 
-if ( ! function_exists( 'bookshelf_hide_first_page_only_blocks' ) ) :
+if ( ! function_exists( 'readerly_hide_first_page_only_blocks' ) ) :
 	/**
-	 * Hides groups that carry the bookshelf-first-page-only class on pages 2 and up
+	 * Hides groups that carry the readerly-first-page-only class on pages 2 and up
 	 * of a paginated list, so the featured card is not repeated.
 	 *
 	 * @param string $content The rendered block.
 	 * @param array  $block   The parsed block.
 	 * @return string The block, or an empty string on later pages.
 	 */
-	function bookshelf_hide_first_page_only_blocks( $content, $block ) {
+	function readerly_hide_first_page_only_blocks( $content, $block ) {
 		$class_name = isset( $block['attrs']['className'] ) ? (string) $block['attrs']['className'] : '';
-		if ( is_paged() && false !== strpos( $class_name, 'bookshelf-first-page-only' ) ) {
+		if ( is_paged() && false !== strpos( $class_name, 'readerly-first-page-only' ) ) {
 			return '';
 		}
 		return $content;
 	}
 endif;
-add_filter( 'render_block_core/group', 'bookshelf_hide_first_page_only_blocks', 10, 2 );
+add_filter( 'render_block_core/group', 'readerly_hide_first_page_only_blocks', 10, 2 );

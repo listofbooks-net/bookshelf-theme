@@ -1,6 +1,6 @@
 <?php
 /**
- * Loads Bookshelf demo content into a local WordPress: review posts, pages built
+ * Loads Readerly demo content into a local WordPress: review posts, pages built
  * from the theme's patterns, a primary menu and a few comments.
  *
  * Run through wp-cli: wp eval-file seed.php. Every item is looked up by slug and
@@ -11,7 +11,7 @@ if ( ! defined( 'WP_CLI' ) ) {
 	exit( 1 );
 }
 
-function bookshelf_seed_pattern( $slug ) {
+function readerly_seed_pattern( $slug ) {
 	$pattern = WP_Block_Patterns_Registry::get_instance()->get_registered( $slug );
 	if ( ! $pattern ) {
 		WP_CLI::error( "Pattern $slug is not registered." );
@@ -20,12 +20,12 @@ function bookshelf_seed_pattern( $slug ) {
 	return serialize_blocks( $blocks );
 }
 
-function bookshelf_seed_cover( $cover ) {
+function readerly_seed_cover( $cover ) {
 	$existing = get_posts(
 		array(
 			'post_type'   => 'attachment',
 			'post_status' => 'inherit',
-			'meta_key'    => '_bookshelf_demo_cover',
+			'meta_key'    => '_readerly_demo_cover',
 			'meta_value'  => $cover,
 			'fields'      => 'ids',
 		)
@@ -46,7 +46,7 @@ function bookshelf_seed_cover( $cover ) {
 		),
 		$target
 	);
-	update_post_meta( $id, '_bookshelf_demo_cover', $cover );
+	update_post_meta( $id, '_readerly_demo_cover', $cover );
 	wp_update_attachment_metadata(
 		$id,
 		array(
@@ -59,7 +59,7 @@ function bookshelf_seed_cover( $cover ) {
 	return $id;
 }
 
-function bookshelf_seed_post( $args ) {
+function readerly_seed_post( $args ) {
 	$existing = get_page_by_path( $args['post_name'], OBJECT, $args['post_type'] );
 	$args     = array_merge( array( 'post_status' => 'publish' ), $args );
 	if ( $existing ) {
@@ -69,7 +69,7 @@ function bookshelf_seed_post( $args ) {
 	return wp_insert_post( wp_slash( $args ), true );
 }
 
-function bookshelf_seed_term( $name, $taxonomy ) {
+function readerly_seed_term( $name, $taxonomy ) {
 	$term = term_exists( $name, $taxonomy );
 	if ( ! $term ) {
 		$term = wp_insert_term( $name, $taxonomy );
@@ -114,10 +114,10 @@ $reviews = array(
 	array( 'the-tide-ledger', 'The Tide Ledger', 'tide-ledger', 'Literary fiction', array( 'Tidewater series' ), '2026-03-18', 'The first Tidewater book: an estuary town, a drowned archive and a clerk who keeps finding her own name in it.' ),
 );
 
-$review_content = bookshelf_seed_pattern( 'bookshelf/review-post' );
+$review_content = readerly_seed_pattern( 'readerly/review-post' );
 foreach ( $reviews as $review ) {
 	list( $slug, $title, $cover, $category, $tags, $date, $excerpt ) = $review;
-	$id = bookshelf_seed_post(
+	$id = readerly_seed_post(
 		array(
 			'post_type'     => 'post',
 			'post_name'     => $slug,
@@ -126,14 +126,14 @@ foreach ( $reviews as $review ) {
 			'post_content'  => $review_content,
 			'post_date'     => "$date 09:00:00",
 			'post_author'   => $admin->ID,
-			'post_category' => array( bookshelf_seed_term( $category, 'category' ) ),
+			'post_category' => array( readerly_seed_term( $category, 'category' ) ),
 		)
 	);
 	if ( is_wp_error( $id ) ) {
 		WP_CLI::error( $id );
 	}
 	wp_set_post_tags( $id, $tags );
-	set_post_thumbnail( $id, bookshelf_seed_cover( $cover ) );
+	set_post_thumbnail( $id, readerly_seed_cover( $cover ) );
 }
 
 $orchard = get_page_by_path( 'the-salt-orchard', OBJECT, 'post' );
@@ -145,20 +145,20 @@ if ( ! get_comments( array( 'post_id' => $orchard->ID, 'count' => true ) ) ) {
 }
 
 $pages = array(
-	array( 'author-home', 'Author home', 'bookshelf/page-author-home', 'page-landing' ),
-	array( 'reading-log', 'Reading log', 'bookshelf/page-reading-log', 'page-landing' ),
-	array( 'about', 'About', 'bookshelf/page-about', '' ),
-	array( 'contact', 'Contact', 'bookshelf/page-contact', '' ),
+	array( 'author-home', 'Author home', 'readerly/page-author-home', 'page-landing' ),
+	array( 'reading-log', 'Reading log', 'readerly/page-reading-log', 'page-landing' ),
+	array( 'about', 'About', 'readerly/page-about', '' ),
+	array( 'contact', 'Contact', 'readerly/page-contact', '' ),
 );
 $page_ids = array();
 foreach ( $pages as $page ) {
 	list( $slug, $title, $pattern, $template ) = $page;
-	$id = bookshelf_seed_post(
+	$id = readerly_seed_post(
 		array(
 			'post_type'      => 'page',
 			'post_name'      => $slug,
 			'post_title'     => $title,
-			'post_content'   => bookshelf_seed_pattern( $pattern ),
+			'post_content'   => readerly_seed_pattern( $pattern ),
 			'post_author'    => $admin->ID,
 			'comment_status' => 'closed',
 		)
@@ -195,7 +195,7 @@ $menu = implode(
 		$link( 'About', get_permalink( $page_ids['about'] ), $page_ids['about'] ),
 	)
 );
-$navigation = bookshelf_seed_post(
+$navigation = readerly_seed_post(
 	array(
 		'post_type'    => 'wp_navigation',
 		'post_name'    => 'primary',

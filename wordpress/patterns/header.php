@@ -1,17 +1,17 @@
 <?php
 /**
  * Title: Header
- * Slug: bookshelf/header
+ * Slug: readerly/header
  * Categories: header
  * Block Types: core/template-part/header
  * Inserter: no
  *
- * @package Bookshelf
+ * @package Readerly
  */
 
 ?>
-<!-- wp:group {"className":"bookshelf-header","layout":{"type":"constrained"}} -->
-<div class="wp-block-group bookshelf-header"><!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|30"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+<!-- wp:group {"className":"readerly-header","layout":{"type":"constrained"}} -->
+<div class="wp-block-group readerly-header"><!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|30"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 <div class="wp-block-group alignwide" style="padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--30)"><!-- wp:group {"style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:site-title {"level":0} /-->
 
@@ -21,10 +21,10 @@
 <!-- wp:search <?php
 echo serialize_block_attributes( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON-encoded block attributes.
 	array(
-		'label'          => __( 'Search', 'bookshelf' ),
+		'label'          => __( 'Search', 'readerly' ),
 		'showLabel'      => false,
-		'placeholder'    => __( 'Search reviews', 'bookshelf' ),
-		'buttonText'     => __( 'Search', 'bookshelf' ),
+		'placeholder'    => __( 'Search reviews', 'readerly' ),
+		'buttonText'     => __( 'Search', 'readerly' ),
 		'buttonPosition' => 'button-inside',
 		'buttonUseIcon'  => true,
 	)
