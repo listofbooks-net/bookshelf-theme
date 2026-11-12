@@ -1,4 +1,4 @@
-// A parser for the small YAML subset the Jekyll demo uses: block maps and lists,
+// A parser for the small YAML subset the demo content uses: block maps and lists,
 // flow lists and maps, quoted and plain scalars. Values stay strings, except
 // true and false. Enough for front matter and _data files; not general YAML.
 

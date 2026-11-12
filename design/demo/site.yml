@@ -1,20 +1,8 @@
-# The Readerly demo site: the fictional book blog "Marginalia" from the design pages.
+# The Readerly demo: the fictional book blog "Marginalia" from the design pages. The Ghost demo loads it (tools/ghost-dev/seed.mjs).
 title: Marginalia
 tagline: Book notes & reviews by Nora Vale
 description: Honest book reviews of literary fiction, quiet fantasy, essays and poetry.
 lang: en
-permalink: /:title/
-paginate: 9
-
-remote_theme: listofbooks-net/jekyll-theme-readerly@v1
-plugins:
-  - jekyll-remote-theme
-  - jekyll-paginate
-  - jekyll-feed
-
-liquid:
-  error_mode: strict
-  strict_filters: true
 
 author:
   name: Nora Vale
@@ -53,6 +41,3 @@ readerly:
     eyebrow: The Sunday letter
     heading: "One email a month: what I read, what I loved, and what I gave up on."
     note: No spam, ever. Unsubscribe with one click.
-
-exclude:
-  - README.md

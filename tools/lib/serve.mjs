@@ -1,5 +1,5 @@
-// Serves a built Jekyll site under /sub/, the baseurl the check builds use, the
-// way GitHub Pages does: directory URLs get index.html and misses get 404.html.
+// Serves a built static site under /sub/, the baseurl the check builds use, the
+// way a static host does: directory URLs get index.html and misses get 404.html.
 //   node serve.mjs <site dir> [port]
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';

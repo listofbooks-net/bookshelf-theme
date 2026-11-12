@@ -323,4 +323,4 @@ Each page ends with one link, "Theme by List of Books", to https://www.listofboo
 
 The theme is released under the MIT License. The bundled fonts, Fraunces and Literata, are under the SIL Open Font License 1.1, and each font folder holds its license text.
 
-This repository is a read-only copy of the `hugo/theme` folder of [listofbooks-net/readerly-theme](https://github.com/listofbooks-net/readerly-theme), where the design and the WordPress and Jekyll versions also live. Open issues here or there. Send changes to the monorepo.
+This repository is a read-only copy of the `hugo/theme` folder of [listofbooks-net/readerly-theme](https://github.com/listofbooks-net/readerly-theme), where the design and the WordPress and Ghost versions also live. Open issues here or there. Send changes to the monorepo.
