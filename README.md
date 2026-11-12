@@ -127,6 +127,53 @@ To compare the design pages with the demo by eye, run `node tools/hugo-dev/side-
 
 `tools/publish-hugo.sh <version>` pushes a release to the public repository: the tag first, then `main`. Hugo Modules resolve the semantic version tag, so there is no branch to move. Only an operator runs it; see the header of the script.
 
+## Run Ghost locally
+
+You need Docker and Node 20 or later. The script starts Ghost 6 (the `ghost:6` image, SQLite) with `ghost/` mounted read-only as the theme `readerly`, creates the admin, activates the theme and loads the Marginalia demo. Ghost listens on the first free port from 2380 (set `PORT` to fix it) and the script remembers the port in `tools/ghost-dev/.state`. The admin login is `admin@readerly.test` with the password in `tools/ghost-dev/seed.mjs`.
+
+```sh
+tools/ghost-dev/ghost-dev.sh up                     # start, set up, activate the theme, seed
+tools/ghost-dev/ghost-dev.sh seed                   # reload the demo content
+tools/ghost-dev/ghost-dev.sh gscan                  # GScan for Ghost 6 on ghost/; or: gscan dist/readerly-ghost-1.0.0.zip -z
+tools/ghost-dev/ghost-dev.sh check                  # markup parity, browser checks, side-by-side screenshots
+tools/ghost-dev/ghost-dev.sh export site/ https://readerly-ghost-demo.pages.dev   # static copy, verified in a browser
+tools/ghost-dev/ghost-dev.sh url                    # print the site URL
+tools/ghost-dev/ghost-dev.sh down                   # stop, keep the data
+tools/ghost-dev/ghost-dev.sh clean                  # remove the container and its data
+```
+
+`gscan` runs the GScan that ships in the `ghost:6` image and exits with 1 on any error or warning. Recommendations do not fail it.
+
+Editing a template needs `down` and `up` again, because Ghost reads templates at start. To mount another theme folder, set `THEME_DIR`.
+
+### Demo content
+
+`seed.mjs` loads the demo through the Admin API. It first deletes every post, page and tag, so a rerun gives the same slugs and the same HTML. It reuses the images it uploaded before, because Ghost cannot delete an upload and would rename a repeat to `name-2.svg`. The content comes from `jekyll/demo` and `design/`:
+
+- Ten reviews are posts. The newest, The Salt Orchard, is featured. A review's `excerpt` is the post's `custom_excerpt`; the Jekyll `lead` is not loaded, because Ghost has one summary field and the theme prints it under the title and on the cards.
+- Facts about a book are internal tags in the order genre, other public tags, `#by:`, `#series:`, `#rating:`, `#pages:`, `#published:`, then the status (`#read`, `#reading`, `#want-to-read`, `#did-not-finish`). The tag table is in the theme README.
+- Books on the reading log with no review are pages with the same fact tags, plus `#on-page:` for a book in progress. Isobel Thorne's four novels are pages tagged `#book` and `#buy:`.
+- Design markup that Ghost's editor would flatten (the verdict, the pull quote, the praise and events lists, the where-to-buy block) goes in as HTML cards.
+- The site settings, navigation, accent colour, Nora Vale's profile and the theme's custom settings are set too. The seed prints any theme setting the theme does not define.
+
+### Checks against the running site
+
+`check` runs three things:
+
+1. Markup parity. Each of the seven design pages and its Ghost page reduce to a tree of tag names, classes, roles and ARIA attributes, and the trees must match. `tools/ghost-dev/parity-exceptions.json` lists the elements removed from either side first, each with a reason. The algorithm is `tools/jekyll-dev/check-parity.mjs`.
+2. `tools/wp-dev/check-pages.cjs` on the pages in `tools/ghost-dev/pages.json`, at 1280 px and 390 px, in Paper and Lamplight. Requests to `cdn.jsdelivr.net/ghost/`, where Ghost loads Portal and its search from, are allowed; any other third-party request fails.
+3. `tools/ghost-dev/side-by-side.mjs` screenshots each design page next to the Ghost page. Open `tools/ghost-dev/out/side-by-side/index.html`.
+
+### Static copy for the demo site
+
+`export` crawls the sitemaps, the home page, the feed, the 404 page and everything they reference into a folder you can host on Cloudflare Pages. It rewrites the Ghost address to the public one. It removes Portal, the comments and the member-attribution scripts, and the comments section. It turns each `form[data-members-form]` into `data-demo-form`, which the theme script confirms in place. Search keeps working: sodo-search reads three files, `/ghost/api/content/search-index/posts/`, `.../authors/` and `.../tags/`, and the export saves them. It writes `_headers`, which allows framing by `ghost.org` for the Marketplace preview, and `_redirects` when Ghost redirected something while crawling. The export then serves the copy, loads every page in a browser and fails on a request to the Ghost address, a failed request, or a search for "Salt" that finds nothing.
+
+`tools/publish-ghost-demo.sh` runs all of that and deploys the copy with `wrangler pages deploy`. It changes a public site, so only an operator runs it, by hand.
+
+### In CI
+
+The `ghost` job builds the zip (`tools/build-ghost-zip.sh`, which writes `dist/readerly-ghost-<version>.zip`), runs GScan on it, starts Ghost with the unzipped theme, seeds it and runs `check`. A CI job cannot reach ports published on the host, so it sets `GHOST_NETWORK`: Ghost joins that Docker network as `ghost`, and the seed and the checks run in a Playwright container on the same network.
+
 ## Build the zip
 
 ```sh
