@@ -5,7 +5,7 @@
 {{- if and $isReview .Params.book_author -}}
   {{- $title = printf "%s %s: %s · %s" (.Params.book_title | default .Title) (T "by" (dict "Name" .Params.book_author)) (T "review") site.Title -}}
 {{- else if and .Title (not .IsHome) -}}
-  {{- $title = printf "%s · %s" .Title site.Title -}}
+  {{- $title = printf "%s · %s" (partial "readerly/term-name.html" .) site.Title -}}
 {{- else if site.Params.tagline -}}
   {{- $title = printf "%s: %s" site.Title site.Params.tagline -}}
 {{- end -}}

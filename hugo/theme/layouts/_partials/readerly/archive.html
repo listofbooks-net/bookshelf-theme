@@ -19,7 +19,7 @@ filter.js hides the cards that do not match ?s= in the browser.
 <div class="wrap">
       <header class="archive-header">
         <span class="eyebrow">{{ $eyebrow }}</span>
-        <h1>{{ $p.Title | default (T "archive") }}</h1>
+        <h1>{{ partial "readerly/term-name.html" $p | default (T "archive") }}</h1>
         {{- with $p.Params.lead }}
         <p class="lead">{{ . }}</p>
         {{- end }}
@@ -46,7 +46,7 @@ filter.js hides the cards that do not match ?s= in the browser.
       <ul class="book-grid book-grid--list"{{ if $.search }} data-filter-list{{ end }}>
           {{- range . }}
           {{- $e := partial "readerly/entry.html" . }}
-          {{- $terms := slice }}{{ range (.GetTerms "categories") | append (.GetTerms "tags") }}{{ $terms = $terms | append .LinkTitle }}{{ end }}
+          {{- $terms := slice }}{{ range (.GetTerms "categories") | append (.GetTerms "tags") }}{{ $terms = $terms | append (partial "readerly/term-name.html" .) }}{{ end }}
           <li{{ if $.search }} data-search="{{ lower (delimit (slice .Title $e.title ($e.book_author | default "") (.Params.series | default "") (delimit $terms " ")) " ") }}"{{ end }}>
           {{ partial "readerly/book-card.html" (dict "entry" $e "variant" "list" "heading" "h2" "excerpt" "full") }}
           </li>

@@ -1,0 +1,4 @@
+{{- /* A term's name as the posts write it ("Science fiction"), or its page's own title when content/<taxonomy>/<term>/_index.md sets one. Hugo's default title would be title-cased. */ -}}
+{{- $name := .Title -}}
+{{- if and (eq .Kind "term") (not .File) }}{{ $name = .Data.Term }}{{ end -}}
+{{- return $name -}}

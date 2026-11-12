@@ -13,7 +13,7 @@ file that knows there are two sources.
 {{- else -}}
   {{- $p = .Params -}}
   {{- $genre := "" -}}
-  {{- with .GetTerms "categories" }}{{ $genre = (index . 0).LinkTitle }}{{ end -}}
+  {{- with .GetTerms "categories" }}{{ $genre = partial "readerly/term-name.html" (index . 0) }}{{ end -}}
   {{- $cover := "" -}}
   {{- with .Params.cover -}}
     {{- with $.Resources.Get . }}{{ $cover = .RelPermalink }}{{ else }}{{ $cover = partial "readerly/url.html" . }}{{ end -}}

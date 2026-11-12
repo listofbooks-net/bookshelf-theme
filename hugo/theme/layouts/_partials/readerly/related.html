@@ -6,7 +6,7 @@
 {{- if and $limit $related }}
 
         <section class="section section--tight" aria-labelledby="related-title">
-          {{ partial "readerly/section-head.html" (dict "id" "related-title" "heading" (T "you_might_also_like") "more_url" $genre.RelPermalink "more_label" (T "more_in" (dict "Name" (lower $genre.LinkTitle)))) }}
+          {{ partial "readerly/section-head.html" (dict "id" "related-title" "heading" (T "you_might_also_like") "more_url" $genre.RelPermalink "more_label" (T "more_in" (dict "Name" (lower (partial "readerly/term-name.html" $genre))))) }}
           <ul class="book-grid book-grid--related">
             {{- range $related }}
             <li>

@@ -1,8 +1,9 @@
-{{- /* The href of a menu entry: its page's URL for pageRef entries, else its url. */ -}}
+{{- /* The href of a menu entry: its page's URL for pageRef entries, else its url. Hugo already puts a url under the baseURL's path, so only a path without it gets one. */ -}}
 {{- $href := "" -}}
 {{- with .Page -}}
   {{- $href = .RelPermalink -}}
 {{- else -}}
-  {{- $href = partial "readerly/url.html" .URL -}}
+  {{- $href = .URL -}}
+  {{- if not (hasPrefix $href site.Home.RelPermalink) }}{{ $href = partial "readerly/url.html" $href }}{{ end -}}
 {{- end -}}
 {{- return $href -}}
