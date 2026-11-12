@@ -1,0 +1,28 @@
+<section class="section" aria-labelledby="recent-title">
+      <div class="wrap">
+        <div class="section-head">
+          {{#is "paged"}}
+          <h1 id="recent-title">{{t "Reviews"}} <span class="count">{{t "Page {page} of {pages}" page=pagination.page pages=pagination.pages}}</span></h1>
+          {{else}}
+          <h2 id="recent-title">{{t "Recent reviews"}}</h2>
+          {{#if pagination.next}}<a class="more-link" href="{{page_url pagination.next}}">{{t "Older reviews"}} {{> "site/icon" name="arrow-right"}}</a>{{/if}}
+          {{/is}}
+        </div>
+        <ul class="book-grid book-grid--four">
+          {{#is "paged"}}
+          {{#foreach posts}}
+          <li>
+          {{> "book/card" blurb="clamp"}}
+          </li>
+          {{/foreach}}
+          {{else}}
+          {{#foreach posts from="2"}}
+          <li>
+          {{> "book/card" blurb="clamp"}}
+          </li>
+          {{/foreach}}
+          {{/is}}
+        </ul>
+        {{pagination}}
+      </div>
+    </section>

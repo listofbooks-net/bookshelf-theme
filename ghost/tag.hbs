@@ -1,0 +1,21 @@
+{{!< default}}
+<div class="wrap">
+      {{#tag}}
+      <header class="archive-header">
+        <span class="eyebrow">{{t "Genre"}}</span>
+        <h1>{{name}}</h1>
+        {{#if description}}
+        <p class="lead">{{description}}</p>
+        {{/if}}
+        <p class="muted"><small>{{plural ../pagination.total empty=(t "No reviews") singular=(t "% review") plural=(t "% reviews")}}{{#match ../pagination.pages ">" 1}} &middot; {{t "Page {page} of {pages}" page=../pagination.page pages=../pagination.pages}}{{/match}}</small></p>
+        {{#get "tags" filter="visibility:public+slug:-{{slug}}" include="count.posts" order="count.posts desc" limit="6" as |other_tags|}}{{#if other_tags}}
+        <ul class="tags" aria-label="{{t "Other genres"}}">
+          {{#foreach other_tags}}{{#match count.posts ">" 0}}
+          <li><a class="tag" href="{{url}}">{{name}}</a></li>
+          {{/match}}{{/foreach}}
+        </ul>
+        {{/if}}{{/get}}
+      </header>
+      {{/tag}}
+      {{> "archive-list"}}
+    </div>

@@ -289,6 +289,19 @@ const outputs = [
 	...mirrors.flatMap((m) => m.copies),
 ];
 
+// The Ghost theme (ghost/) ships the same stylesheet and script as Jekyll, plus
+// its own ghost.css for Koenig cards and members forms, which is not generated.
+const ghostMirrors = [
+	mirror('design/assets/fonts', 'ghost/assets/fonts'),
+	mirror('design/assets/img', 'ghost/assets/img', ['paper-grain.svg', 'cover-grain.svg']),
+];
+mirrors.push(...ghostMirrors);
+outputs.push(
+	['ghost/assets/css/readerly.css', () => buildJekyllCss().replace('Readerly for Jekyll.', 'Readerly for Ghost.')],
+	['ghost/assets/js/theme.js', () => readFileSync(join(root, 'design/assets/js/theme.js'))],
+	...ghostMirrors.flatMap((m) => m.copies),
+);
+
 const check = process.argv.includes('--check');
 const stale = [];
 for (const [path, build] of outputs) {

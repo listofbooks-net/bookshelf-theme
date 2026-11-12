@@ -1,0 +1,66 @@
+{{!< default}}
+{{!-- Template name shown in Ghost Admin: "Author site". --}}
+{{#post}}
+<section class="section" id="about" aria-label="{{t "About {name}" name=title}}">
+      <div class="wrap">
+        <div class="author-hero">
+          {{#if feature_image}}
+          <div class="author-hero__portrait">
+            <img srcset="{{img_url feature_image size="m"}} 600w, {{img_url feature_image size="l"}} 960w" sizes="(min-width: 48rem) 24rem, 100vw" src="{{img_url feature_image size="l"}}" width="800" height="1000" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{t "Portrait of {name}" name=title}}{{/if}}">
+          </div>
+          {{/if}}
+          <div class="author-hero__body">
+            {{> "book/eyebrow"}}
+            <h1>{{title}}</h1>
+            {{#if custom_excerpt}}
+            <p class="lead">{{custom_excerpt}}</p>
+            {{/if}}
+            <div class="buttons">
+              {{#get "pages" include="tags" filter="tag:hash-book+featured:true" limit="1" as |release|}}{{#foreach release}}<a class="button" href="#new-release">{{t "Discover {title}" title=title}}</a>{{/foreach}}{{/get}}
+              {{#if @site.members_enabled}}{{#unless @member}}<a class="button button--outline" href="#newsletter">{{t "Join my newsletter"}}</a>{{/unless}}{{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{{#get "pages" include="tags" filter="tag:hash-book+featured:true" limit="1" as |release|}}{{#foreach release}}
+<section class="section section--band" id="new-release" aria-labelledby="release-title">
+      <div class="wrap">
+        <div class="release">
+          <div class="release__cover">{{> "book/cover" described=true}}</div>
+          <div class="release__body">
+            <span class="eyebrow">{{t "New release"}}</span>
+            <h2 id="release-title">{{title}}</h2>
+            {{#if custom_excerpt}}
+            <p class="lead">{{custom_excerpt}}</p>
+            {{/if}}
+            <p class="release__facts">{{#primary_tag}}{{name}} &middot; {{/primary_tag}}{{#foreach tags visibility="internal"}}{{#match name "~^" "#pages:"}}{{t "{pages} pages" pages=(split name separator="#pages:")}} &middot; {{/match}}{{/foreach}}{{t "Published {date}" date=(date published_at format="D MMMM YYYY")}}</p>
+            <div class="buttons">
+              {{#foreach tags visibility="internal"}}{{#match name "~^" "#buy:"}}<a class="button" href="{{split name separator="#buy:"}}">{{t "Buy the book"}}</a>{{/match}}{{/foreach}}
+              <a class="button button--outline" href="{{url}}">{{t "Read more about {title}" title=title}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{{/foreach}}{{/get}}
+{{#get "pages" include="tags" filter="tag:hash-book" limit="12" order="published_at desc" as |books pagination|}}{{#if books}}
+<section class="section" id="books" aria-labelledby="books-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="books-title">{{t "My books"}}</h2>
+          <p>{{plural pagination.total empty="" singular=(t "% book") plural=(t "% books")}}</p>
+        </div>
+        <ul class="book-grid book-grid--four">
+          {{#foreach books}}
+          <li>
+          {{> "book/card" variant="own"}}
+          </li>
+          {{/foreach}}
+        </ul>
+      </div>
+    </section>
+{{/if}}{{/get}}
+{{content}}
+{{> "sections/newsletter"}}
+{{/post}}

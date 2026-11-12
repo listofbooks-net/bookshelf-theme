@@ -1,0 +1,8 @@
+<ul class="book-grid book-grid--list">
+          {{#foreach posts}}
+          <li>
+          {{> "book/card" heading="h2" blurb="full"}}
+          </li>
+          {{/foreach}}
+      </ul>
+      {{pagination}}

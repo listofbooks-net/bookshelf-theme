@@ -1,0 +1,28 @@
+{{!< default}}
+<div class="wrap">
+      <section class="not-found" aria-labelledby="nf-title">
+        <p class="not-found__code" aria-hidden="true">404</p>
+        <h1 id="nf-title">{{t "This page has wandered off the shelf"}}</h1>
+        <p class="lead muted">{{t "The link may be old, or the page may have been moved or renamed. Try a search, or start again from the front page."}}</p>
+        {{> "site/search-form" id="search-404" placeholder=(t "Search by title, author or genre")}}
+        <div class="buttons">
+          <a class="button button--outline" href="{{@site.url}}">{{t "Back to the front page"}}</a>
+          {{#get "pages" include="tags" filter="slug:reading-log" limit="1" as |log_pages|}}{{#foreach log_pages}}<a class="button button--outline" href="{{url}}">{{t "See my reading log"}}</a>{{/foreach}}{{/get}}
+        </div>
+      </section>
+      {{#get "posts" include="tags,authors" filter="tag:[hash-rating-5,hash-rating-4-5]" limit="8" as |favourites|}}{{#if favourites}}
+      <section class="shelf-section" aria-labelledby="suggest-title">
+        <div class="section-head">
+          <h2 id="suggest-title">{{t "Or pick something to read"}}</h2>
+          <p>{{t "Recent favourites"}}</p>
+        </div>
+        <ul class="shelf" tabindex="0" aria-label="{{t "{shelf}, scrollable shelf" shelf=(t "Recent favourites")}}">
+          {{#foreach favourites}}
+          <li>
+              {{> "book/card" variant="compact" link=true}}
+          </li>
+          {{/foreach}}
+        </ul>
+      </section>
+      {{/if}}{{/get}}
+    </div>

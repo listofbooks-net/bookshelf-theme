@@ -1,0 +1,121 @@
+{
+	"name": "readerly",
+	"description": "A theme for book blogs, author websites and reading logs, in a light style (Paper) and a dark style (Lamplight).",
+	"version": "1.0.0",
+	"license": "MIT",
+	"author": {
+		"name": "List of Books",
+		"email": "contact@listofbooks.net",
+		"url": "https://www.listofbooks.net/"
+	},
+	"homepage": "https://www.listofbooks.net/themes/readerly",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/listofbooks-net/readerly-theme.git"
+	},
+	"bugs": "https://github.com/listofbooks-net/readerly-theme/issues",
+	"keywords": ["ghost", "theme", "ghost-theme", "books", "book-reviews", "reading-log", "author", "dark-mode"],
+	"engines": {
+		"ghost": ">=6.0.0"
+	},
+	"config": {
+		"posts_per_page": 9,
+		"image_sizes": {
+			"xs": { "width": 160 },
+			"s": { "width": 320 },
+			"m": { "width": 600 },
+			"l": { "width": 960 },
+			"xl": { "width": 1200 },
+			"xxl": { "width": 2000 }
+		},
+		"card_assets": true,
+		"custom": {
+			"color_scheme": {
+				"type": "select",
+				"options": ["Auto", "Paper", "Lamplight"],
+				"default": "Auto",
+				"description": "Paper is light and Lamplight is dark. Auto follows each reader's system setting."
+			},
+			"style_toggle": {
+				"type": "boolean",
+				"default": true,
+				"description": "Show a button in the header that switches between Paper and Lamplight."
+			},
+			"footer_about": {
+				"type": "text",
+				"description": "One or two sentences under the site title in the footer."
+			},
+			"secondary_navigation_title": {
+				"type": "text",
+				"default": "Genres",
+				"description": "Heading of the secondary navigation in the footer."
+			},
+			"copyright_note": {
+				"type": "text",
+				"description": "Text after the copyright line, for example: All reviews are my own."
+			},
+			"intro_eyebrow": {
+				"type": "text",
+				"group": "homepage"
+			},
+			"intro_heading": {
+				"type": "text",
+				"group": "homepage",
+				"description": "Wrap words in *asterisks* to set them in italics. Leave empty to hide the introduction."
+			},
+			"intro_lead": {
+				"type": "text",
+				"group": "homepage"
+			},
+			"intro_button_text": {
+				"type": "text",
+				"default": "Read the latest review",
+				"group": "homepage",
+				"description": "Links to your newest post. Leave empty to hide the button."
+			},
+			"secondary_button_text": {
+				"type": "text",
+				"group": "homepage"
+			},
+			"secondary_button_url": {
+				"type": "text",
+				"group": "homepage"
+			},
+			"show_currently_reading": {
+				"type": "boolean",
+				"default": true,
+				"group": "homepage",
+				"description": "Books tagged #reading, when there are any."
+			},
+			"show_genres": {
+				"type": "boolean",
+				"default": true,
+				"group": "homepage"
+			},
+			"newsletter_eyebrow": {
+				"type": "text",
+				"group": "homepage"
+			},
+			"newsletter_heading": {
+				"type": "text",
+				"default": "Get new reviews by email.",
+				"group": "homepage",
+				"description": "Shown when your site has signups turned on."
+			},
+			"newsletter_note": {
+				"type": "text",
+				"group": "homepage"
+			},
+			"show_related_reviews": {
+				"type": "boolean",
+				"default": true,
+				"group": "post"
+			},
+			"show_reviewer_bio": {
+				"type": "boolean",
+				"default": true,
+				"group": "post"
+			}
+		}
+	}
+}

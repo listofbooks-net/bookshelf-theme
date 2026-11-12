@@ -1,0 +1,20 @@
+<div class="shelf-section" aria-labelledby="{{shelf}}-title">
+          <div class="section-head">
+            <h2 id="{{shelf}}-title">{{heading}} <span class="count" data-count="{{shelf}}" data-one="{{t "% book"}}" data-many="{{t "% books"}}"></span></h2>
+            {{#if note}}
+            <p>{{note}}</p>
+            {{/if}}
+          </div>
+        <ul class="shelf" tabindex="0" aria-label="{{t "{shelf}, scrollable shelf" shelf=heading}}" data-shelf="{{shelf}}">
+          {{#foreach shelf_posts}}
+          <li>
+              {{> "book/card" variant="compact" link=true}}
+          </li>
+          {{/foreach}}
+          {{#foreach shelf_pages}}
+          <li>
+              {{> "book/card" variant="compact" link=html}}
+          </li>
+          {{/foreach}}
+        </ul>
+        </div>

@@ -1,0 +1,31 @@
+{{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}
+<aside class="book-panel" aria-labelledby="book-panel-title">
+          <div>{{> "book/cover" ../this described=true}}</div>
+          <div>
+            <h2 class="book-panel__title" id="book-panel-title">{{../title}}</h2>
+            <p class="book-panel__author">{{t "by {author}" author=(split name separator="#by:")}}</p>
+            <dl class="details">
+              {{#foreach ../tags visibility="internal"}}{{#match name "~^" "#series:"}}
+              <dt>{{t "Series"}}</dt>
+              <dd>{{split name separator="#series:"}}</dd>
+              {{/match}}{{/foreach}}
+              {{#foreach ../tags visibility="internal"}}{{#match name "~^" "#pages:"}}
+              <dt>{{t "Pages"}}</dt>
+              <dd>{{split name separator="#pages:"}}</dd>
+              {{/match}}{{/foreach}}
+              {{#foreach ../tags visibility="internal"}}{{#match name "~^" "#published:"}}
+              <dt>{{t "Published"}}</dt>
+              <dd>{{split name separator="#published:"}}</dd>
+              {{/match}}{{/foreach}}
+              {{#foreach ../tags visibility="internal"}}{{#match name "~^" "#rating:"}}
+              <dt>{{t "My rating"}}</dt>
+              <dd><span class="rating-line">{{> "book/stars" value=(split name separator="#rating:") large=true}}</span></dd>
+              {{/match}}{{/foreach}}
+              {{#with ../this}}{{#has tag="#reading,#read,#want-to-read,#did-not-finish"}}
+              <dt>{{t "Status"}}</dt>
+              <dd>{{> "book/badge"}}</dd>
+              {{/has}}{{/with}}
+            </dl>
+          </div>
+        </aside>
+{{/match}}{{/foreach}}

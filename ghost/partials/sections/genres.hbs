@@ -1,0 +1,15 @@
+{{#get "tags" limit="8" include="count.posts" order="count.posts desc" filter="visibility:public" as |genres|}}{{#if genres}}
+<section class="section" aria-labelledby="genres-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="genres-title">{{t "Browse by genre"}}</h2>
+          <p>{{plural @root.pagination.total empty=(t "No reviews yet") singular=(t "% review so far") plural=(t "% reviews and counting")}}</p>
+        </div>
+        <ul class="toc">
+          {{#foreach genres}}{{#match count.posts ">" 0}}
+          <li><a href="{{url}}"><span class="toc__name">{{name}}</span><span class="toc__count">{{count.posts}}<span class="visually-hidden"> {{t "reviews"}}</span></span></a></li>
+          {{/match}}{{/foreach}}
+        </ul>
+      </div>
+    </section>
+{{/if}}{{/get}}

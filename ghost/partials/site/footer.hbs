@@ -1,0 +1,28 @@
+<footer class="site-footer">
+    <div class="wrap">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-title"><a href="{{@site.url}}">{{@site.title}}</a></p>
+          {{#if @custom.footer_about}}
+          <p>{{@custom.footer_about}}</p>
+          {{/if}}
+        </div>
+        {{#if @site.navigation}}
+        <nav aria-label="{{t "Browse"}}">
+          <h2>{{t "Browse"}}</h2>
+          {{navigation readerlyFooter=true}}
+        </nav>
+        {{/if}}
+        {{#if @site.secondary_navigation}}
+        <nav aria-label="{{#if @custom.secondary_navigation_title}}{{@custom.secondary_navigation_title}}{{else}}{{t "More"}}{{/if}}">
+          <h2>{{#if @custom.secondary_navigation_title}}{{@custom.secondary_navigation_title}}{{else}}{{t "More"}}{{/if}}</h2>
+          {{navigation type="secondary"}}
+        </nav>
+        {{/if}}
+      </div>
+      <div class="site-footer__bottom">
+        <p>&copy; {{date format="YYYY"}} {{@site.title}}.{{#if @custom.copyright_note}} {{@custom.copyright_note}}{{/if}}</p>
+        {{> "site/credit"}}
+      </div>
+    </div>
+  </footer>

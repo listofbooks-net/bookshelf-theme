@@ -1,0 +1,1 @@
+{{#foreach tags visibility="internal"}}{{#match name "~^" "#rating:"}}{{> "book/stars" value=(split name separator="#rating:") large=../large}}{{/match}}{{/foreach}}

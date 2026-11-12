@@ -1,0 +1,21 @@
+{{!< default}}
+<div class="wrap">
+      {{#author}}
+      <header class="archive-header">
+        <span class="eyebrow">{{t "Reviewer"}}</span>
+        <h1>{{name}}</h1>
+        {{#if bio}}
+        <p class="lead">{{bio}}</p>
+        {{/if}}
+        <p class="muted"><small>{{plural ../pagination.total empty=(t "No reviews") singular=(t "% review") plural=(t "% reviews")}}{{#if location}} &middot; {{location}}{{/if}}{{#match ../pagination.pages ">" 1}} &middot; {{t "Page {page} of {pages}" page=../pagination.page pages=../pagination.pages}}{{/match}}</small></p>
+        {{#has any="website, twitter, facebook"}}
+        <ul class="tags" aria-label="{{t "Elsewhere"}}">
+          {{#if website}}<li><a class="tag" href="{{website}}" rel="me">{{t "Website"}}</a></li>{{/if}}
+          {{#if twitter}}<li><a class="tag" href="{{social_url type="twitter"}}" rel="me">X</a></li>{{/if}}
+          {{#if facebook}}<li><a class="tag" href="{{social_url type="facebook"}}" rel="me">Facebook</a></li>{{/if}}
+        </ul>
+        {{/has}}
+      </header>
+      {{/author}}
+      {{> "archive-list"}}
+    </div>
