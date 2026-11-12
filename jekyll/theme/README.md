@@ -1,6 +1,6 @@
 # Readerly
 
-Readerly is a free Jekyll theme for book blogs, author sites and reading logs. It runs on GitHub Pages with no plugins beyond the ones Pages already allows.
+Readerly is a free Jekyll theme for book blogs, author sites and reading logs. It runs on GitHub Pages with no plugins beyond the ones Pages already allows. See it running on the demo site, [Marginalia](https://readerly.listofbooks.net/).
 
 - Review posts with a cover, star rating, book details and a verdict box.
 - A reading log with yearly statistics and shelves for Reading, Read, Want to read and Did not finish.

@@ -3,6 +3,7 @@ license = "MIT"
 licenselink = "https://github.com/listofbooks-net/hugo-theme-readerly/blob/main/LICENSE"
 description = "A warm, bookish theme for book blogs, author sites and reading logs: review posts with covers, star ratings and verdicts, a reading log with shelves and yearly stats, and an author page for your own books. Light and dark styles, bundled fonts, no third-party requests."
 homepage = "https://github.com/listofbooks-net/hugo-theme-readerly"
+demosite = "https://readerly-hugo.listofbooks.net/"
 tags = ["blog", "books", "reviews", "personal", "minimal", "responsive", "dark mode", "light", "dark", "typography", "accessible"]
 features = ["book reviews", "star ratings", "reading log", "author page", "dark mode", "search", "schema.org review data", "open graph", "rss", "i18n", "no third-party requests"]
 

@@ -136,7 +136,7 @@ tools/ghost-dev/ghost-dev.sh up                     # start, set up, activate th
 tools/ghost-dev/ghost-dev.sh seed                   # reload the demo content
 tools/ghost-dev/ghost-dev.sh gscan                  # GScan for Ghost 6 on ghost/; or: gscan dist/readerly-ghost-1.0.0.zip -z
 tools/ghost-dev/ghost-dev.sh check                  # markup parity, browser checks, side-by-side screenshots
-tools/ghost-dev/ghost-dev.sh export site/ https://readerly-ghost-demo.pages.dev   # static copy, verified in a browser
+tools/ghost-dev/ghost-dev.sh export site/ https://readerly-ghost.listofbooks.net   # static copy, verified in a browser
 tools/ghost-dev/ghost-dev.sh url                    # print the site URL
 tools/ghost-dev/ghost-dev.sh down                   # stop, keep the data
 tools/ghost-dev/ghost-dev.sh clean                  # remove the container and its data

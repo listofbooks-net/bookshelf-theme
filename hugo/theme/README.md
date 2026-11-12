@@ -1,6 +1,6 @@
 # Readerly
 
-Readerly is a free Hugo theme for book blogs, author sites and reading logs.
+Readerly is a free Hugo theme for book blogs, author sites and reading logs. See it running on the demo site, [Marginalia](https://readerly-hugo.listofbooks.net/).
 
 ![The Readerly home page in the Paper style](https://raw.githubusercontent.com/listofbooks-net/hugo-theme-readerly/main/images/screenshot.png)
 

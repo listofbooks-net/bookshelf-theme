@@ -2,7 +2,7 @@
 
 Readerly is a free Ghost theme for people who love books. It is built for a book blog first, and it also gives you a reading log and an author website. It comes in two styles, Paper (light) and Lamplight (dark), and bundles its fonts, Fraunces and Literata, so it loads no fonts from other servers.
 
-- Demo: Marginalia, a book blog by the fictional reviewer Nora Vale.
+- Demo: [Marginalia](https://readerly-ghost.listofbooks.net/), a book blog by the fictional reviewer Nora Vale.
 - Requires Ghost 6.0 or later.
 - License: MIT. The fonts are under the SIL Open Font License (`assets/fonts/*/OFL.txt`).
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Publishes the static Ghost demo (the Marginalia site) that the Ghost Marketplace listing links to.
 #
-#   tools/publish-ghost-demo.sh [public url]     default: https://readerly-ghost-demo.pages.dev
+#   tools/publish-ghost-demo.sh [public url]     default: https://readerly-ghost.listofbooks.net
 #
 # 1. Checks that the tree is clean and on main, equal to origin/main after a fetch.
 # 2. Starts Ghost with the theme and the demo content, runs every check
@@ -13,7 +13,7 @@
 # runs this, by hand, and wrangler must already be logged in (wrangler login).
 set -euo pipefail
 
-public="${1:-https://readerly-ghost-demo.pages.dev}"
+public="${1:-https://readerly-ghost.listofbooks.net}"
 repo="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$repo"
 
