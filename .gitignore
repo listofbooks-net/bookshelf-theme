@@ -1,2 +1,4 @@
 node_modules/
 dist/
+tools/ghost-dev/.state
+tools/ghost-dev/out/
