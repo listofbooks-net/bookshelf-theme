@@ -88,7 +88,7 @@ case "${1:-}" in
 		node "$here/check-builds.mjs" "$out"
 		;;
 	serve)
-		node "$repo/tools/jekyll-dev/serve.mjs" "$out/latest/${2:-demo}" "${3:-4000}"
+		node "$repo/tools/lib/serve.mjs" "$out/latest/${2:-demo}" "${3:-4000}"
 		;;
 	screenshots)
 		build

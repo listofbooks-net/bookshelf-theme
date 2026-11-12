@@ -1,4 +1,0 @@
----
-layout: archive
-permalink: /reviews/
----

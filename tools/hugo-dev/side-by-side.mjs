@@ -9,7 +9,7 @@ import { createRequire } from 'node:module';
 import { dirname, extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PAGES } from './check-parity.mjs';
-import { startServer } from '../jekyll-dev/serve.mjs';
+import { startServer } from '../lib/serve.mjs';
 
 const require = createRequire(import.meta.url);
 const here = dirname(fileURLToPath(import.meta.url));

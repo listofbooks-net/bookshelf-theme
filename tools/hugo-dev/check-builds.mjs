@@ -13,7 +13,7 @@ import { spawn } from 'node:child_process';
 import { parse } from 'node-html-parser';
 import { checkParity } from './check-parity.mjs';
 import { checkMarkup } from './check-markup.mjs';
-import { startServer } from '../jekyll-dev/serve.mjs';
+import { startServer } from '../lib/serve.mjs';
 import { BASE, htmlFiles, contentPages, urlOf, isAlias } from './lib.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));

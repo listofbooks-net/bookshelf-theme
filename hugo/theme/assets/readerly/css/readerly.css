@@ -90,7 +90,7 @@
  *              settings.spacing.spacingSizes       -> --space-*
  *              settings.layout.contentSize/wideSize-> --width-*
  *              settings.custom                     -> "supporting values"
- *   Hugo / Jekyll / Ghost: copy this file as-is.
+ *   Hugo / Ghost: copy this file as-is.
  *
  * Light ("Paper") is the default. Dark ("Lamplight") applies through
  * prefers-color-scheme, and [data-theme="light" | "dark"] on <html> overrides

@@ -1,6 +1,6 @@
 // Every check against a running, seeded Ghost with the Readerly theme. Exits 1 when any fails.
 //   node check.mjs <site url> [out dir]
-// 1. Markup parity with the seven design pages (same algorithm as tools/jekyll-dev/check-parity.mjs).
+// 1. Markup parity with the seven design pages (same algorithm as tools/hugo-dev/check-parity.mjs).
 // 2. check-pages.cjs on pages.json at 1280 and 390 px, in Paper and Lamplight.
 // 3. Side-by-side screenshots of the design and Ghost (side-by-side.mjs).
 import { readFileSync, mkdirSync } from 'node:fs';
@@ -8,7 +8,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 import { parse } from 'node-html-parser';
-import { body, compare } from '../jekyll-dev/check-parity.mjs';
+import { body, compare } from '../lib/markup-tree.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = join(here, '../..');

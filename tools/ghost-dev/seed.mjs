@@ -1,4 +1,4 @@
-// Loads the Marginalia demo (jekyll/demo and design/) into a running Ghost through the Admin API.
+// Loads the Marginalia demo (design/demo and design/) into a running Ghost through the Admin API.
 // Rerunnable: it deletes every post, page and tag first, and reuses images it uploaded before,
 // so a second run leaves the same slugs and the same HTML.
 //
@@ -17,7 +17,7 @@ if (!site) {
 }
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = process.env.REPO ?? join(here, '../..');
-const demo = join(repo, 'jekyll/demo');
+const demo = join(repo, 'design/demo');
 const design = join(repo, 'design');
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'admin@readerly.test';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'Readerly-demo-2026!';
@@ -202,7 +202,7 @@ async function loadReviews() {
 	const dir = join(demo, '_posts');
 	const files = readdirSync(dir).sort();
 	const reviewTitles = new Set();
-	// The theme treats every public tag as a genre, so a Jekyll tag becomes a public Ghost tag only when
+	// The theme treats every public tag as a genre, so a demo tag becomes a public Ghost tag only when
 	// it is some review's genre. Series and ratings already travel as internal #series: and #rating: tags.
 	const genres = new Set(files.map((file) => parseFrontMatter(read(join(dir, file))).data.genre).filter(Boolean));
 	for (const file of files) {
@@ -307,7 +307,7 @@ async function loadPages() {
 }
 
 async function configureSite() {
-	const config = parseYaml(read(join(demo, '_config.yml')));
+	const config = parseYaml(read(join(demo, 'site.yml')));
 	const nav = config.readerly.nav;
 	const literary = '/tag/literary-fiction/';
 	const primary = [
