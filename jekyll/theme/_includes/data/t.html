@@ -1,6 +1,6 @@
 {%- comment -%}
 Prints one interface string: site.data.readerly_strings[include.key] when the
-site defines it, else the English default below. %n is replaced by include.n.
+site defines it, else the English default below. %n is replaced by include.n, HTML-escaped once, so it is safe inside an attribute.
 {%- endcomment -%}
 {%- assign t_text = site.data.readerly_strings[include.key] -%}
 {%- unless t_text -%}
@@ -102,4 +102,5 @@ site defines it, else the English default below. %n is replaced by include.n.
 {%- else -%}{%- assign t_text = include.key -%}
 {%- endcase -%}
 {%- endunless -%}
-{{- t_text | replace: "%n", include.n -}}
+{%- assign t_n = include.n | escape_once -%}
+{{- t_text | replace: "%n", t_n -}}

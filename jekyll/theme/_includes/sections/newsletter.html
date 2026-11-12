@@ -22,10 +22,10 @@
             {%- endif %}
           </div>
           {%- endif %}
-          <form class="newsletter__form" action="{{ newsletter_action }}" method="post">
+          <form class="newsletter__form" action="{{ newsletter_action | escape_once }}" method="post">
             <label for="newsletter-email">{% include data/t.html key="email_address" %}</label>
             <div class="newsletter__row">
-              <input class="input" id="newsletter-email" type="email" name="{{ newsletter_field }}" autocomplete="email" required placeholder="you@example.com">
+              <input class="input" id="newsletter-email" type="email" name="{{ newsletter_field | escape_once }}" autocomplete="email" required placeholder="you@example.com">
               <button class="button" type="submit">{{ newsletter_button }}</button>
             </div>
             {%- if newsletter_note %}
