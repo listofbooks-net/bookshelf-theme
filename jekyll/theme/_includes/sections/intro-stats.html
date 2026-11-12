@@ -1,0 +1,36 @@
+{%- comment -%}
+The intro with the year's reading statistics under it, in one block. page.year scopes
+"Books read", "Pages read" and "Average rating" to the books finished that year.
+{%- endcomment -%}
+{%- include data/entries.html status="read" year=page.year -%}
+{%- assign stats_read = entries -%}
+{%- include data/entries.html status="dnf" -%}
+{%- assign stats_dnf = entries.size -%}
+{%- assign stats_pages = 0 -%}
+{%- assign stats_rating_sum = 0 -%}
+{%- assign stats_rated = 0 -%}
+{%- for stats_entry in stats_read -%}
+{%- if stats_entry.pages %}{% assign stats_pages = stats_pages | plus: stats_entry.pages %}{% endif -%}
+{%- if stats_entry.rating %}{% assign stats_rating_sum = stats_rating_sum | plus: stats_entry.rating %}{% assign stats_rated = stats_rated | plus: 1 %}{% endif -%}
+{%- endfor -%}
+<section class="section section--tight">
+      <div class="wrap">
+        {% include components/intro.html %}
+        {%- if stats_read.size > 0 or stats_dnf > 0 %}
+        <ul class="stats" aria-label="{% if page.year %}{% include data/t.html key="stats_label" n=page.year %}{% else %}{% include data/t.html key="stats_label_all" %}{% endif %}">
+          {%- if stats_read.size > 0 %}
+          <li><p class="od-stat"><span class="stats__number">{% include components/number.html value=stats_read.size %}</span><span class="stats__label">{% include data/t.html key="stat_books" %}</span></p></li>
+          {%- endif %}
+          {%- if stats_pages > 0 %}
+          <li><p class="od-stat"><span class="stats__number">{% include components/number.html value=stats_pages %}</span><span class="stats__label">{% include data/t.html key="stat_pages" %}</span></p></li>
+          {%- endif %}
+          {%- if stats_rated > 0 %}
+          <li><p class="od-stat"><span class="stats__number">{{ stats_rating_sum | times: 1.0 | divided_by: stats_rated | round: 1 }}</span><span class="stats__label">{% include data/t.html key="stat_rating" %}</span></p></li>
+          {%- endif %}
+          {%- if stats_dnf > 0 %}
+          <li><p class="od-stat"><span class="stats__number">{% include components/number.html value=stats_dnf %}</span><span class="stats__label">{% include data/t.html key="stat_dnf" %}</span></p></li>
+          {%- endif %}
+        </ul>
+        {%- endif %}
+      </div>
+    </section>

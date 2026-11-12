@@ -1,0 +1,42 @@
+/* Demo bar for the reference pages in design/. No port ships this file. */
+.demo-bar {
+  background: var(--color-contrast);
+  color: var(--color-base);
+  font-size: var(--size-small);
+  line-height: 1.4;
+}
+.demo-bar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-40);
+  padding-block: var(--space-20);
+}
+.demo-bar__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.demo-bar ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-30);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.demo-bar li { margin: 0; }
+.demo-bar a {
+  display: inline-block;
+  padding-block: 0.25rem;
+  color: var(--color-base);
+  text-decoration: none;
+}
+.demo-bar a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+.demo-bar a[aria-current="page"] {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+.demo-bar :focus-visible { outline-color: var(--color-base); }

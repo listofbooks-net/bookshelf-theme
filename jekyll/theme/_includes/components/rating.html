@@ -1,0 +1,4 @@
+{%- comment -%} Stars for include.value (0 to 5). include.size: "large" adds " / 5". Prints nothing without a value. {%- endcomment -%}
+{%- if include.value -%}
+<span class="rating{% if include.size == "large" %} rating--large{% endif %}" style="--rating: {{ include.value }}" role="img" aria-label="{% include data/t.html key="rated" n=include.value %}"></span><span aria-hidden="true">{{ include.value }}{% if include.size == "large" %} / 5{% endif %}</span>
+{%- endif -%}

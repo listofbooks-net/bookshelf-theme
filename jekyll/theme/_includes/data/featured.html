@@ -1,0 +1,14 @@
+{%- comment -%}
+Assigns featured_post: the newest review with featured: true, else the newest review.
+A review is a post with a cover, a book author or a rating; a plain post never fills
+the feature card, which presents a book.
+{%- endcomment -%}
+{%- assign featured_post = nil -%}
+{%- assign featured_fallback = nil -%}
+{%- for featured_candidate in site.posts -%}
+{%- if featured_candidate.cover or featured_candidate.book_author or featured_candidate.rating -%}
+{%- unless featured_fallback %}{% assign featured_fallback = featured_candidate %}{% endunless -%}
+{%- if featured_candidate.featured -%}{%- assign featured_post = featured_candidate -%}{%- break -%}{%- endif -%}
+{%- endif -%}
+{%- endfor -%}
+{%- unless featured_post %}{% assign featured_post = featured_fallback %}{% endunless -%}

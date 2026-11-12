@@ -1,0 +1,35 @@
+{%- assign events_today = site.time | date: "%Y%m%d" | plus: 0 -%}
+{%- assign events_upcoming = "" | split: "" -%}
+{%- assign events_sorted = site.data.events | sort: "date" -%}
+{%- for event_item in events_sorted -%}
+{%- assign event_day = event_item.date | date: "%Y%m%d" | plus: 0 -%}
+{%- if event_item.title and event_day >= events_today -%}{%- assign events_upcoming = events_upcoming | push: event_item -%}{%- endif -%}
+{%- endfor -%}
+{%- if events_upcoming.size > 0 -%}
+{%- assign events_section = page.events -%}
+{%- capture events_heading %}{{ events_section.heading | default: "" }}{% endcapture -%}
+{%- if events_heading == "" %}{% capture events_heading %}{% include data/t.html key="events" %}{% endcapture %}{% endif -%}
+<section class="section" id="events" aria-labelledby="events-title">
+      <div class="wrap">
+        {% include components/section-head.html id="events-title" heading=events_heading note=events_section.note %}
+        <ul class="events">
+          {%- for event_item in events_upcoming %}
+          <li>
+            <article class="event">
+              <time class="event__date" datetime="{{ event_item.date | date: "%Y-%m-%d" }}"><span class="event__day">{{ event_item.date | date: "%-d" }}</span> <span class="event__month">{{ event_item.date | date: "%b" }}</span></time>
+              <div>
+                <h3 class="event__title">{{ event_item.title }}</h3>
+                {%- if event_item.where %}
+                <p class="event__where">{{ event_item.where }}</p>
+                {%- endif %}
+              </div>
+              {%- if event_item.url %}
+              <a class="button button--outline" href="{% include components/url.html url=event_item.url %}">{% if event_item.label %}{{ event_item.label }}{% else %}{% include data/t.html key="event_details" %}{% endif %}<span class="visually-hidden">: {{ event_item.title }}</span></a>
+              {%- endif %}
+            </article>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </section>
+{%- endif -%}

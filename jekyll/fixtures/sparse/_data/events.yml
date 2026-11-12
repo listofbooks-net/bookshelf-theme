@@ -1,0 +1,5 @@
+# Only a past event, so the events section prints nothing.
+- title: A reading that already happened
+  date: 2020-01-01
+- where: An upcoming event with no title, which is skipped
+  date: 2099-01-01

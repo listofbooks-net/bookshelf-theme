@@ -1,0 +1,18 @@
+<!doctype html>
+{%- assign default_style = site.readerly.style | default: "auto" %}
+<html lang="{{ page.lang | default: site.lang | default: "en" }}"{% if default_style == "paper" %} data-theme="light"{% elsif default_style == "lamplight" %} data-theme="dark"{% endif %}>
+<head>
+  {% include shell/head.html %}
+</head>
+<body>
+  <a class="skip-link" href="#main">{% include data/t.html key="skip" %}</a>
+
+  {% include shell/header.html %}
+
+  <main id="main">
+{{ content }}
+  </main>
+
+  {% include shell/footer.html %}
+</body>
+</html>

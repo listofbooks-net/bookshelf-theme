@@ -1,0 +1,7 @@
+<ul class="shelf" tabindex="0" aria-label="{% include data/t.html key="scrollable_shelf" n=include.label %}">
+          {%- for shelf_entry in include.entries %}
+          <li>
+              {% include components/book-card.html entry=shelf_entry variant="compact" %}
+          </li>
+          {%- endfor %}
+        </ul>

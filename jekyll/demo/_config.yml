@@ -1,0 +1,58 @@
+# The Readerly demo site: the fictional book blog "Marginalia" from the design pages.
+title: Marginalia
+tagline: Book notes & reviews by Nora Vale
+description: Honest book reviews of literary fiction, quiet fantasy, essays and poetry.
+lang: en
+permalink: /:title/
+paginate: 9
+
+remote_theme: listofbooks-net/jekyll-theme-readerly@v1
+plugins:
+  - jekyll-remote-theme
+  - jekyll-paginate
+  - jekyll-feed
+
+liquid:
+  error_mode: strict
+  strict_filters: true
+
+author:
+  name: Nora Vale
+  avatar: /assets/img/avatar-nora.svg
+  bio: Nora is a former school librarian who reads about sixty books a year and writes about the ones that stay with her. She lives in a small flat above a bakery, which is either very good or very bad for reading.
+  url: /about/
+  links:
+    - { title: More about Nora, url: /about/ }
+    - { title: Her reading log, url: /reading-log/ }
+
+readerly:
+  favicon: /assets/img/favicon.svg
+  nav:
+    - { title: Reviews, url: / }
+    - { title: Reading log, url: /reading-log/ }
+    - { title: Archive, url: /reviews/ }
+    - { title: About, url: /about/ }
+  footer:
+    about: Slow, honest reviews of novels, essays and poetry, written at the kitchen table, mostly on Sunday mornings.
+    columns:
+      - title: Browse
+        links:
+          - { title: Reviews, url: / }
+          - { title: Reading log, url: /reading-log/ }
+          - { title: Archive, url: /reviews/ }
+          - { title: About, url: /about/ }
+      - title: Genres
+        links:
+          - { title: Literary fiction, url: /genres/literary-fiction/ }
+          - { title: Fantasy, url: /reviews/?genre=Fantasy }
+          - { title: Historical, url: /reviews/?genre=Historical }
+          - { title: Poetry, url: /reviews/?genre=Poetry }
+    copyright: All reviews are my own.
+  newsletter:
+    action: "#"
+    eyebrow: The Sunday letter
+    heading: "One email a month: what I read, what I loved, and what I gave up on."
+    note: No spam, ever. Unsubscribe with one click.
+
+exclude:
+  - README.md

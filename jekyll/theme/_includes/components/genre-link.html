@@ -1,0 +1,12 @@
+{%- comment -%}
+include.name as a link to its genre (see data/genre-url.html). When the site has no
+archive page it is an <a> without href: plain text that keeps the link's styling. include.class goes on the element; include.content
+replaces the visible name.
+{%- endcomment -%}
+{%- include data/genre-url.html name=include.name -%}
+{%- assign genre_label = include.content | default: include.name -%}
+{%- if genre_url -%}
+<a{% if include.class %} class="{{ include.class }}"{% endif %} href="{{ genre_url }}">{{ genre_label }}</a>
+{%- else -%}
+<a{% if include.class %} class="{{ include.class }}"{% endif %}>{{ genre_label }}</a>
+{%- endif -%}

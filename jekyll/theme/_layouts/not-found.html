@@ -1,0 +1,42 @@
+---
+layout: default
+---
+{%- comment -%}
+The 404 page: a search form when the site has an archive page, links home, and
+up to five recent reviews rated 4 or more.
+{%- endcomment -%}
+{%- include data/find-page.html layout="archive" -%}
+{%- assign nf_archive = found_page -%}
+{%- assign nf_picks = "" | split: "" -%}
+{%- for nf_post in site.posts -%}
+{%- if nf_post.rating >= 4 and nf_picks.size < 5 -%}{%- assign nf_picks = nf_picks | push: nf_post -%}{%- endif -%}
+{%- endfor -%}
+<div class="wrap">
+      <section class="not-found" aria-labelledby="nf-title">
+        <p class="not-found__code" aria-hidden="true">404</p>
+        <h1 id="nf-title">{{ page.heading | default: "" }}{% unless page.heading %}{% include data/t.html key="not_found_title" %}{% endunless %}</h1>
+        <p class="lead muted">{% if page.lead %}{{ page.lead }}{% elsif nf_archive %}{% include data/t.html key="not_found_lead" %}{% else %}{% include data/t.html key="not_found_lead_no_search" %}{% endif %}</p>
+        {%- if nf_archive %}
+        <form class="search-form" role="search" action="{{ nf_archive.url | relative_url }}" method="get">
+          <label class="visually-hidden" for="search-404">{% include data/t.html key="search_reviews" %}</label>
+          <input class="input" id="search-404" type="search" name="s" placeholder="{% include data/t.html key="search_placeholder" %}">
+          <button class="icon-button" type="submit">{% include shell/icon.html name="search" %} {% include data/t.html key="search" %}</button>
+        </form>
+        {%- endif %}
+        <div class="buttons">
+          <a class="button button--outline" href="{{ "/" | relative_url }}">{% include data/t.html key="back_to_front" %}</a>
+          {%- if nf_archive %}
+          <a class="button button--outline" href="{{ nf_archive.url | relative_url }}">{% include data/t.html key="browse_all_reviews" %}</a>
+          {%- endif %}
+        </div>
+      </section>
+      {%- if nf_picks.size > 0 %}
+      {%- capture nf_heading %}{% include data/t.html key="pick_something" %}{% endcapture %}
+      {%- capture nf_note %}{% include data/t.html key="recent_favourites" %}{% endcapture %}
+
+      <section class="shelf-section" aria-labelledby="suggest-title">
+        {% include components/section-head.html id="suggest-title" heading=nf_heading note=nf_note %}
+        {% include components/shelf.html entries=nf_picks label=nf_note %}
+      </section>
+      {%- endif %}
+    </div>

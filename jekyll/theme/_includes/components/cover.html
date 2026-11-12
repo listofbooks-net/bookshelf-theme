@@ -1,0 +1,11 @@
+{%- comment -%}
+A book cover: the entry's cover image, or the typeset placeholder when it has none.
+include.alt: "decorative" (the cover sits inside a link that repeats the title) or "described".
+{%- endcomment -%}
+{%- assign cover_title = include.entry.book_title | default: include.entry.title -%}
+{%- capture cover_name -%}{{ cover_title }}{% if include.entry.book_author %} {% include data/t.html key="by" n=include.entry.book_author %}{% endif %}{%- endcapture -%}
+{%- if include.entry.cover -%}
+<img class="cover" src="{% include components/url.html url=include.entry.cover %}" width="400" height="600" alt="{% if include.alt == "described" %}{% include data/t.html key="cover_of" n=cover_name %}{% endif %}" loading="lazy">
+{%- else -%}
+<div class="cover cover--placeholder" role="img" aria-label="{% include data/t.html key="no_cover" n=cover_name %}"><strong>{{ cover_title }}</strong>{% if include.entry.book_author %}<span>{{ include.entry.book_author }}</span>{% endif %}</div>
+{%- endif -%}

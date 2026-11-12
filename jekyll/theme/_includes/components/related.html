@@ -1,0 +1,26 @@
+{%- comment -%} "You might also like": the newest other posts in this post's genre, up to readerly.related_posts (default 3, 0 turns it off). {%- endcomment -%}
+{%- assign related_limit = site.readerly.related_posts | default: 3 -%}
+{%- if page.genre and related_limit > 0 -%}
+{%- assign related_posts = "" | split: "" -%}
+{%- assign related_candidates = site.posts | where: "genre", page.genre -%}
+{%- for related_post in related_candidates -%}
+{%- if related_post.url != page.url and related_posts.size < related_limit -%}{%- assign related_posts = related_posts | push: related_post -%}{%- endif -%}
+{%- endfor -%}
+{%- if related_posts.size > 0 -%}
+{%- capture related_heading %}{% include data/t.html key="you_might_also_like" %}{% endcapture -%}
+{%- include data/genre-url.html name=page.genre -%}
+{%- assign related_genre_lower = page.genre | downcase -%}
+{%- capture related_more_label %}{% include data/t.html key="more_in" n=related_genre_lower %}{% endcapture %}
+
+        <section class="section section--tight" aria-labelledby="related-title">
+          {% include components/section-head.html id="related-title" heading=related_heading more_url=genre_url more_label=related_more_label %}
+          <ul class="book-grid book-grid--related">
+            {%- for related_post in related_posts %}
+            <li>
+              {% include components/book-card.html entry=related_post %}
+            </li>
+            {%- endfor %}
+          </ul>
+        </section>
+{%- endif -%}
+{%- endif -%}

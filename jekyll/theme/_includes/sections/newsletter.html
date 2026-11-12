@@ -1,0 +1,38 @@
+{%- comment -%} A sign-up form that posts to readerly.newsletter.action. page.newsletter overrides any of its keys. {%- endcomment -%}
+{%- assign newsletter_site = site.readerly.newsletter -%}
+{%- assign newsletter_page = page.newsletter -%}
+{%- assign newsletter_action = newsletter_page.action | default: newsletter_site.action -%}
+{%- if newsletter_action -%}
+{%- assign newsletter_eyebrow = newsletter_page.eyebrow | default: newsletter_site.eyebrow -%}
+{%- assign newsletter_heading = newsletter_page.heading | default: newsletter_site.heading -%}
+{%- assign newsletter_note = newsletter_page.note | default: newsletter_site.note -%}
+{%- assign newsletter_field = newsletter_page.field | default: newsletter_site.field | default: "email" -%}
+{%- capture newsletter_button %}{{ newsletter_page.button | default: newsletter_site.button }}{% endcapture -%}
+{%- if newsletter_button == "" %}{% capture newsletter_button %}{% include data/t.html key="subscribe" %}{% endcapture %}{% endif -%}
+<section class="section section--band" id="newsletter"{% if newsletter_heading %} aria-labelledby="newsletter-title"{% endif %}>
+      <div class="wrap">
+        <div class="newsletter">
+          {%- if newsletter_eyebrow or newsletter_heading %}
+          <div class="newsletter__intro">
+            {%- if newsletter_eyebrow %}
+            <span class="eyebrow">{{ newsletter_eyebrow }}</span>
+            {%- endif %}
+            {%- if newsletter_heading %}
+            <h2 id="newsletter-title">{{ newsletter_heading }}</h2>
+            {%- endif %}
+          </div>
+          {%- endif %}
+          <form class="newsletter__form" action="{{ newsletter_action | escape_once }}" method="post">
+            <label for="newsletter-email">{% include data/t.html key="email_address" %}</label>
+            <div class="newsletter__row">
+              <input class="input" id="newsletter-email" type="email" name="{{ newsletter_field | escape_once }}" autocomplete="email" required placeholder="you@example.com">
+              <button class="button" type="submit">{{ newsletter_button }}</button>
+            </div>
+            {%- if newsletter_note %}
+            <p class="newsletter__note">{{ newsletter_note }}</p>
+            {%- endif %}
+          </form>
+        </div>
+      </div>
+    </section>
+{%- endif -%}

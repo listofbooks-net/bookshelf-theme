@@ -1,0 +1,22 @@
+{%- if paginator.total_pages > 1 -%}
+{%- assign pager_path = site.paginate_path | default: "/page:num/" -%}
+{%- assign pager_first = pager_path | split: "/" | pop | join: "/" | append: "/" -%}
+<nav class="pagination" aria-label="{% include data/t.html key="pagination" %}">
+  <ul>
+    {%- if paginator.previous_page %}
+    <li><a class="pagination__dir" href="{{ paginator.previous_page_path | relative_url }}">{% include shell/icon.html name="arrow-left" %} {% include data/t.html key="newer" %}</a></li>
+    {%- else %}
+    <li><span class="pagination__dir is-disabled" aria-disabled="true">{% include shell/icon.html name="arrow-left" %} {% include data/t.html key="newer" %}</span></li>
+    {%- endif %}
+    {%- for pager_n in (1..paginator.total_pages) %}
+    {%- if pager_n == 1 %}{% assign pager_url = pager_first %}{% else %}{% assign pager_n_s = pager_n | append: "" %}{% assign pager_url = pager_path | replace: ":num", pager_n_s %}{% endif %}
+    <li><a href="{{ pager_url | relative_url }}"{% if pager_n == paginator.page %} aria-current="page"{% endif %}><span class="visually-hidden">{% include data/t.html key="page_of" n="" %}</span>{{ pager_n }}</a></li>
+    {%- endfor %}
+    {%- if paginator.next_page %}
+    <li><a class="pagination__dir" href="{{ paginator.next_page_path | relative_url }}">{% include data/t.html key="older" %} {% include shell/icon.html name="arrow-right" %}</a></li>
+    {%- else %}
+    <li><span class="pagination__dir is-disabled" aria-disabled="true">{% include data/t.html key="older" %} {% include shell/icon.html name="arrow-right" %}</span></li>
+    {%- endif %}
+  </ul>
+</nav>
+{%- endif -%}

@@ -1,0 +1,22 @@
+{%- if site.data.praise.size > 0 -%}
+{%- assign praise_section = page.praise -%}
+{%- capture praise_heading %}{{ praise_section.heading | default: "" }}{% endcapture -%}
+{%- if praise_heading == "" %}{% capture praise_heading %}{% include data/t.html key="kind_words" %}{% endcapture %}{% endif -%}
+<section class="section" aria-labelledby="praise-title">
+      <div class="wrap">
+        {% include components/section-head.html id="praise-title" heading=praise_heading note=praise_section.note %}
+        <ul class="praise">
+          {%- for praise_item in site.data.praise %}
+          <li>
+            <figure>
+              <blockquote><p>&ldquo;{{ praise_item.quote }}&rdquo;</p></blockquote>
+              {%- if praise_item.source or praise_item.context %}
+              <figcaption>{% if praise_item.source %}<strong>{{ praise_item.source }}</strong>{% endif %}{% if praise_item.source and praise_item.context %} {% endif %}{{ praise_item.context }}</figcaption>
+              {%- endif %}
+            </figure>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </section>
+{%- endif -%}

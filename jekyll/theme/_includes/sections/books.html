@@ -1,0 +1,18 @@
+{%- assign books_titled = site.data.books | where_exp: "own_book", "own_book.title" -%}
+{%- if books_titled.size > 0 -%}
+{%- assign books_section = page.books -%}
+{%- capture books_heading %}{{ books_section.heading | default: "" }}{% endcapture -%}
+{%- if books_heading == "" %}{% capture books_heading %}{% include data/t.html key="my_books" %}{% endcapture %}{% endif -%}
+<section class="section" id="books" aria-labelledby="books-title">
+      <div class="wrap">
+        {% include components/section-head.html id="books-title" heading=books_heading note=books_section.note %}
+        <ul class="book-grid book-grid--four">
+          {%- for own_book in books_titled %}
+          <li>
+          {% include components/book-card.html entry=own_book variant="own" %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </section>
+{%- endif -%}

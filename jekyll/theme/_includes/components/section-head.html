@@ -1,0 +1,12 @@
+{%- comment -%}
+The heading row of a section. include.id, include.heading (text), include.count (HTML),
+include.note (text under or beside the heading), include.more_url and include.more_label.
+{%- endcomment -%}
+<div class="section-head">
+  <h2 id="{{ include.id }}">{{ include.heading }}{% if include.count %} <span class="count">{{ include.count }}</span>{% endif %}</h2>
+  {%- if include.more_url %}
+  <a class="more-link" href="{{ include.more_url }}">{{ include.more_label }} {% include shell/icon.html name="arrow-right" %}</a>
+  {%- elsif include.note %}
+  <p>{{ include.note }}</p>
+  {%- endif %}
+</div>

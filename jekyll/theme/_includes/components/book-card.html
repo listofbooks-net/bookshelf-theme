@@ -1,0 +1,96 @@
+{%- comment -%}
+One book card. Every card on every page comes from here, and every degrade rule
+for cards lives here.
+  include.entry    a review post, a reading-log entry or an own book (_data/books.yml)
+  include.variant  "grid" (default), "list", "compact" or "own"
+  include.excerpt  "clamp", "full" or empty for none (grid and list)
+  include.heading  "h2" or "h3" (default)
+{%- endcomment -%}
+{%- assign card = include.entry -%}
+{%- assign card_variant = include.variant | default: "grid" -%}
+{%- assign card_heading = include.heading | default: "h3" -%}
+{%- assign card_title = card.book_title | default: card.title -%}
+{%- capture card_href %}{% if card.url %}{% include components/url.html url=card.url %}{% endif %}{% endcapture -%}
+{%- capture card_cover -%}
+{%- if card.cover == nil and card.book_author == nil and card.rating == nil and card.status == nil and include.variant != "own" -%}
+{%- comment -%} A plain blog post is not a book, so it gets no placeholder cover. {%- endcomment -%}
+{%- elsif card_href != "" -%}
+<a class="cover-link book-card__cover" href="{{ card_href }}" tabindex="-1" aria-hidden="true">{% include components/cover.html entry=card alt="decorative" %}</a>
+{%- else -%}
+<div class="book-card__cover">{% include components/cover.html entry=card alt="described" %}</div>
+{%- endif -%}
+{%- endcapture -%}
+{%- capture card_title_html -%}
+<{{ card_heading }} class="book-card__title">{% if card_href != "" %}<a href="{{ card_href }}">{{ card_title }}</a>{% else %}{{ card_title }}{% endif %}</{{ card_heading }}>
+{%- endcapture -%}
+{%- if card_variant == "compact" -%}
+<article class="book-card book-card--compact">
+  {{ card_cover }}
+  <div class="book-card__body">
+    {{ card_title_html }}
+    {%- if card.book_author %}
+    <p class="book-card__author">{{ card.book_author }}</p>
+    {%- endif %}
+    {%- capture card_line %}{% include components/rating.html value=card.rating %}{% include components/badge.html status=card.status %}{% endcapture %}
+    {%- if card_line != "" %}
+    <div class="rating-line">{{ card_line }}</div>
+    {%- endif %}
+    {%- if card.status == "reading" and card.pages and card.current_page %}
+    {%- assign card_percent = card.current_page | times: 100.0 | divided_by: card.pages | round %}
+    <div class="progress"><progress max="{{ card.pages }}" value="{{ card.current_page }}" aria-label="{% include data/t.html key="progress_through" n=card_title %}">{{ card_percent }}%</progress><p class="progress__label"><span>{% include data/t.html key="page_of" n=card.current_page %} {% include data/t.html key="of" %} {{ card.pages }}</span><span class="od-nowrap">{{ card_percent }}%</span></p></div>
+    {%- elsif card.status == "dnf" and card.current_page %}
+    <p class="book-card__meta">{% include data/t.html key="stopped_at" n=card.current_page %}{% if card.pages %} {% include data/t.html key="of" %} {{ card.pages }}{% endif %}</p>
+    {%- endif %}
+  </div>
+</article>
+{%- elsif card_variant == "own" -%}
+<article class="book-card book-card--author">
+  {{ card_cover }}
+  <div class="book-card__body">
+    {%- capture card_eyebrow %}{{ card.year }}{% if card.year and card.kind %} &middot; {% endif %}{{ card.kind }}{% endcapture %}
+    {%- if card_eyebrow != "" %}
+    <span class="eyebrow">{{ card_eyebrow }}</span>
+    {%- endif %}
+    {{ card_title_html }}
+    {%- if card.blurb %}
+    <p class="book-card__excerpt">{{ card.blurb }}</p>
+    {%- endif %}
+    {%- if card.buy_url or card_href != "" %}
+    <div class="book-card__actions">
+      {%- if card.buy_url %}
+      <a class="button" href="{% include components/url.html url=card.buy_url %}">{% include data/t.html key="buy" %}<span class="visually-hidden"> {{ card_title }}</span></a>
+      {%- endif %}
+      {%- if card_href != "" %}
+      <a class="button button--outline" href="{{ card_href }}">{% include data/t.html key="learn_more" %}<span class="visually-hidden"> {% include data/t.html key="learn_more_about" n=card_title %}</span></a>
+      {%- endif %}
+    </div>
+    {%- endif %}
+  </div>
+</article>
+{%- else -%}
+<article class="book-card">
+  {{ card_cover }}
+  <div class="book-card__body">
+    {%- if card.genre %}
+    <span class="eyebrow">{{ card.genre }}</span>
+    {%- endif %}
+    {{ card_title_html }}
+    {%- if card.book_author %}
+    <p class="book-card__author">{% include data/t.html key="by" n=card.book_author %}</p>
+    {%- endif %}
+    {%- if card.rating %}
+    <div class="rating-line">{% include components/rating.html value=card.rating %}</div>
+    {%- endif %}
+    {%- if include.excerpt != nil and include.excerpt != "" %}
+    {%- assign card_excerpt = card.excerpt | strip_html | strip %}
+    {%- if card_excerpt != "" %}
+    <p class="book-card__excerpt{% if include.excerpt == "clamp" %} od-clamp-3{% endif %}">{{ card_excerpt }}</p>
+    {%- endif %}
+    {%- endif %}
+    {%- if card.date %}
+    {%- assign card_date_format = site.readerly.date_format | default: "%-d %B %Y" %}
+    <p class="book-card__meta"><time datetime="{{ card.date | date: "%Y-%m-%d" }}">{{ card.date | date: card_date_format }}</time></p>
+    {%- endif %}
+  </div>
+</article>
+{%- endif -%}

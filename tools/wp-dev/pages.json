@@ -1,0 +1,21 @@
+{
+	"pages": {
+		"home": "/",
+		"home-page-2": "/page/2/",
+		"review": "/the-salt-orchard/",
+		"author": "/author-home/",
+		"reading-log": "/reading-log/",
+		"about": "/about/",
+		"contact": "/contact/",
+		"archive": "/category/literary-fiction/",
+		"search": "/?s=ledger",
+		"search-empty": "/?s=zzzzqqq",
+		"404": "/this-page-does-not-exist/"
+	},
+	"notFound": ["404"],
+	"mobileMenu": {
+		"open": ".readerly-header .wp-block-navigation__responsive-container-open",
+		"panel": ".wp-block-navigation__responsive-container.is-menu-open",
+		"close": ".wp-block-navigation__responsive-container-close"
+	}
+}

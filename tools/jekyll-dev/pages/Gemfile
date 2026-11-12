@@ -1,0 +1,7 @@
+# The gem set GitHub Pages builds with (https://pages.github.com/versions.json).
+source "https://rubygems.org"
+
+gem "github-pages", "= 232", group: :jekyll_plugins
+gem "jekyll-theme-readerly", path: "/work/theme"
+# Silences the Faraday warning jekyll-github-metadata prints on every build.
+gem "faraday-retry"

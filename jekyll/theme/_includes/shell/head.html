@@ -1,0 +1,47 @@
+{%- assign head_style = site.readerly.style | default: "auto" -%}
+{%- capture head_title -%}
+{%- if page.layout == "post" and page.book_author -%}
+{{ page.book_title | default: page.title }} {% include data/t.html key="by" n=page.book_author %}: {% include data/t.html key="review" %} · {{ site.title }}
+{%- elsif page.title and page.url != "/" -%}
+{{ page.title }} · {{ site.title }}
+{%- elsif site.tagline -%}
+{{ site.title }}: {{ site.tagline }}
+{%- else -%}
+{{ site.title }}
+{%- endif -%}
+{%- if paginator.page > 1 %} · {% include data/t.html key="page_n" n=paginator.page %}{% endif -%}
+{%- endcapture -%}
+{%- assign head_description = page.description | default: page.lead | default: page.intro.lead | default: page.excerpt | default: site.description | strip_html | strip_newlines | strip -%}
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ head_title | strip_html | strip | escape_once }}</title>
+  {%- if head_description != "" %}
+  <meta name="description" content="{{ head_description | truncate: 200 | escape }}">
+  {%- endif %}
+  <meta name="color-scheme" content="{% case head_style %}{% when "paper" %}light{% when "lamplight" %}dark{% else %}light dark{% endcase %}">
+  <link rel="canonical" href="{{ page.url | replace: "index.html", "" | absolute_url }}">
+  <meta property="og:type" content="{% if page.layout == "post" %}article{% else %}website{% endif %}">
+  <meta property="og:site_name" content="{{ site.title | escape }}">
+  <meta property="og:title" content="{{ head_title | strip_html | strip | escape_once }}">
+  <meta property="og:url" content="{{ page.url | replace: "index.html", "" | absolute_url }}">
+  {%- if head_description != "" %}
+  <meta property="og:description" content="{{ head_description | truncate: 200 | escape }}">
+  {%- endif %}
+  {%- if page.cover %}
+  <meta property="og:image" content="{% if page.cover contains "://" %}{{ page.cover }}{% else %}{{ page.cover | absolute_url }}{% endif %}">
+  {%- endif %}
+  {%- if site.readerly.favicon %}
+  <link rel="icon" href="{% include components/url.html url=site.readerly.favicon %}"{% if site.readerly.favicon contains ".svg" %} type="image/svg+xml"{% endif %}>
+  {%- endif %}
+  <link rel="stylesheet" href="{{ "/assets/css/readerly.css" | relative_url }}">
+  {%- if site.readerly.custom_css %}
+  <link rel="stylesheet" href="{% include components/url.html url=site.readerly.custom_css %}">
+  {%- endif %}
+  {%- if site.plugins contains "jekyll-feed" or site.gems contains "jekyll-feed" %}
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ site.feed.path | default: "/feed.xml" | relative_url }}">
+  {%- endif %}
+  {%- if site.readerly.style_toggle != false %}
+  <script src="{{ "/assets/js/theme.js" | relative_url }}"></script>
+  {%- endif %}
+  {%- if page.layout == "post" %}{% include components/review-jsonld.html %}{% endif %}
+  {%- include head-custom.html %}

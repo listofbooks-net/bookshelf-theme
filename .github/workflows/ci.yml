@@ -62,3 +62,28 @@ jobs:
           docker cp wordpress/. "$cid:/theme"
           docker cp tools/wp-dev/. "$cid:/harness"
           docker start -a "$cid"
+
+  jekyll:
+    name: Jekyll theme on GitHub Pages (Jekyll 3.10) and Jekyll 4.4
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      # Builds the demo, the starter and the fixtures on both engines. A build
+      # that prints any warning fails.
+      - name: Build every site on both engines
+        run: |
+          set -euo pipefail
+          tools/jekyll-dev/jekyll-dev.sh images
+          tools/jekyll-dev/jekyll-dev.sh build
+      # Same-HTML, link, design-parity and browser checks, in the Playwright
+      # image that matches tools/package.json.
+      - name: Check the builds
+        run: |
+          set -euo pipefail
+          cid="$(docker create -w /repo mcr.microsoft.com/playwright:v1.61.0-noble bash -c 'npm ci --prefix tools --no-audit --no-fund >/dev/null && node tools/jekyll-dev/check-builds.mjs tools/jekyll-dev/out')"
+          trap 'docker rm -f "$cid" >/dev/null' EXIT
+          docker cp . "$cid:/repo"
+          docker start -a "$cid"

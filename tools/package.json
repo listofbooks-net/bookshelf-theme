@@ -4,6 +4,8 @@
 	"type": "module",
 	"description": "Development tools for the Readerly theme. Not part of the theme zip.",
 	"devDependencies": {
-		"ajv": "8.17.1"
+		"ajv": "8.17.1",
+		"node-html-parser": "9.0.7",
+		"playwright-core": "1.61.0"
 	}
 }

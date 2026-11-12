@@ -1,0 +1,43 @@
+{%- assign release = site.data.books | where: "featured", true | first -%}
+{%- if release and release.title -%}
+<section class="section section--band" id="new-release" aria-labelledby="release-title">
+      <div class="wrap">
+        <div class="release">
+          <div class="release__cover">{% include components/cover.html entry=release alt="described" %}</div>
+          <div class="release__body">
+            <span class="eyebrow">{% if release.label %}{{ release.label }}{% else %}{% include data/t.html key="new_release" %}{% endif %}</span>
+            <h2 id="release-title">{{ release.title }}</h2>
+            {%- assign release_lead = release.lead | default: release.blurb %}
+            {%- if release_lead %}
+            <p class="lead">{{ release_lead | markdownify | remove: "<p>" | remove: "</p>" | strip }}</p>
+            {%- endif %}
+            {%- if release.facts %}
+            <p class="release__facts">{{ release.facts }}</p>
+            {%- endif %}
+            {%- assign release_buy = release.buy_url %}
+            {%- if release_buy == nil and release.where_to_buy %}{% assign release_buy = "#where-to-buy" %}{% endif %}
+            {%- if release_buy or release.url %}
+            <div class="buttons">
+              {%- if release_buy %}
+              <a class="button" href="{% include components/url.html url=release_buy %}">{% include data/t.html key="buy_the_book" %}</a>
+              {%- endif %}
+              {%- if release.url %}
+              <a class="button{% if release_buy %} button--outline{% endif %}" href="{% include components/url.html url=release.url %}">{% if release.url_label %}{{ release.url_label }}{% else %}{% include data/t.html key="learn_more" %}{% endif %}</a>
+              {%- endif %}
+            </div>
+            {%- endif %}
+          </div>
+        </div>
+        {%- if release.where_to_buy %}
+        <div class="where-to-buy" id="where-to-buy">
+          <h3>{% include data/t.html key="where_to_buy" %}</h3>
+          <ul>
+            {%- for release_shop in release.where_to_buy %}
+            <li>{{ release_shop | markdownify | remove: "<p>" | remove: "</p>" | strip }}</li>
+            {%- endfor %}
+          </ul>
+        </div>
+        {%- endif %}
+      </div>
+    </section>
+{%- endif -%}

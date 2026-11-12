@@ -1,0 +1,63 @@
+---
+layout: default
+---
+{%- comment -%}
+Every review, newest first, or with page.genre only the reviews whose genre or tags
+include it. filter.js narrows the list by ?s= (search) and ?genre= in the browser.
+{%- endcomment -%}
+{%- if page.genre -%}
+{%- assign archive_posts = "" | split: "" -%}
+{%- for archive_post in site.posts -%}
+{%- if archive_post.genre == page.genre or archive_post.tags contains page.genre -%}{%- assign archive_posts = archive_posts | push: archive_post -%}{%- endif -%}
+{%- endfor -%}
+{%- else -%}
+{%- assign archive_posts = site.posts -%}
+{%- endif -%}
+{%- assign archive_related = "" | split: "" -%}
+{%- if page.genre -%}
+{%- for archive_post in archive_posts -%}
+{%- assign archive_terms = archive_post.tags | unshift: archive_post.genre -%}
+{%- for archive_term in archive_terms -%}
+{%- if archive_term and archive_term != page.genre -%}{%- unless archive_related contains archive_term -%}{%- assign archive_related = archive_related | push: archive_term -%}{%- endunless -%}{%- endif -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- endif -%}
+<div class="wrap">
+      <header class="archive-header">
+        <span class="eyebrow">{% if page.eyebrow %}{{ page.eyebrow }}{% elsif page.genre %}{% include data/t.html key="genre" %}{% else %}{% include data/t.html key="archive" %}{% endif %}</span>
+        <h1>{% if page.title or page.genre %}{{ page.title | default: page.genre }}{% else %}{% include data/t.html key="archive" %}{% endif %}</h1>
+        {%- if page.lead %}
+        <p class="lead">{{ page.lead }}</p>
+        {%- endif %}
+        <p class="muted"><small>{% if archive_posts.size == 1 %}{% include data/t.html key="reviews_one" %}{% else %}{% include data/t.html key="reviews_many" n=archive_posts.size %}{% endif %}</small></p>
+        {%- if archive_related.size > 0 %}
+        <ul class="tags" aria-label="{% include data/t.html key="related_genres" %}">
+          {%- for archive_term in archive_related %}
+          <li>{% include components/genre-link.html name=archive_term class="tag" %}</li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
+      </header>
+      {%- assign archive_content = content | strip %}
+      {%- if archive_content != "" %}
+      <div class="entry-content">
+{{ content }}
+      </div>
+      {%- endif %}
+
+      <p class="search-note" role="status" data-search-note hidden data-search-label="{% include data/t.html key="you_searched_for" %}" data-genre-label="{% include data/t.html key="showing" %}" data-none="{% include data/t.html key="match_none" %}" data-one="{% include data/t.html key="match_one" %}" data-many="{% include data/t.html key="match_many" %}">{% include data/t.html key="you_searched_for" %} &ldquo;<strong data-search-term></strong>&rdquo;.</p>
+      {%- if archive_posts.size > 0 %}
+
+      <ul class="book-grid book-grid--list" data-filter-list>
+          {%- for archive_post in archive_posts %}
+          {%- assign archive_terms = archive_post.tags | unshift: archive_post.genre | compact %}
+          {%- assign archive_terms_text = archive_terms | join: " " %}
+          {%- capture archive_search %}{{ archive_post.title }} {{ archive_post.book_title }} {{ archive_post.book_author }} {{ archive_post.series }} {{ archive_terms_text }}{% endcapture %}
+          <li data-genres="|{{ archive_terms | join: "|" | downcase | escape }}|" data-search="{{ archive_search | strip_html | downcase | escape }}">
+          {% include components/book-card.html entry=archive_post variant="list" heading="h2" excerpt="full" %}
+          </li>
+          {%- endfor %}
+      </ul>
+      <script src="{{ "/assets/js/filter.js" | relative_url }}" defer></script>
+      {%- endif %}
+    </div>

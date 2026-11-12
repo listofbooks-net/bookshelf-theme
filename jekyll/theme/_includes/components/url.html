@@ -1,0 +1,8 @@
+{%- comment -%} Prints include.url, prefixed with the site's baseurl when it is a path on this site. {%- endcomment -%}
+{%- assign url_first = include.url | slice: 0 -%}
+{%- assign url_first_two = include.url | slice: 0, 2 -%}
+{%- if include.url contains "://" or include.url contains "mailto:" or url_first == "#" or url_first == "?" or url_first_two == "//" -%}
+{{- include.url | escape_once -}}
+{%- else -%}
+{{- include.url | relative_url | escape_once -}}
+{%- endif -%}

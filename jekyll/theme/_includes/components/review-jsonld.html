@@ -1,0 +1,5 @@
+{%- if page.rating and page.book_author -%}
+{%- assign jsonld_author = page.author.name | default: page.author | default: site.author.name -%}
+{%- capture jsonld -%}{"@context":"https://schema.org","@type":"Review","url":{{ page.url | absolute_url | jsonify }},"datePublished":{{ page.date | date: "%Y-%m-%d" | jsonify }},"name":{{ page.title | jsonify }}{% if jsonld_author %},"author":{"@type":"Person","name":{{ jsonld_author | jsonify }}}{% endif %},"reviewRating":{"@type":"Rating","ratingValue":{{ page.rating | jsonify }},"bestRating":5,"worstRating":0},"itemReviewed":{"@type":"Book","name":{{ page.book_title | default: page.title | jsonify }},"author":{"@type":"Person","name":{{ page.book_author | jsonify }}}{% if page.pages %},"numberOfPages":{{ page.pages | jsonify }}{% endif %}{% if page.cover %},"image":{% if page.cover contains "://" %}{{ page.cover | jsonify }}{% else %}{{ page.cover | absolute_url | jsonify }}{% endif %}{% endif %}}}{%- endcapture -%}
+<script type="application/ld+json">{{ jsonld | replace: "</", "<\/" }}</script>
+{%- endif -%}

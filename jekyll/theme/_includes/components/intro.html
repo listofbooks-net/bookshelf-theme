@@ -1,0 +1,19 @@
+{%- comment -%} The intro block (eyebrow, h1, lead, buttons) from page.intro. The heading falls back to the page or site title. {%- endcomment -%}
+{%- assign intro = page.intro -%}
+{%- assign intro_heading = intro.heading | default: page.title | default: site.title | markdownify | remove: "<p>" | remove: "</p>" | strip -%}
+<div class="intro">
+          {%- if intro.eyebrow %}
+          <span class="eyebrow">{{ intro.eyebrow }}</span>
+          {%- endif %}
+          <h1>{{ intro_heading }}</h1>
+          {%- if intro.lead %}
+          <p class="lead muted">{{ intro.lead | markdownify | remove: "<p>" | remove: "</p>" | strip }}</p>
+          {%- endif %}
+          {%- if intro.buttons %}
+          <div class="buttons">
+            {%- for intro_button in intro.buttons %}
+            <a class="button{% unless forloop.first %} button--outline{% endunless %}" href="{% include components/url.html url=intro_button.url %}">{{ intro_button.title }}</a>
+            {%- endfor %}
+          </div>
+          {%- endif %}
+        </div>

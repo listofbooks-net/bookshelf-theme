@@ -1,0 +1,38 @@
+{%- comment -%}
+The Read, Want to read and Did not finish shelves, in one section. page.year limits
+Read to the books finished that year. page.shelves.<status>.note sets the line beside
+a shelf's heading, and page.shelves.<status>: false hides that shelf.
+{%- endcomment -%}
+{%- assign shelves_config = page.shelves -%}
+{%- capture shelves_html -%}
+{%- assign shelf_statuses = "read,want,dnf" | split: "," -%}
+{%- for shelf_status in shelf_statuses -%}
+{%- if shelves_config[shelf_status] == false %}{% continue %}{% endif -%}
+{%- if shelf_status == "read" -%}
+{%- include data/entries.html status="read" year=page.year -%}
+{%- else -%}
+{%- include data/entries.html status=shelf_status -%}
+{%- endif -%}
+{%- if entries.size == 0 %}{% continue %}{% endif -%}
+{%- assign shelf_key = shelf_status | prepend: "shelf_" -%}
+{%- capture shelf_heading -%}
+{%- if shelf_status == "read" and page.year %}{% include data/t.html key="shelf_read_year" n=page.year %}{% else %}{% include data/t.html key=shelf_key %}{% endif -%}
+{%- endcapture -%}
+{%- assign shelf_note = shelves_config[shelf_status].note -%}
+{%- if shelf_note == nil and shelf_status == "read" %}{% capture shelf_note %}{% include data/t.html key="shelf_read_note" %}{% endcapture %}{% endif -%}
+{%- capture shelf_count %}{% if entries.size == 1 %}{% include data/t.html key="books_one" %}{% else %}{% include data/t.html key="books_many" n=entries.size %}{% endif %}{% endcapture -%}
+{%- capture shelf_id %}{{ shelf_status }}-title{% endcapture %}
+        <div class="shelf-section" aria-labelledby="{{ shelf_id }}">
+          {% include components/section-head.html id=shelf_id heading=shelf_heading count=shelf_count note=shelf_note %}
+          {% include components/shelf.html entries=entries label=shelf_heading %}
+        </div>
+{% endfor -%}
+{%- endcapture -%}
+{%- assign shelves_check = shelves_html | strip -%}
+{%- if shelves_check != "" -%}
+<section class="section">
+      <div class="wrap">
+{{ shelves_html }}
+      </div>
+    </section>
+{%- endif -%}

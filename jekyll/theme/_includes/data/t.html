@@ -1,0 +1,106 @@
+{%- comment -%}
+Prints one interface string: site.data.readerly_strings[include.key] when the
+site defines it, else the English default below. %n is replaced by include.n, HTML-escaped once, so it is safe inside an attribute.
+{%- endcomment -%}
+{%- assign t_text = site.data.readerly_strings[include.key] -%}
+{%- unless t_text -%}
+{%- case include.key -%}
+{%- when "skip" -%}{%- assign t_text = "Skip to content" -%}
+{%- when "search_reviews" -%}{%- assign t_text = "Search reviews" -%}
+{%- when "search_placeholder" -%}{%- assign t_text = "Search by title, author or genre" -%}
+{%- when "search" -%}{%- assign t_text = "Search" -%}
+{%- when "dark_theme" -%}{%- assign t_text = "Dark theme" -%}
+{%- when "primary_nav" -%}{%- assign t_text = "Primary" -%}
+{%- when "by" -%}{%- assign t_text = "by %n" -%}
+{%- when "byline" -%}{%- assign t_text = "By" -%}
+{%- when "min_read" -%}{%- assign t_text = "%n min read" -%}
+{%- when "latest_review" -%}{%- assign t_text = "Latest review" -%}
+{%- when "featured_review" -%}{%- assign t_text = "Featured review" -%}
+{%- when "read_the_review" -%}{%- assign t_text = "Read the review" -%}
+{%- when "recent_reviews" -%}{%- assign t_text = "Recent reviews" -%}
+{%- when "all_reviews" -%}{%- assign t_text = "All reviews" -%}
+{%- when "browse_all_reviews" -%}{%- assign t_text = "Browse all reviews" -%}
+{%- when "page_n" -%}{%- assign t_text = "Page %n" -%}
+{%- when "pagination" -%}{%- assign t_text = "Pagination" -%}
+{%- when "newer" -%}{%- assign t_text = "Newer" -%}
+{%- when "older" -%}{%- assign t_text = "Older" -%}
+{%- when "currently_reading" -%}{%- assign t_text = "Currently reading" -%}
+{%- when "my_reading_log" -%}{%- assign t_text = "My reading log" -%}
+{%- when "browse_by_genre" -%}{%- assign t_text = "Browse by genre" -%}
+{%- when "reviews_and_counting" -%}{%- assign t_text = "%n reviews and counting" -%}
+{%- when "reviews_one" -%}{%- assign t_text = "1 review" -%}
+{%- when "reviews_many" -%}{%- assign t_text = "%n reviews" -%}
+{%- when "books_one" -%}{%- assign t_text = "1 book" -%}
+{%- when "books_many" -%}{%- assign t_text = "%n books" -%}
+{%- when "rated" -%}{%- assign t_text = "Rated %n out of 5" -%}
+{%- when "status_reading" -%}{%- assign t_text = "Reading" -%}
+{%- when "status_read" -%}{%- assign t_text = "Read" -%}
+{%- when "status_want" -%}{%- assign t_text = "Want to read" -%}
+{%- when "status_dnf" -%}{%- assign t_text = "Did not finish" -%}
+{%- when "status_dnf_short" -%}{%- assign t_text = "DNF" -%}
+{%- when "progress_through" -%}{%- assign t_text = "Progress through %n" -%}
+{%- when "page_of" -%}{%- assign t_text = "Page %n" -%}
+{%- when "of" -%}{%- assign t_text = "of" -%}
+{%- when "stopped_at" -%}{%- assign t_text = "Stopped at page %n" -%}
+{%- when "cover_of" -%}{%- assign t_text = "Cover of %n" -%}
+{%- when "no_cover" -%}{%- assign t_text = "No cover image yet: %n" -%}
+{%- when "shelf_read" -%}{%- assign t_text = "Read" -%}
+{%- when "shelf_read_year" -%}{%- assign t_text = "Read in %n" -%}
+{%- when "shelf_read_note" -%}{%- assign t_text = "Most recently finished first" -%}
+{%- when "shelf_want" -%}{%- assign t_text = "Want to read" -%}
+{%- when "shelf_dnf" -%}{%- assign t_text = "Did not finish" -%}
+{%- when "scrollable_shelf" -%}{%- assign t_text = "%n, scrollable shelf" -%}
+{%- when "stats_label" -%}{%- assign t_text = "%n reading statistics" -%}
+{%- when "stats_label_all" -%}{%- assign t_text = "Reading statistics" -%}
+{%- when "stat_books" -%}{%- assign t_text = "Books read" -%}
+{%- when "stat_pages" -%}{%- assign t_text = "Pages read" -%}
+{%- when "stat_rating" -%}{%- assign t_text = "Average rating" -%}
+{%- when "stat_dnf" -%}{%- assign t_text = "Did not finish" -%}
+{%- when "genres_and_tags" -%}{%- assign t_text = "Genres and tags" -%}
+{%- when "related_genres" -%}{%- assign t_text = "Related genres" -%}
+{%- when "series" -%}{%- assign t_text = "Series" -%}
+{%- when "pages" -%}{%- assign t_text = "Pages" -%}
+{%- when "published" -%}{%- assign t_text = "Published" -%}
+{%- when "my_rating" -%}{%- assign t_text = "My rating" -%}
+{%- when "status" -%}{%- assign t_text = "Status" -%}
+{%- when "finished_on" -%}{%- assign t_text = "finished %n" -%}
+{%- when "my_verdict" -%}{%- assign t_text = "My verdict" -%}
+{%- when "what_worked" -%}{%- assign t_text = "What worked" -%}
+{%- when "less_so" -%}{%- assign t_text = "Less so" -%}
+{%- when "reviewed_by" -%}{%- assign t_text = "Reviewed by" -%}
+{%- when "more_about" -%}{%- assign t_text = "More about %n" -%}
+{%- when "portrait_of" -%}{%- assign t_text = "Portrait of %n" -%}
+{%- when "you_might_also_like" -%}{%- assign t_text = "You might also like" -%}
+{%- when "more_in" -%}{%- assign t_text = "More %n" -%}
+{%- when "review" -%}{%- assign t_text = "review" -%}
+{%- when "email_address" -%}{%- assign t_text = "Email address" -%}
+{%- when "subscribe" -%}{%- assign t_text = "Subscribe" -%}
+{%- when "new_release" -%}{%- assign t_text = "New release" -%}
+{%- when "buy_the_book" -%}{%- assign t_text = "Buy the book" -%}
+{%- when "learn_more" -%}{%- assign t_text = "Learn more" -%}
+{%- when "learn_more_about" -%}{%- assign t_text = "about %n" -%}
+{%- when "buy" -%}{%- assign t_text = "Buy" -%}
+{%- when "where_to_buy" -%}{%- assign t_text = "Where to buy" -%}
+{%- when "my_books" -%}{%- assign t_text = "My books" -%}
+{%- when "kind_words" -%}{%- assign t_text = "Kind words" -%}
+{%- when "events" -%}{%- assign t_text = "Events" -%}
+{%- when "event_details" -%}{%- assign t_text = "Details" -%}
+{%- when "about_author" -%}{%- assign t_text = "About %n" -%}
+{%- when "genre" -%}{%- assign t_text = "Genre" -%}
+{%- when "archive" -%}{%- assign t_text = "Archive" -%}
+{%- when "you_searched_for" -%}{%- assign t_text = "You searched for" -%}
+{%- when "showing" -%}{%- assign t_text = "Showing" -%}
+{%- when "match_none" -%}{%- assign t_text = "No reviews match." -%}
+{%- when "match_one" -%}{%- assign t_text = "1 review matches." -%}
+{%- when "match_many" -%}{%- assign t_text = "%n reviews match." -%}
+{%- when "not_found_title" -%}{%- assign t_text = "This page has wandered off the shelf" -%}
+{%- when "not_found_lead" -%}{%- assign t_text = "The link may be old, or the page may have been moved or renamed. Try a search, or start again from the front page." -%}
+{%- when "not_found_lead_no_search" -%}{%- assign t_text = "The link may be old, or the page may have been moved or renamed. Start again from the front page." -%}
+{%- when "back_to_front" -%}{%- assign t_text = "Back to the front page" -%}
+{%- when "pick_something" -%}{%- assign t_text = "Or pick something to read" -%}
+{%- when "recent_favourites" -%}{%- assign t_text = "Recent favourites" -%}
+{%- else -%}{%- assign t_text = include.key -%}
+{%- endcase -%}
+{%- endunless -%}
+{%- assign t_n = include.n | escape_once -%}
+{{- t_text | replace: "%n", t_n -}}
