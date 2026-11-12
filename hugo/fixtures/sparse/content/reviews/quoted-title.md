@@ -8,4 +8,4 @@ pages: 200
 status: reading
 current_page: 50
 ---
-A title and an author with double quotes, and an author name that contains </script>, which must not end the JSON-LD block.
+A title and an author with double quotes, and an author name that contains `</script>`, which must not end the JSON-LD block.
