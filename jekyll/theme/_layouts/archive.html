@@ -25,7 +25,7 @@ include it. filter.js narrows the list by ?s= (search) and ?genre= in the browse
 <div class="wrap">
       <header class="archive-header">
         <span class="eyebrow">{% if page.eyebrow %}{{ page.eyebrow }}{% elsif page.genre %}{% include data/t.html key="genre" %}{% else %}{% include data/t.html key="archive" %}{% endif %}</span>
-        <h1>{{ page.title | default: page.genre }}</h1>
+        <h1>{% if page.title or page.genre %}{{ page.title | default: page.genre }}{% else %}{% include data/t.html key="archive" %}{% endif %}</h1>
         {%- if page.lead %}
         <p class="lead">{{ page.lead }}</p>
         {%- endif %}

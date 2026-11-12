@@ -3,7 +3,7 @@
 {%- assign events_sorted = site.data.events | sort: "date" -%}
 {%- for event_item in events_sorted -%}
 {%- assign event_day = event_item.date | date: "%Y%m%d" | plus: 0 -%}
-{%- if event_day >= events_today -%}{%- assign events_upcoming = events_upcoming | push: event_item -%}{%- endif -%}
+{%- if event_item.title and event_day >= events_today -%}{%- assign events_upcoming = events_upcoming | push: event_item -%}{%- endif -%}
 {%- endfor -%}
 {%- if events_upcoming.size > 0 -%}
 {%- assign events_section = page.events -%}

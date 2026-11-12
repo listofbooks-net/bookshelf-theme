@@ -1,5 +1,5 @@
 {%- assign release = site.data.books | where: "featured", true | first -%}
-{%- if release -%}
+{%- if release and release.title -%}
 <section class="section section--band" id="new-release" aria-labelledby="release-title">
       <div class="wrap">
         <div class="release">
