@@ -81,6 +81,20 @@ const fixtureCases = {
 		expect(failures, page.querySelectorAll('h1').length === 1, `page 2 has ${page.querySelectorAll('h1').length} h1 elements, not 1`);
 		return failures;
 	},
+	demo(root) {
+		// Science fiction has no content/categories/science-fiction/_index.md, so Hugo's own title would be "Science Fiction".
+		const failures = [];
+		const typed = 'Science fiction';
+		const home = read(root, 'index.html');
+		expect(failures, home.querySelectorAll('.toc__name').some((e) => e.text.trim() === typed), `the genre list does not say "${typed}" as the posts write it`);
+		const term = read(root, 'categories/science-fiction/index.html');
+		expect(failures, term.querySelector('h1')?.text.trim() === typed, `the genre page heading is "${term.querySelector('h1')?.text.trim()}", not "${typed}"`);
+		expect(failures, term.querySelector('title')?.text.startsWith(`${typed} ·`), `the genre page title is "${term.querySelector('title')?.text}"`);
+		const review = read(root, 'reviews/the-glass-cartographer/index.html');
+		expect(failures, review.querySelectorAll('a.tag').some((e) => e.text.trim() === typed), `the review's genre chip is not "${typed}"`);
+		expect(failures, review.querySelectorAll('.book-card .eyebrow').every((e) => e.text.trim() !== 'Science Fiction'), 'a card eyebrow title-cases the genre');
+		return failures;
+	},
 	'no-credit'(root) {
 		const failures = [];
 		for (const file of contentPages(root)) {

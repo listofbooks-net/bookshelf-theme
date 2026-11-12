@@ -216,7 +216,7 @@ On page 2 and later of the home page, only `recent-reviews` shows.
 
 The list page of your reviews' section (for example `/reviews/` or `/posts/`) is the archive. With several `mainSections`, the first one's list page is the archive and the search box searches it. It lists every review, newest first, and the search box in the header and on the 404 page searches it. Search runs in the visitor's browser, with no index file and no external service.
 
-Each genre (`categories`) and tag has its own page, paginated. To give a genre page a description, create `content/categories/<genre>/_index.md`:
+Each genre (`categories`) and tag has its own page, paginated. Genre and tag names appear as your posts write them (`Science fiction` stays `Science fiction`), without Hugo's automatic title case. To give a genre page a description, create `content/categories/<genre>/_index.md`:
 
 ```yaml
 ---
