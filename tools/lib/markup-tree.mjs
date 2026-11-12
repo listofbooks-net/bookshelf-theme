@@ -23,7 +23,7 @@ function tree(element) {
 	return { sig: signature(element), children };
 }
 
-export function body(html, page, side, list) {
+export function body(html, page, side, list = []) {
 	const root = parse(html, { comment: false });
 	const bodyElement = root.querySelector('body');
 	const drop = ['script', '.demo-bar', ...list.filter((e) => e.page === page && (e.side === side || e.side === 'both')).map((e) => e.selector)];
