@@ -86,6 +86,8 @@ start() {
 	cid="$(docker create --name "$name" "${args[@]}" "$ghost_image")"
 	# A job container cannot bind-mount its own files, so the theme is copied in instead.
 	if [[ -n "$network" && -f "$theme_dir/package.json" ]]; then
+		# The image has no content folder until Ghost first starts, so make the theme folder in the volume.
+		docker run --rm -v "$volume:/var/lib/ghost/content" --entrypoint mkdir "$ghost_image" -p /var/lib/ghost/content/themes/readerly
 		docker cp "$theme_dir/." "$cid:/var/lib/ghost/content/themes/readerly"
 	fi
 	docker start "$cid" >/dev/null
