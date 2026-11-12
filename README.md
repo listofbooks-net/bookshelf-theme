@@ -1,8 +1,8 @@
 # Readerly
 
-Readerly is a free theme for people who love books, for WordPress and for Jekyll. It is built for a book blog first, and it also gives you an author website and a reading log. Each use is optional: the theme creates no pages, posts or categories, and every section can be removed. It comes in two styles, Paper (light) and Lamplight (dark), and bundles its fonts, so it makes no third-party requests.
+Readerly is a free theme for people who love books, for WordPress, Jekyll and Hugo. It is built for a book blog first, and it also gives you an author website and a reading log. Each use is optional: the theme creates no pages, posts or categories, and every section can be removed. It comes in two styles, Paper (light) and Lamplight (dark), and bundles its fonts, so it makes no third-party requests.
 
-The WordPress theme requires WordPress 6.9 and PHP 7.4, under GPLv2 or later. The Jekyll theme runs on GitHub Pages and Jekyll 4, under the MIT License.
+The WordPress theme requires WordPress 6.9 and PHP 7.4, under GPLv2 or later. The Jekyll theme runs on GitHub Pages and Jekyll 4, and the Hugo theme on Hugo 0.146.0 or later, both under the MIT License.
 
 ## Layout
 
@@ -137,4 +137,4 @@ tools/wp-dev/wp-dev.sh zip-test dist/readerly-1.0.0.zip
 
 ## The footer credit
 
-The footer keeps one link, "Theme by List of Books", to https://www.listofbooks.net/. In WordPress, a site owner can edit or delete it in the Site Editor. In Jekyll, a site owner removes it by adding an empty `_includes/shell/credit.html`.
+The footer keeps one link, "Theme by List of Books", to https://www.listofbooks.net/. In WordPress, a site owner can edit or delete it in the Site Editor. In Jekyll, a site owner removes it by adding an empty `_includes/shell/credit.html`, and in Hugo an empty `layouts/_partials/credit.html`.
