@@ -12,7 +12,9 @@ for cards lives here.
 {%- assign card_title = card.book_title | default: card.title -%}
 {%- capture card_href %}{% if card.url %}{% include components/url.html url=card.url %}{% endif %}{% endcapture -%}
 {%- capture card_cover -%}
-{%- if card_href != "" -%}
+{%- if card.cover == nil and card.book_author == nil and card.rating == nil and card.status == nil and include.variant != "own" -%}
+{%- comment -%} A plain blog post is not a book, so it gets no placeholder cover. {%- endcomment -%}
+{%- elsif card_href != "" -%}
 <a class="cover-link book-card__cover" href="{{ card_href }}" tabindex="-1" aria-hidden="true">{% include components/cover.html entry=card alt="decorative" %}</a>
 {%- else -%}
 <div class="book-card__cover">{% include components/cover.html entry=card alt="described" %}</div>
