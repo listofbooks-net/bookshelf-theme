@@ -1,8 +1,8 @@
 # Readerly
 
-Readerly is a free theme for people who love books, for WordPress, Jekyll and Hugo. It is built for a book blog first, and it also gives you an author website and a reading log. Each use is optional: the theme creates no pages, posts or categories, and every section can be removed. It comes in two styles, Paper (light) and Lamplight (dark), and bundles its fonts, so it makes no third-party requests.
+Readerly is a free theme for people who love books, for WordPress, Jekyll, Hugo and Ghost. It is built for a book blog first, and it also gives you an author website and a reading log. Each use is optional: the theme creates no pages, posts or categories, and every section can be removed. It comes in two styles, Paper (light) and Lamplight (dark), and bundles its fonts, so it makes no third-party requests.
 
-The WordPress theme requires WordPress 6.9 and PHP 7.4, under GPLv2 or later. The Jekyll theme runs on GitHub Pages and Jekyll 4, and the Hugo theme on Hugo 0.146.0 or later, both under the MIT License.
+The WordPress theme requires WordPress 6.9 and PHP 7.4, under GPLv2 or later. The Jekyll theme runs on GitHub Pages and Jekyll 4, the Hugo theme on Hugo 0.146.0 or later, and the Ghost theme on Ghost 6, all three under the MIT License.
 
 ## Layout
 
@@ -16,7 +16,8 @@ The WordPress theme requires WordPress 6.9 and PHP 7.4, under GPLv2 or later. Th
 | `jekyll/fixtures/` | Sites that only the checks build: `bare` (a title and nothing else), `minima` (the output of `jekyll new`) and `sparse` (one post per missing field). |
 | `hugo/theme/` | The Hugo theme, published as `listofbooks-net/hugo-theme-readerly`, with its demo site, Marginalia, in `hugo/theme/exampleSite/`. |
 | `hugo/fixtures/` | Sites that only the checks build: `bare` (a title and nothing else), `quickstart` (what `hugo new site` and `hugo new content` make), `sparse` (one review per missing field), `paginated` (a custom pager path) and `no-credit` (the credit partial emptied). |
-| `tools/` | The generator, the checks that CI runs, the zip builder, a local WordPress and the Jekyll and Hugo build images. None of it ships. |
+| `ghost/` | The Ghost theme. Its contents are what ships; `ghost/README.md` is the theme's documentation. |
+| `tools/` | The generator, the checks that CI runs, the zip builder, a local WordPress and the Jekyll and Hugo build images and a local Ghost. None of it ships. |
 
 ## Generated files
 
@@ -28,11 +29,14 @@ The WordPress theme requires WordPress 6.9 and PHP 7.4, under GPLv2 or later. Th
 - `jekyll/theme/assets/css/readerly.css` (fonts, tokens and `design/assets/css/style.css`), `jekyll/theme/assets/js/theme.js`, and the theme's fonts and images
 - the demo's covers and images in `jekyll/demo/assets/`
 - `hugo/theme/assets/readerly/css/readerly.css` (the same CSS as the Jekyll theme's) and `hugo/theme/assets/readerly/js/theme.js`, the theme's fonts and images in `hugo/theme/static/readerly/`, and the demo's covers and images in `hugo/theme/exampleSite/static/assets/`
+- `ghost/assets/css/readerly.css` (fonts, tokens and `design/assets/css/style.css`), `ghost/assets/js/theme.js`, and the Ghost theme's fonts and images
 
 ```sh
 node tools/build-tokens.mjs           # regenerate
 node tools/build-tokens.mjs --check   # exit 1 if a generated file is out of date
 ```
+
+`node tools/ghost-locales.mjs [--check]` does the same for `ghost/locales/en.json`, from the strings in the Ghost templates.
 
 Edit the source in `design/`, rerun the command and commit the generated files. Do not edit those files by hand. The design pages link `design/assets/css/demo.css`, which holds the demo-bar rules that no theme ships.
 
