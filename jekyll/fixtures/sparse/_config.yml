@@ -14,3 +14,6 @@ liquid:
 defaults:
   - scope: { type: posts }
     values: { layout: post }
+# A protocol-relative URL, which the theme must leave as written.
+readerly:
+  favicon: //example.com/favicon.svg

@@ -4,3 +4,5 @@
 
 layout: home
 ---
+
+This body text belongs to the page, so the home layout must print it.

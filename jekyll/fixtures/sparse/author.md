@@ -1,4 +1,4 @@
 ---
 layout: author
-title: An Author With No Books
+title: An Author With "No" Books
 ---

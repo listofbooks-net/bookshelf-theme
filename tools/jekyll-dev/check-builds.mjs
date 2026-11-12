@@ -2,14 +2,16 @@
 //   node check-builds.mjs <out dir>
 // 1. Each site's HTML is the same on both engines, whitespace aside.
 // 2. Every internal link and asset in every page resolves to a built file.
-// 3. The demo matches the design pages' markup (check-parity.mjs).
-// 4. Every page of every site passes check-pages.cjs at 1280 and 390 px, in both styles.
+// 3. Attributes parse, no heading is empty, and each fixture's own cases hold (check-markup.mjs).
+// 4. The demo matches the design pages' markup (check-parity.mjs).
+// 5. Every page of every site passes check-pages.cjs at 1280 and 390 px, in both styles.
 import { readdirSync, readFileSync, existsSync, statSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, relative, posix } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 import { parse } from 'node-html-parser';
 import { checkParity } from './check-parity.mjs';
+import { checkMarkup } from './check-markup.mjs';
 import { startServer } from './serve.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -81,6 +83,8 @@ for (const site of sites) {
 	}
 	report(`${site}: every internal link and asset resolves under baseurl ${BASE}`, failures);
 }
+
+for (const site of sites) report(`${site}: attributes parse, no empty headings, and the fixture's own cases`, checkMarkup(join(out, 'pages'), site));
 
 if (sites.includes('demo')) report('demo: markup matches the seven design pages', checkParity(join(repo, 'design'), join(out, 'pages', 'demo')));
 

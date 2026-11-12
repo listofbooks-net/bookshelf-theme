@@ -1,0 +1,16 @@
+# A custom paginate_path (the pager's first link must be /blog/) and an archive page
+# with no title (its heading must not be empty).
+title: Paginated
+baseurl: /sub
+remote_theme: listofbooks-net/jekyll-theme-readerly@v1
+plugins:
+  - jekyll-remote-theme
+  - jekyll-paginate
+paginate: 2
+paginate_path: /blog/page:num/
+liquid:
+  error_mode: strict
+  strict_filters: true
+defaults:
+  - scope: { type: posts }
+    values: { layout: post }
