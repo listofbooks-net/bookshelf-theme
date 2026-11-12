@@ -30,7 +30,7 @@
   --color-accent-2: #4a6650;  /* status, tags: sage    (5.6:1 on base) */
   --color-border: #ddd3c3;    /* hairlines, dividers (decorative only) */
 
-  /* Font families (Google Fonts, SIL Open Font License) */
+  /* Font families (bundled in assets/fonts, SIL Open Font License) */
   --font-heading: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-body: "Literata", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
 
