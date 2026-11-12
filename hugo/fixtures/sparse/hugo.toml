@@ -1,0 +1,8 @@
+# One review per row of the theme's "when it is missing" table.
+# No author, menus, footer, newsletter, archive page or praise.
+baseURL = "https://example.org/"
+title = "Sparse"
+
+[params.readerly]
+  # A protocol-relative URL, which the theme must leave as written.
+  favicon = "//example.com/favicon.svg"
