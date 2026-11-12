@@ -43,6 +43,8 @@ main > .wrap > .book-grid--list:last-child { margin-bottom: var(--space-70); }
 
 .entry-content .kg-image { display: block; margin-inline: auto; max-width: 100%; height: auto; }
 
+/* 100vw includes a classic scrollbar, so a full-width card would scroll the page sideways. */
+main { overflow-x: clip; }
 .kg-width-wide,
 .kg-width-full { position: relative; }
 .kg-width-wide {

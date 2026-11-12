@@ -18,7 +18,7 @@
     <p class="book-card__excerpt">{{custom_excerpt}}</p>
     {{/if}}
     <div class="book-card__actions">
-      {{#foreach tags visibility="internal"}}{{#match name "~^" "#buy:"}}<a class="button" href="{{split name separator="#buy:"}}">{{t "Buy"}}<span class="visually-hidden"> {{../title}}</span></a>{{/match}}{{/foreach}}
+      {{> "book/buy-link" label=(t "Buy") hidden=title}}
       <a class="button button--outline" href="{{url}}">{{t "Learn more"}}<span class="visually-hidden"> {{t "about {title}" title=title}}</span></a>
     </div>
   </div>

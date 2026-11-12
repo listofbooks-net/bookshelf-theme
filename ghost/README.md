@@ -92,7 +92,7 @@ Readerly styles Ghost's cards: images (normal, wide and full width), galleries, 
 2. In the page settings, set **Template** to **Reading log**.
 3. Optional: add the internal tag `#eyebrow:Reading journal` for the small label above the title, and an excerpt for the text under it.
 
-The page lists every post and page tagged `#reading`, `#read`, `#want-to-read` and `#did-not-finish`, and shows your number of books read, pages read, average rating and books not finished. The home page links to this page from its "Currently reading" section, and the 404 page links to it too.
+The page lists every post and page tagged `#reading`, `#read`, `#want-to-read` and `#did-not-finish`, and shows your number of books read, pages read, average rating and books not finished. Each shelf shows up to 100 posts and 100 pages, newest first, and the numbers count the books on the shelves. The home page links to this page from its "Currently reading" section, and the 404 page links to it too.
 
 For a book you have not reviewed, create a **page** instead of a post: title, feature image (the cover), and the same internal tags. Pages stay out of your home page, your RSS feed and your email newsletter. Write something in the page body to make the book's card a link to the page.
 

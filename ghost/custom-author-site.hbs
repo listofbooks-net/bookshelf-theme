@@ -17,7 +17,7 @@
             {{/if}}
             <div class="buttons">
               {{#get "pages" include="tags" filter="tag:hash-book+featured:true" limit="1" as |release|}}{{#foreach release}}<a class="button" href="#new-release">{{t "Discover {title}" title=title}}</a>{{/foreach}}{{/get}}
-              {{#if @site.members_enabled}}{{#unless @member}}<a class="button button--outline" href="#newsletter">{{t "Join my newsletter"}}</a>{{/unless}}{{/if}}
+              {{#if @site.members_enabled}}{{#unless @site.members_invite_only}}{{#unless @member}}{{#if @custom.newsletter_heading}}<a class="button button--outline" href="#newsletter">{{t "Join my newsletter"}}</a>{{/if}}{{/unless}}{{/unless}}{{/if}}
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
             {{/if}}
             <p class="release__facts">{{#primary_tag}}{{name}} &middot; {{/primary_tag}}{{#foreach tags visibility="internal"}}{{#match name "~^" "#pages:"}}{{t "{pages} pages" pages=(split name separator="#pages:")}} &middot; {{/match}}{{/foreach}}{{t "Published {date}" date=(date published_at format="D MMMM YYYY")}}</p>
             <div class="buttons">
-              {{#foreach tags visibility="internal"}}{{#match name "~^" "#buy:"}}<a class="button" href="{{split name separator="#buy:"}}">{{t "Buy the book"}}</a>{{/match}}{{/foreach}}
+              {{> "book/buy-link" label=(t "Buy the book")}}
               <a class="button button--outline" href="{{url}}">{{t "Read more about {title}" title=title}}</a>
             </div>
           </div>

@@ -297,7 +297,11 @@ const ghostMirrors = [
 ];
 mirrors.push(...ghostMirrors);
 outputs.push(
-	['ghost/assets/css/readerly.css', () => buildJekyllCss().replace('Readerly for Jekyll.', 'Readerly for Ghost.')],
+	['ghost/assets/css/readerly.css', () => {
+		const css = buildJekyllCss();
+		if (!css.startsWith('/* Readerly for Jekyll.')) throw new Error('buildJekyllCss() banner changed: update the Ghost banner swap');
+		return css.replace('Readerly for Jekyll.', 'Readerly for Ghost.');
+	}],
 	['ghost/assets/js/theme.js', () => readFileSync(join(root, 'design/assets/js/theme.js'))],
 	...ghostMirrors.flatMap((m) => m.copies),
 );

@@ -149,6 +149,5 @@ jobs:
       - name: Stop Ghost
         if: always()
         run: |
-          docker rm -f readerly-ghost-dev >/dev/null 2>&1 || true
-          docker volume rm readerly-ghost-dev-content >/dev/null 2>&1 || true
+          tools/ghost-dev/ghost-dev.sh clean
           docker network rm "$GHOST_NETWORK" >/dev/null 2>&1 || true

@@ -130,6 +130,7 @@ gscan() {
 	for arg in "$@"; do
 		if [[ "$arg" == -z ]]; then mode=zip; else target="$(realpath "$arg")"; fi
 	done
+	[[ "$mode" == dir || "$target" == *.zip ]] || { echo "gscan -z needs the path of a .zip" >&2; return 2; }
 	local cli=(node /var/lib/ghost/current/node_modules/gscan/bin/cli.js)
 	local cid log status=0
 	log="$(mktemp)"
@@ -183,7 +184,7 @@ case "${1:-}" in
 		rm -f "$state"
 		;;
 	*)
-		sed -n '2,19p' "$0"
+		sed -n '2,23p' "$0"
 		exit 1
 		;;
 esac

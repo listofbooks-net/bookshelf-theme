@@ -8,7 +8,8 @@
   function percent(progress) {
     var max = Number(progress.getAttribute("max"));
     var value = Number(progress.getAttribute("value"));
-    return max > 0 ? Math.round((value / max) * 100) : 0;
+    if (!(max > 0) || !isFinite(value)) return 0;
+    return Math.min(100, Math.max(0, Math.round((value / max) * 100)));
   }
 
   function fillProgress() {
@@ -53,7 +54,8 @@
     var ratings = [];
     read.forEach(function (card) {
       pages += Number(card.getAttribute("data-pages")) || 0;
-      if (card.hasAttribute("data-rating")) ratings.push(Number(card.getAttribute("data-rating")));
+      var rating = parseFloat(card.getAttribute("data-rating"));
+      if (isFinite(rating)) ratings.push(rating);
     });
     var values = {
       read: format(read.length),
@@ -64,7 +66,7 @@
     Array.prototype.forEach.call(stats.querySelectorAll("[data-stat]"), function (slot) {
       var value = values[slot.getAttribute("data-stat")];
       if (value) slot.textContent = value;
-      else slot.closest("li").hidden = true;
+      else if (slot.closest("li")) slot.closest("li").hidden = true;
     });
     stats.hidden = false;
   }

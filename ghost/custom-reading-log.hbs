@@ -18,12 +18,12 @@
         </ul>
       </div>
     </section>
-{{#get "posts" include="tags,authors" filter="tag:hash-reading" limit="100" as |reading_posts|}}{{#get "pages" include="tags" filter="tag:hash-reading" limit="100" as |reading_pages|}}{{> "sections/reading-now" shelf_posts=reading_posts shelf_pages=reading_pages show_count=true}}{{/get}}{{/get}}
+{{#get "posts" include="tags,authors" filter="tag:hash-reading" limit="100" order="published_at desc" as |reading_posts|}}{{#get "pages" include="tags" filter="tag:hash-reading" limit="100" order="published_at desc" as |reading_pages|}}{{> "sections/reading-now" shelf_posts=reading_posts shelf_pages=reading_pages show_count=true}}{{/get}}{{/get}}
 <section class="section">
       <div class="wrap">
-        {{#get "posts" include="tags,authors" filter="tag:hash-read" limit="100" as |read_posts|}}{{#get "pages" include="tags" filter="tag:hash-read" limit="100" as |read_pages|}}{{> "sections/shelf" shelf_posts=read_posts shelf_pages=read_pages shelf="read" heading=(t "Read") note=(t "Newest first")}}{{/get}}{{/get}}
-        {{#get "posts" include="tags,authors" filter="tag:hash-want-to-read" limit="100" as |want_posts|}}{{#get "pages" include="tags" filter="tag:hash-want-to-read" limit="100" as |want_pages|}}{{> "sections/shelf" shelf_posts=want_posts shelf_pages=want_pages shelf="want" heading=(t "Want to read") note=(t "Up next")}}{{/get}}{{/get}}
-        {{#get "posts" include="tags,authors" filter="tag:hash-did-not-finish" limit="100" as |dnf_posts|}}{{#get "pages" include="tags" filter="tag:hash-did-not-finish" limit="100" as |dnf_pages|}}{{> "sections/shelf" shelf_posts=dnf_posts shelf_pages=dnf_pages shelf="dnf" heading=(t "Did not finish") note=(t "Set aside for now")}}{{/get}}{{/get}}
+        {{#get "posts" include="tags,authors" filter="tag:hash-read" limit="100" order="published_at desc" as |read_posts|}}{{#get "pages" include="tags" filter="tag:hash-read" limit="100" order="published_at desc" as |read_pages|}}{{> "sections/shelf" shelf_posts=read_posts shelf_pages=read_pages shelf="read" heading=(t "Read") note=(t "Newest first")}}{{/get}}{{/get}}
+        {{#get "posts" include="tags,authors" filter="tag:hash-want-to-read" limit="100" order="published_at desc" as |want_posts|}}{{#get "pages" include="tags" filter="tag:hash-want-to-read" limit="100" order="published_at desc" as |want_pages|}}{{> "sections/shelf" shelf_posts=want_posts shelf_pages=want_pages shelf="want" heading=(t "Want to read") note=(t "Up next")}}{{/get}}{{/get}}
+        {{#get "posts" include="tags,authors" filter="tag:hash-did-not-finish" limit="100" order="published_at desc" as |dnf_posts|}}{{#get "pages" include="tags" filter="tag:hash-did-not-finish" limit="100" order="published_at desc" as |dnf_pages|}}{{> "sections/shelf" shelf_posts=dnf_posts shelf_pages=dnf_pages shelf="dnf" heading=(t "Did not finish") note=(t "Set aside for now")}}{{/get}}{{/get}}
       </div>
     </section>
 {{#if html}}
