@@ -50,7 +50,7 @@
         <section class="section section--tight" aria-labelledby="related-title">
           <div class="section-head">
             <h2 id="related-title">{{t "You might also like"}}</h2>
-            {{#primary_tag}}<a class="more-link" href="{{url}}">{{t "More in {genre}" genre=name}} {{> "site/icon" name="arrow-right"}}</a>{{/primary_tag}}
+            {{#with @root.post.primary_tag}}<a class="more-link" href="{{url}}">{{t "More in {genre}" genre=name}} {{> "site/icon" name="arrow-right"}}</a>{{/with}}
           </div>
           <ul class="book-grid book-grid--related">
             {{#foreach related}}

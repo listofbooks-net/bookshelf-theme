@@ -24,7 +24,7 @@
   </div>
 </article>
 {{else}}
-<article class="book-card{{#if featured}} book-card--featured{{/if}}"{{> "book/data"}}>
+<article class="book-card"{{> "book/data"}}>
   {{#if feature_image}}{{> "book/card-cover" link=true}}{{else}}{{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}{{> "book/card-cover" ../this link=true}}{{/match}}{{/foreach}}{{/if}}
   <div class="book-card__body">
     {{#if featured}}<span class="eyebrow">{{t "Featured"}}{{#primary_tag}} &middot; {{name}}{{/primary_tag}}</span>{{else}}{{#primary_tag}}<span class="eyebrow">{{name}}</span>{{/primary_tag}}{{/if}}
