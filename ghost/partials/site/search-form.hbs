@@ -1,0 +1,5 @@
+<form class="search-form" role="search" action="{{@site.url}}/#/search" method="get">
+            <label class="visually-hidden" for="{{id}}">{{t "Search reviews"}}</label>
+            <input class="input" id="{{id}}" type="search" name="q" placeholder="{{placeholder}}" autocomplete="off" data-ghost-search>
+            <button class="icon-button" type="submit"{{#if compact}} aria-label="{{t "Search"}}"{{/if}} data-ghost-search>{{> "site/icon" name="search"}}{{#unless compact}} {{t "Search"}}{{/unless}}</button>
+          </form>

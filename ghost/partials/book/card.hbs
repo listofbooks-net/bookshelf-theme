@@ -1,0 +1,40 @@
+{{#match variant "compact"}}
+<article class="book-card book-card--compact"{{> "book/data"}}>
+  {{#if feature_image}}{{> "book/card-cover" link=link}}{{else}}{{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}{{> "book/card-cover" ../this link=../link}}{{/match}}{{/foreach}}{{/if}}
+  <div class="book-card__body">
+    <{{#if heading}}{{heading}}{{else}}h3{{/if}} class="book-card__title">{{#if link}}<a href="{{url}}">{{title}}</a>{{else}}{{title}}{{/if}}</{{#if heading}}{{heading}}{{else}}h3{{/if}}>
+    {{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}<p class="book-card__author">{{split name separator="#by:"}}</p>{{/match}}{{/foreach}}
+    {{#has tag="#reading,#read,#want-to-read,#did-not-finish"}}<div class="rating-line">{{> "book/rating"}}{{> "book/badge"}}</div>{{else}}{{#foreach tags visibility="internal"}}{{#match ",#rating:0,#rating:0.5,#rating:1,#rating:1.5,#rating:2,#rating:2.5,#rating:3,#rating:3.5,#rating:4,#rating:4.5,#rating:5," "~" (concat "," name ",")}}<div class="rating-line">{{> "book/stars" value=(split name separator="#rating:")}}</div>{{/match}}{{/foreach}}{{/has}}
+    {{> "book/progress"}}
+  </div>
+</article>
+{{else match variant "own"}}
+<article class="book-card book-card--author">
+  {{> "book/card-cover" link=true}}
+  <div class="book-card__body">
+    <span class="eyebrow">{{date published_at format="YYYY"}}{{#primary_tag}} &middot; {{name}}{{/primary_tag}}</span>
+    <h3 class="book-card__title"><a href="{{url}}">{{title}}</a></h3>
+    {{#if custom_excerpt}}
+    <p class="book-card__excerpt">{{custom_excerpt}}</p>
+    {{/if}}
+    <div class="book-card__actions">
+      {{> "book/buy-link" label=(t "Buy") hidden=title}}
+      <a class="button button--outline" href="{{url}}">{{t "Learn more"}}<span class="visually-hidden"> {{t "about {title}" title=title}}</span></a>
+    </div>
+  </div>
+</article>
+{{else}}
+<article class="book-card"{{> "book/data"}}>
+  {{#if feature_image}}{{> "book/card-cover" link=true}}{{else}}{{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}{{> "book/card-cover" ../this link=true}}{{/match}}{{/foreach}}{{/if}}
+  <div class="book-card__body">
+    {{#if featured}}<span class="eyebrow">{{t "Featured"}}{{#primary_tag}} &middot; {{name}}{{/primary_tag}}</span>{{else}}{{#primary_tag}}<span class="eyebrow">{{name}}</span>{{/primary_tag}}{{/if}}
+    <{{#if heading}}{{heading}}{{else}}h3{{/if}} class="book-card__title"><a href="{{url}}">{{title}}</a></{{#if heading}}{{heading}}{{else}}h3{{/if}}>
+    {{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}<p class="book-card__author">{{t "by {author}" author=(split name separator="#by:")}}</p>{{/match}}{{/foreach}}
+    {{#foreach tags visibility="internal"}}{{#match ",#rating:0,#rating:0.5,#rating:1,#rating:1.5,#rating:2,#rating:2.5,#rating:3,#rating:3.5,#rating:4,#rating:4.5,#rating:5," "~" (concat "," name ",")}}<div class="rating-line">{{> "book/stars" value=(split name separator="#rating:")}}</div>{{/match}}{{/foreach}}
+    {{#if blurb}}
+    <p class="book-card__excerpt{{#match blurb "clamp"}} od-clamp-3{{/match}}">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="40"}}{{/if}}</p>
+    {{/if}}
+    <p class="book-card__meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMMM YYYY"}}</time></p>
+  </div>
+</article>
+{{/match}}

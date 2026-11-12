@@ -9,6 +9,8 @@
 //   notFound     names that must answer HTTP 404
 //   mobileMenu   { open, panel, close } selectors of a menu toggle to exercise at 390 px
 //   colorScheme  { <label>: "light" | "dark" } emulated for that label
+//   allowThirdParty  URL prefixes whose requests are not reported as third-party
+//   allowFailed      paths on the site whose failed requests are not reported
 //
 // Set PLAYWRIGHT_MODULE to a Playwright install and CHROMIUM_PATH to a browser
 // when they are not resolvable from this directory.
@@ -43,6 +45,8 @@ try {
 const map = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
 const pages = map.pages;
 const notFound = new Set(map.notFound ?? []);
+const allowThirdParty = map.allowThirdParty ?? [];
+const allowFailed = map.allowFailed ?? [];
 const viewports = { desktop: { width: 1280, height: 900 }, mobile: { width: 390, height: 844 } };
 const CREDIT = 'https://www.listofbooks.net';
 
@@ -63,9 +67,11 @@ async function checkPage(context, name, path, vpName) {
 		page.on('pageerror', (e) => problems.push(`page error: ${e.message}`));
 		page.on('request', (r) => {
 			const url = r.url();
-			if (!/^(data|blob):/.test(url) && new URL(url).origin !== origin) problems.push(`third-party request: ${url}`);
+			if (!/^(data|blob):/.test(url) && new URL(url).origin !== origin && !allowThirdParty.some((prefix) => url.startsWith(prefix))) problems.push(`third-party request: ${url}`);
 		});
-		page.on('requestfailed', (r) => problems.push(`failed: ${r.url()}`));
+		page.on('requestfailed', (r) => {
+			if (!allowFailed.some((p) => r.url().startsWith(origin + p))) problems.push(`failed: ${r.url()}`);
+		});
 
 		let response = null;
 		try {

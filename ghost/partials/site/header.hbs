@@ -1,0 +1,31 @@
+<header class="site-header">
+    <div class="wrap">
+      <div class="site-header__bar">
+        <div class="site-branding">
+          {{#if @site.logo}}
+          <p class="site-title site-title--logo"><a href="{{@site.url}}" rel="home"><img src="{{img_url @site.logo size="s"}}" alt="{{@site.title}}"></a></p>
+          {{else}}
+          <p class="site-title"><a href="{{@site.url}}" rel="home">{{@site.title}}</a></p>
+          {{/if}}
+          {{#if @site.description}}
+          <p class="site-tagline">{{@site.description}}</p>
+          {{/if}}
+        </div>
+        <div class="site-tools">
+          {{> "site/search-form" id="search-header" placeholder=(t "Search reviews") compact=true}}
+          {{#if @custom.style_toggle}}
+          <button class="icon-button theme-toggle" type="button" aria-pressed="false" data-theme-toggle hidden>
+            <span class="visually-hidden">{{t "Dark theme"}}</span>
+            {{> "site/icon" name="moon" class="icon-moon"}}
+            {{> "site/icon" name="sun" class="icon-sun"}}
+          </button>
+          {{/if}}
+        </div>
+      </div>
+      {{#if @site.navigation}}
+      <nav class="site-nav" aria-label="{{t "Primary"}}">
+        {{navigation}}
+      </nav>
+      {{/if}}
+    </div>
+  </header>

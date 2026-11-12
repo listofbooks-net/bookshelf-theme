@@ -1,0 +1,1 @@
+{{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}{{#if ../plain}}{{split name separator="#by:"}}{{else}}{{t "by {author}" author=(split name separator="#by:")}}{{/if}}{{/match}}{{/foreach}}

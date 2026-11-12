@@ -1,0 +1,77 @@
+{{!< default}}
+{{#post}}
+<article class="review">
+      <div class="wrap wrap--content">
+        <header class="entry-header">
+          {{#if primary_tag}}
+          <ul class="tags" aria-label="{{t "Genres and tags"}}">
+            {{#foreach tags}}
+            <li><a class="tag" href="{{url}}">{{name}}</a></li>
+            {{/foreach}}
+          </ul>
+          {{/if}}
+          <h1>{{title}}</h1>
+          {{#if custom_excerpt}}
+          <p class="lead">{{custom_excerpt}}</p>
+          {{/if}}
+          <p class="entry-meta">
+            <span>{{t "By"}} {{#foreach authors}}{{#unless @first}}, {{/unless}}<a href="{{url}}">{{name}}</a>{{/foreach}}</span>
+            <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMMM YYYY"}}</time>
+            <span>{{reading_time}}</span>
+          </p>
+        </header>
+
+        {{> "book/panel"}}
+        {{#if feature_image}}
+        <figure class="entry-figure">
+          <img srcset="{{img_url feature_image size="m"}} 600w, {{img_url feature_image size="l"}} 960w, {{img_url feature_image size="xl"}} 1200w" sizes="(min-width: 48rem) 44rem, 100vw" loading="lazy" src="{{img_url feature_image size="xl"}}" alt="{{feature_image_alt}}">
+          {{#if feature_image_caption}}<figcaption>{{feature_image_caption}}</figcaption>{{/if}}
+        </figure>
+        {{/if}}
+
+        <div class="entry-content">
+          {{content}}
+        </div>
+
+        {{#if @custom.show_reviewer_bio}}{{#primary_author}}{{#if bio}}
+        <aside class="bio-card" aria-labelledby="bio-title">
+          {{#if profile_image}}<img src="{{img_url profile_image size="s"}}" width="400" height="400" alt="{{t "Portrait of {name}" name=name}}">{{/if}}
+          <div class="bio-card__body">
+            <span class="eyebrow">{{t "Reviewed by"}}</span>
+            <h2 class="bio-card__name" id="bio-title">{{name}}</h2>
+            <p>{{bio}}</p>
+            <p><a href="{{url}}">{{t "More from {name}" name=name}}</a>{{#if website}} &middot; <a href="{{website}}" rel="me">{{t "Website"}}</a>{{/if}}</p>
+          </div>
+        </aside>
+        {{/if}}{{/primary_author}}{{/if}}
+
+        {{#if @custom.show_related_reviews}}{{#if primary_tag}}
+        {{#get "posts" include="tags,authors" filter="tags:{{primary_tag.slug}}+id:-{{id}}" limit="3" as |related|}}{{#if related}}
+        <section class="section section--tight" aria-labelledby="related-title">
+          <div class="section-head">
+            <h2 id="related-title">{{t "You might also like"}}</h2>
+            {{#with ../primary_tag}}<a class="more-link" href="{{url}}">{{t "More in {genre}" genre=name}} {{> "site/icon" name="arrow-right"}}</a>{{/with}}
+          </div>
+          <ul class="book-grid book-grid--related">
+            {{#foreach related}}
+            <li>
+              {{> "book/card"}}
+            </li>
+            {{/foreach}}
+          </ul>
+        </section>
+        {{/if}}{{/get}}
+        {{/if}}{{/if}}
+
+        {{#if comments}}
+        <section class="comments" aria-labelledby="comments-title">
+          <div class="section-head">
+            <h2 id="comments-title">{{t "Comments"}}</h2>
+          </div>
+          {{comments title="" count=false}}
+        </section>
+        {{/if}}
+      </div>
+    </article>
+{{> "book/json-ld"}}
+{{/post}}

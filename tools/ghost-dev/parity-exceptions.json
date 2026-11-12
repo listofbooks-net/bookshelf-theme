@@ -1,0 +1,86 @@
+[
+	{
+		"page": "author.html",
+		"side": "design",
+		"selector": ".where-to-buy",
+		"reason": "Ghost has one summary field per page. The where-to-buy block is the body of the new-release page, which the theme does not print on the author page."
+	},
+	{
+		"page": "author.html",
+		"side": "design",
+		"selector": ".author-hero__body > .muted",
+		"reason": "A Ghost page has one summary field; the hero shows the excerpt."
+	},
+	{
+		"page": "index.html",
+		"side": "demo",
+		"selector": ".pagination",
+		"reason": "The demo has ten reviews and posts_per_page 9, so the home page links to page 2. The design shows a site with one page of reviews."
+	},
+	{
+		"page": "index.html",
+		"side": "demo",
+		"selector": ".form-status > span",
+		"reason": "Ghost's members script marks the form with a success or error class instead of writing text, so both messages are in the markup and the stylesheet shows the matching one."
+	},
+	{
+		"page": "author.html",
+		"side": "demo",
+		"selector": ".form-status > span",
+		"reason": "Ghost's members script marks the form with a success or error class instead of writing text, so both messages are in the markup and the stylesheet shows the matching one."
+	},
+	{
+		"page": "review.html",
+		"side": "demo",
+		"selector": ".entry-figure",
+		"reason": "A post without #by: shows its feature image in this figure. A book review shows the cover in the book panel, and the stylesheet hides the figure next to it."
+	},
+	{
+		"page": "author.html",
+		"side": "both",
+		"selector": ".site-tools",
+		"reason": "The design's author page is a separate author site with no reviews to search. The demo's author page sits inside the Marginalia blog, so its header keeps the search form."
+	},
+	{
+		"page": "author.html",
+		"side": "design",
+		"selector": ".author-hero__body .lead cite",
+		"reason": "The hero lead is the page excerpt, which Ghost stores as plain text."
+	},
+	{
+		"page": "reading-log.html",
+		"side": "design",
+		"selector": "[aria-labelledby=now-title] .section-head > p",
+		"reason": "Ghost has no date for when a reading list last changed; the posts and pages on the shelf each keep their own."
+	},
+	{
+		"page": "archive.html",
+		"side": "design",
+		"selector": ".search-note",
+		"reason": "Ghost search opens in its own window, so the archive never echoes a search term."
+	},
+	{
+		"page": "archive.html",
+		"side": "design",
+		"selector": ".pagination",
+		"reason": "The demo has five Literary fiction reviews and posts_per_page 9, so the tag archive fits on one page."
+	},
+	{
+		"page": "review.html",
+		"side": "design",
+		"selector": ".entry-content > figure:not(.pullquote)",
+		"reason": "Ghost's image card prints its own figure classes (kg-card kg-image-card), which ghost.css styles."
+	},
+	{
+		"page": "review.html",
+		"side": "demo",
+		"selector": ".entry-content > .kg-image-card",
+		"reason": "Ghost's image card prints its own figure classes (kg-card kg-image-card), which ghost.css styles."
+	},
+	{
+		"page": "review.html",
+		"side": "design",
+		"selector": ".comments .more-link, .comment-list, .comment-form",
+		"reason": "Ghost comments are members-only and render inside Ghost's own frame, so the theme prints only the section and its heading."
+	}
+]

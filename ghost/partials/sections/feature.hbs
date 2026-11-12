@@ -1,0 +1,18 @@
+<section class="section section--tight" aria-labelledby="latest-title">
+      <div class="wrap">
+        <article class="feature">
+          {{#if feature_image}}<a class="cover-link" href="{{url}}" tabindex="-1" aria-hidden="true">{{> "book/cover"}}</a>{{else}}{{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}<a class="cover-link" href="{{../url}}" tabindex="-1" aria-hidden="true">{{> "book/cover" ../this}}</a>{{/match}}{{/foreach}}{{/if}}
+          <div class="feature__body">
+            <span class="eyebrow">{{#if featured}}{{t "Featured review"}}{{else}}{{t "Latest review"}}{{/if}}{{#primary_tag}} &middot; {{name}}{{/primary_tag}}</span>
+            <h2 class="feature__title" id="latest-title"><a href="{{url}}">{{title}}</a></h2>
+            {{#foreach tags visibility="internal"}}{{#match name "~^" "#by:"}}<p class="muted">{{t "by {author}" author=(split name separator="#by:")}}{{#foreach ../tags visibility="internal"}}{{#match name "~^" "#series:"}} &middot; {{split name separator="#series:"}}{{/match}}{{/foreach}}</p>{{/match}}{{/foreach}}
+            {{#foreach tags visibility="internal"}}{{#match ",#rating:0,#rating:0.5,#rating:1,#rating:1.5,#rating:2,#rating:2.5,#rating:3,#rating:3.5,#rating:4,#rating:4.5,#rating:5," "~" (concat "," name ",")}}<div class="rating-line">{{> "book/stars" value=(split name separator="#rating:") large=true}}</div>{{/match}}{{/foreach}}
+            {{#if excerpt}}
+            <p class="lead">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="50"}}{{/if}}</p>
+            {{/if}}
+            <p class="book-card__meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMMM YYYY"}}</time> &middot; {{reading_time}}</p>
+            <a class="button" href="{{url}}">{{t "Read the review"}} {{> "site/icon" name="arrow-right"}}</a>
+          </div>
+        </article>
+      </div>
+    </section>

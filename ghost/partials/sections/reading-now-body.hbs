@@ -1,0 +1,20 @@
+<section class="section section--band" aria-labelledby="reading-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="reading-title">{{t "Currently reading"}}{{#if show_count}} <span class="count" data-count="reading" data-one="{{t "% book"}}" data-many="{{t "% books"}}"></span>{{/if}}</h2>
+          {{#if show_log_link}}{{#get "pages" include="tags" filter="slug:reading-log" limit="1" as |log_pages|}}{{#foreach log_pages}}<a class="more-link" href="{{url}}">{{t "My reading log"}} {{> "site/icon" name="arrow-right"}}</a>{{/foreach}}{{/get}}{{/if}}
+        </div>
+        <ul class="book-grid book-grid--compact" data-shelf="reading">
+          {{#foreach shelf_posts}}
+          <li>
+          {{> "book/card" variant="compact" link=true}}
+          </li>
+          {{/foreach}}
+          {{#foreach shelf_pages}}
+          <li>
+          {{> "book/card" variant="compact" link=html}}
+          </li>
+          {{/foreach}}
+        </ul>
+      </div>
+    </section>

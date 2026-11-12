@@ -1,0 +1,18 @@
+{{#match pages ">" 1}}
+<nav class="pagination" aria-label="{{t "Pagination"}}">
+        <ul>
+          {{#if prev}}
+          <li><a class="pagination__dir" href="{{page_url prev}}">{{> "site/icon" name="arrow-left"}} {{t "Newer"}}</a></li>
+          {{else}}
+          <li><span class="pagination__dir is-disabled" aria-disabled="true">{{> "site/icon" name="arrow-left"}} {{t "Newer"}}</span></li>
+          {{/if}}
+          <li><a href="{{page_url page}}" aria-current="page"><span class="visually-hidden">{{t "Page"}} </span>{{page}}</a></li>
+          <li><span class="pagination__total">{{t "of {pages}" pages=pages}}</span></li>
+          {{#if next}}
+          <li><a class="pagination__dir" href="{{page_url next}}">{{t "Older"}} {{> "site/icon" name="arrow-right"}}</a></li>
+          {{else}}
+          <li><span class="pagination__dir is-disabled" aria-disabled="true">{{t "Older"}} {{> "site/icon" name="arrow-right"}}</span></li>
+          {{/if}}
+        </ul>
+      </nav>
+{{/match}}

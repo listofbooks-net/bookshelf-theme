@@ -1,0 +1,25 @@
+{{#if @site.members_enabled}}{{#unless @site.members_invite_only}}{{#unless @member}}{{#if @custom.newsletter_heading}}
+<section class="section section--band" id="newsletter" aria-labelledby="newsletter-title">
+      <div class="wrap">
+        <div class="newsletter">
+          <div class="newsletter__intro">
+            {{#if @custom.newsletter_eyebrow}}
+            <span class="eyebrow">{{@custom.newsletter_eyebrow}}</span>
+            {{/if}}
+            <h2 id="newsletter-title">{{@custom.newsletter_heading}}</h2>
+          </div>
+          <form class="newsletter__form" data-members-form="subscribe">
+            <label for="newsletter-email">{{t "Email address"}}</label>
+            <div class="newsletter__row">
+              <input class="input" id="newsletter-email" type="email" name="email" autocomplete="email" required placeholder="{{t "you@example.com"}}" data-members-email>
+              <button class="button" type="submit">{{t "Subscribe"}}</button>
+            </div>
+            {{#if @custom.newsletter_note}}
+            <p class="newsletter__note">{{@custom.newsletter_note}}</p>
+            {{/if}}
+            <p class="form-status" role="status" data-form-status data-message="{{t "Thank you. Please check your inbox to confirm your subscription."}}"><span class="form-status__success">{{t "Thank you. Please check your inbox to confirm your subscription."}}</span><span class="form-status__error" data-members-error></span></p>
+          </form>
+        </div>
+      </div>
+    </section>
+{{/if}}{{/unless}}{{/unless}}{{/if}}

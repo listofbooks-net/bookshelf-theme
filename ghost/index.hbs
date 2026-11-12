@@ -1,0 +1,13 @@
+{{!< default}}
+{{#is "paged"}}
+{{> "sections/recent"}}
+{{else}}
+{{> "sections/intro"}}
+{{#foreach posts limit="1"}}
+{{> "sections/feature"}}
+{{/foreach}}
+{{#match posts.length ">" 1}}{{> "sections/recent"}}{{/match}}
+{{#if @custom.show_currently_reading}}{{#get "posts" include="tags,authors" filter="tag:hash-reading" limit="12" as |reading_posts|}}{{#get "pages" include="tags" filter="tag:hash-reading" limit="12" as |reading_pages|}}{{> "sections/reading-now" shelf_posts=reading_posts shelf_pages=reading_pages show_log_link=true}}{{/get}}{{/get}}{{/if}}
+{{#if @custom.show_genres}}{{> "sections/genres"}}{{/if}}
+{{> "sections/newsletter"}}
+{{/is}}

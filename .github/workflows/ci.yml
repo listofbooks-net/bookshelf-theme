@@ -112,3 +112,42 @@ jobs:
           trap 'docker rm -f "$cid" >/dev/null' EXIT
           docker cp . "$cid:/repo"
           docker start -a "$cid"
+
+  ghost:
+    name: Ghost theme (GScan, demo, markup and browser checks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GHOST_NETWORK: readerly-ghost-ci
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node tools/build-tokens.mjs --check
+      - run: node tools/ghost-locales.mjs --check
+      # GScan runs inside the ghost:6 image on the zip that would ship. Any error or
+      # warning fails.
+      - name: Build the theme zip and run GScan on it
+        run: |
+          set -euo pipefail
+          zip="$(tools/build-ghost-zip.sh)"
+          tools/ghost-dev/ghost-dev.sh gscan "$zip" -z
+          rm -rf "$RUNNER_TEMP/ghost-theme" && mkdir -p "$RUNNER_TEMP/ghost-theme"
+          unzip -q "$zip" -d "$RUNNER_TEMP/ghost-theme"
+      # A job container cannot reach ports published on the host, so Ghost and the
+      # checks share a Docker network and Ghost answers there as http://ghost:2368.
+      - name: Start Ghost with the zipped theme and load the demo
+        run: |
+          set -euo pipefail
+          docker network create "$GHOST_NETWORK"
+          THEME_DIR="$RUNNER_TEMP/ghost-theme/readerly" tools/ghost-dev/ghost-dev.sh up
+      - name: Markup parity, browser checks and side-by-side screenshots
+        run: tools/ghost-dev/ghost-dev.sh check
+      - name: Stop Ghost
+        if: always()
+        run: |
+          tools/ghost-dev/ghost-dev.sh clean
+          docker network rm "$GHOST_NETWORK" >/dev/null 2>&1 || true

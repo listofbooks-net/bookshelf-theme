@@ -1,0 +1,17 @@
+{{!< default}}
+<div class="wrap">
+      <section class="not-found" aria-labelledby="nf-title">
+        <p class="not-found__code" aria-hidden="true">{{statusCode}}</p>
+        <h1 id="nf-title">{{message}}</h1>
+        <div class="buttons">
+          <a class="button button--outline" href="{{@site.url}}">{{t "Back to the front page"}}</a>
+        </div>
+      </section>
+      {{#if errorDetails}}
+      <ul class="error-details">
+        {{#foreach errorDetails}}
+        <li><code>{{{rule}}}</code> {{#foreach failures}}{{{message}}} {{/foreach}}</li>
+        {{/foreach}}
+      </ul>
+      {{/if}}
+    </div>
