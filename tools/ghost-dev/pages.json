@@ -16,5 +16,6 @@
 	},
 	"notFound": ["404"],
 	"colorScheme": { "paper": "light", "lamplight": "dark" },
+	"allowFailed": ["/members/api/member/"],
 	"allowThirdParty": ["https://cdn.jsdelivr.net/ghost/"]
 }

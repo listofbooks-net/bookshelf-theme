@@ -53,7 +53,8 @@ async function parity() {
 		const response = await fetch(site + path);
 		const expected = file === '404.html' ? 404 : 200;
 		if (response.status !== expected) failures.push(`${file}: ${path} answered ${response.status}, expected ${expected}`);
-		const siteHtml = await response.text();
+		// Ghost adds a class per page, tag and author to body; the design's body has none.
+		const siteHtml = (await response.text()).replace(/<body\b[^>]*>/, '<body>');
 		const designHtml = readFileSync(join(repo, 'design', file), 'utf8');
 		const problems = [];
 		compare(body(designHtml, file, 'design', exceptions), body(siteHtml, file, 'demo', exceptions), '', problems);
