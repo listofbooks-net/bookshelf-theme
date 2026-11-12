@@ -1,0 +1,14 @@
+[
+	{
+		"page": "author.html",
+		"side": "design",
+		"selector": ".where-to-buy",
+		"reason": "Ghost has one summary field per page. The where-to-buy block is the body of the new-release page, which the theme does not print on the author page."
+	},
+	{
+		"page": "author.html",
+		"side": "design",
+		"selector": ".author-hero__body > .muted",
+		"reason": "A Ghost page has one summary field; the hero shows the excerpt."
+	}
+]

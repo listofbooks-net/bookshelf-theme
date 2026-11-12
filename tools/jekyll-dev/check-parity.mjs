@@ -40,15 +40,15 @@ function tree(element) {
 	return { sig: signature(element), children };
 }
 
-function body(html, page, side) {
+export function body(html, page, side, list = exceptions) {
 	const root = parse(html, { comment: false });
 	const bodyElement = root.querySelector('body');
-	const drop = ['script', '.demo-bar', ...exceptions.filter((e) => e.page === page && (e.side === side || e.side === 'both')).map((e) => e.selector)];
+	const drop = ['script', '.demo-bar', ...list.filter((e) => e.page === page && (e.side === side || e.side === 'both')).map((e) => e.selector)];
 	for (const selector of drop) for (const element of bodyElement.querySelectorAll(selector)) element.remove();
 	return tree(bodyElement);
 }
 
-function compare(a, b, path, problems) {
+export function compare(a, b, path, problems) {
 	const here = `${path} > ${a.sig}`;
 	if (a.sig !== b.sig) {
 		problems.push(`${path}: design ${a.sig}, demo ${b.sig}`);

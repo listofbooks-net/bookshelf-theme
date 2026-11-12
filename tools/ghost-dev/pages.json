@@ -1,0 +1,20 @@
+{
+	"pages": {
+		"home": "/",
+		"home-page-2": "/page/2/",
+		"review": "/the-salt-orchard/",
+		"review-plain": "/the-tide-ledger/",
+		"author": "/isobel-thorne/",
+		"reading-log": "/reading-log/",
+		"archive": "/tag/literary-fiction/",
+		"genre": "/tag/fantasy/",
+		"reviewer": "/author/nora-vale/",
+		"about": "/about/",
+		"own-book": "/the-bell-foundry/",
+		"shelf-book": "/moth-season/",
+		"404": "/readerly-missing-page/"
+	},
+	"notFound": ["404"],
+	"colorScheme": { "paper": "light", "lamplight": "dark" },
+	"allowThirdParty": ["https://cdn.jsdelivr.net/ghost/"]
+}

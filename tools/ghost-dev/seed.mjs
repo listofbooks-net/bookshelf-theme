@@ -162,15 +162,15 @@ ${items(v.disliked)}
 </section>`;
 }
 
-function section(html, opening) {
-	const start = html.search(opening);
-	if (start < 0) throw new Error(`design section not found: ${opening}`);
+function block(html, opening, name = 'div') {
+	const start = html.indexOf(opening);
+	if (start < 0) throw new Error(`design element not found: ${opening}`);
 	let depth = 0;
-	for (const m of html.slice(start).matchAll(/<(\/?)section\b[^>]*>/g)) {
+	for (const m of html.slice(start).matchAll(new RegExp(`<(/?)${name}\\b[^>]*>`, 'g'))) {
 		depth += m[1] ? -1 : 1;
 		if (depth === 0) return html.slice(start, start + m.index + m[0].length);
 	}
-	throw new Error(`unclosed section: ${opening}`);
+	throw new Error(`unclosed element: ${opening}`);
 }
 
 const STATUS = { read: '#read', reading: '#reading', want: '#want-to-read', dnf: '#did-not-finish' };
@@ -184,7 +184,7 @@ function bookTags({ by, series, rating, pages, published, status, onPage, buy, o
 		rating && `#rating:${rating}`,
 		pages && `#pages:${pages}`,
 		published && `#published:${dots(published)}`,
-		buy && /^https?:/.test(buy) && `#buy:${buy}`,
+		buy && `#buy:${buy}`,
 		own && '#book',
 		status && STATUS[status],
 		onPage && `#on-page:${onPage}`,
@@ -237,7 +237,7 @@ async function loadBooks(shelf) {
 		const published = book.facts?.match(/Published (\d+ \w+ \d{4})/)?.[1];
 		const day = published ? new Date(`${published} UTC`).toISOString().slice(0, 10) : `${book.year}-06-01`;
 		const by = book.book_author ?? entry?.book_author;
-		const where = book.where_to_buy?.length ? `<h3>Where to buy</h3>\n<ul>\n${book.where_to_buy.map((w) => `<li>${escapeHtml(w)}</li>`).join('\n')}\n</ul>` : '';
+		const where = book.featured ? card(block(read(join(design, 'author.html')), '<div class="where-to-buy"')) : '';
 		await create('pages', {
 			title: book.title,
 			html: where,
@@ -246,7 +246,7 @@ async function loadBooks(shelf) {
 			feature_image: await cover(book.cover),
 			feature_image_alt: `Cover of ${book.title} by ${by ?? 'Isobel Thorne'}`,
 			custom_excerpt: book.featured ? book.lead : book.blurb,
-			tags: [book.kind, ...bookTags({ by, pages, buy: book.buy_url, own: true, status: entry?.status, onPage: entry?.current_page })],
+			tags: [book.kind, ...bookTags({ by, pages, buy: '/the-bell-foundry/#where-to-buy', own: true, status: entry?.status, onPage: entry?.current_page })],
 		});
 		own.set(book.title, true);
 	}
@@ -289,7 +289,7 @@ async function loadPages() {
 
 	const author = page('author.md').data;
 	const authorDesign = read(join(design, 'author.html'));
-	const sections = [/<section class="section" aria-labelledby="praise-title">/, /<section class="section" id="events"/].map((o) => section(authorDesign, o).replace(/href="page\.html"/g, 'href="/about/"'));
+	const sections = ['<section class="section" aria-labelledby="praise-title">', '<section class="section" id="events"'].map((o) => block(authorDesign, o, 'section').replace(/href="page\.html"/g, 'href="/about/"'));
 	await create('pages', {
 		title: author.title,
 		slug: 'isobel-thorne',
@@ -324,6 +324,8 @@ async function configureSite() {
 			{ key: 'navigation', value: JSON.stringify(primary) },
 			{ key: 'secondary_navigation', value: JSON.stringify(secondary) },
 			{ key: 'members_signup_access', value: 'all' },
+			{ key: 'comments_enabled', value: 'all' },
+			{ key: 'accent_color', value: '#9e3d27' },
 		],
 	});
 	const { users } = await api('GET', '/users/me/');

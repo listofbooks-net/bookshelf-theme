@@ -5,7 +5,7 @@
 //
 // What the copy changes from what Ghost serves:
 //   - the Ghost origin becomes the public URL everywhere (links, canonical, JSON-LD, feeds, sitemaps)
-//   - Portal, comments and member-attribution scripts are removed; they need Ghost's members API
+//   - Portal, comments and member-attribution scripts and the comments section are removed; they need Ghost's members API
 //   - every form[data-members-form] becomes data-demo-form, which the theme script confirms in place
 //   - the three search-index responses sodo-search reads are saved as files, so search works
 //   - _headers allows framing by ghost.org (the Marketplace preview) and types the feed and the search files
@@ -38,6 +38,7 @@ function rewrite(text) {
 function clean(html) {
 	return html
 		.replace(/<script\b[^>]*\bsrc="[^"]*(?:portal|comments-ui|comment-counts|member-attribution|ghost-stats|tinybird)[^"]*"[^>]*><\/script>\s*/gi, '')
+		.replace(/<section\b[^>]*\bclass="[^"]*\bcomments\b[^"]*"[^>]*>[\s\S]*?<\/section>\s*/gi, '')
 		.replace(/<link\b[^>]*webmention[^>]*>\s*/gi, '')
 		.replace(/(<form\b[^>]*?)\sdata-members-form(?:="[^"]*")?/gi, '$1 data-demo-form');
 }
