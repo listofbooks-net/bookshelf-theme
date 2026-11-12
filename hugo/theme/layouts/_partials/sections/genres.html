@@ -1,0 +1,11 @@
+{{- /* Every genre (category) with its number of reviews, most reviewed first. */ -}}
+{{- with site.Taxonomies.categories -}}
+{{- $config := $.Params.genres | default dict -}}
+{{- $note := $config.note | default (T "reviews_and_counting" (len (partial "readerly/reviews.html" $))) -}}
+<section class="section" aria-labelledby="genres-title">
+      <div class="wrap">
+        {{ partial "readerly/section-head.html" (dict "id" "genres-title" "heading" ($config.heading | default (T "browse_by_genre")) "note" $note) }}
+        {{ partial "readerly/term-list.html" .ByCount }}
+      </div>
+    </section>
+{{- end -}}

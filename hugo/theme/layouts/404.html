@@ -1,0 +1,32 @@
+{{ define "main" }}
+{{- $archive := partial "readerly/archive-page.html" . -}}
+{{- $picks := first 5 (where (partial "readerly/reviews.html" .) "Params.rating" ">=" 4) -}}
+<div class="wrap">
+      <section class="not-found" aria-labelledby="nf-title">
+        <p class="not-found__code" aria-hidden="true">404</p>
+        <h1 id="nf-title">{{ T "not_found_title" }}</h1>
+        <p class="lead muted">{{ if $archive }}{{ T "not_found_lead" }}{{ else }}{{ T "not_found_lead_no_search" }}{{ end }}</p>
+        {{- with $archive }}
+        <form class="search-form" role="search" action="{{ .RelPermalink }}" method="get">
+          <label class="visually-hidden" for="search-404">{{ T "search_reviews" }}</label>
+          <input class="input" id="search-404" type="search" name="s" placeholder="{{ T "search_placeholder" }}">
+          <button class="icon-button" type="submit">{{ partial "readerly/icon.html" (dict "name" "search") }} {{ T "search" }}</button>
+        </form>
+        {{- end }}
+        <div class="buttons">
+          <a class="button button--outline" href="{{ site.Home.RelPermalink }}">{{ T "back_to_front" }}</a>
+          {{- with $archive }}
+          <a class="button button--outline" href="{{ .RelPermalink }}">{{ T "browse_all_reviews" }}</a>
+          {{- end }}
+        </div>
+      </section>
+      {{- with $picks }}
+
+      <section class="shelf-section" aria-labelledby="suggest-title">
+        {{ partial "readerly/section-head.html" (dict "id" "suggest-title" "heading" (T "pick_something") "note" (T "recent_favourites")) }}
+        {{- $entries := slice }}{{ range . }}{{ $entries = $entries | append (partial "readerly/entry.html" .) }}{{ end }}
+        {{ partial "readerly/shelf.html" (dict "entries" $entries "label" (T "recent_favourites")) }}
+      </section>
+      {{- end }}
+    </div>
+{{ end }}

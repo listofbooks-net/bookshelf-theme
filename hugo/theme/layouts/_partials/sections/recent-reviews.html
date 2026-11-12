@@ -1,0 +1,31 @@
+{{- /* The review grid: the page's paginator when it has one, else the nine newest posts. Page 1 leaves out the post the featured-review section shows. */ -}}
+{{- $pager := partial "readerly/paginator.html" . -}}
+{{- $skip := "" -}}
+{{- if or (not $pager) (eq $pager.PageNumber 1) -}}
+  {{- if in (partial "readerly/section-names.html" .) "featured-review" -}}
+    {{- with partial "readerly/featured.html" . }}{{ $skip = .RelPermalink }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- $source := first 9 (partial "readerly/reviews.html" .) -}}
+{{- with $pager }}{{ $source = .Pages }}{{ end -}}
+{{- $posts := where $source "RelPermalink" "ne" $skip -}}
+{{- if $posts -}}
+<section class="section" aria-labelledby="recent-title">
+      <div class="wrap">
+        {{- if and $pager (gt $pager.PageNumber 1) }}
+        <h1 class="visually-hidden">{{ site.Title }}: {{ T "page_n" (dict "Count" $pager.PageNumber) }}</h1>
+        {{- end }}
+        {{- $more := "" }}
+        {{- with partial "readerly/archive-page.html" . }}{{ $more = .RelPermalink }}{{ end }}
+        {{ partial "readerly/section-head.html" (dict "id" "recent-title" "heading" (T "recent_reviews") "more_url" $more "more_label" (T "all_reviews")) }}
+        <ul class="book-grid book-grid--four">
+          {{- range $posts }}
+          <li>
+          {{ partial "readerly/book-card.html" (dict "entry" (partial "readerly/entry.html" .) "excerpt" "clamp") }}
+          </li>
+          {{- end }}
+        </ul>
+        {{ partial "readerly/pagination.html" . }}
+      </div>
+    </section>
+{{- end -}}

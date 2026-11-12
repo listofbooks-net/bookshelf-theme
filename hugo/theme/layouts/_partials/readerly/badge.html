@@ -1,0 +1,6 @@
+{{- /* The status badge. Nothing for an unknown status. */ -}}
+{{- if eq . "reading" }}<span class="badge badge--reading">{{ T "status_reading" }}</span>
+{{- else if eq . "read" }}<span class="badge badge--read">{{ T "status_read" }}</span>
+{{- else if eq . "want" }}<span class="badge badge--want">{{ T "status_want" }}</span>
+{{- else if eq . "dnf" }}<span class="badge badge--dnf"><abbr title="{{ T "status_dnf" }}">{{ T "status_dnf_short" }}</abbr></span>
+{{- end -}}

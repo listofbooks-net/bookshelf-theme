@@ -1,0 +1,9 @@
+{{- /* The review for the feature card: the newest with featured: true, else the newest review that presents a book. */ -}}
+{{- $books := slice -}}
+{{- range partial "readerly/reviews.html" . -}}
+  {{- if partial "readerly/is-book.html" . }}{{ $books = $books | append . }}{{ end -}}
+{{- end -}}
+{{- $featured := false -}}
+{{- range first 1 (where $books "Params.featured" true) }}{{ $featured = . }}{{ end -}}
+{{- if not $featured }}{{ range first 1 $books }}{{ $featured = . }}{{ end }}{{ end -}}
+{{- return $featured -}}

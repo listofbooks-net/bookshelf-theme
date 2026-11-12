@@ -1,0 +1,24 @@
+{{- with partial "readerly/entries.html" (dict "status" "reading") -}}
+{{- $entries := . -}}
+{{- $config := index $.Params "currently-reading" | default dict -}}
+{{- $more := "" -}}
+{{- $count := "" -}}
+{{- $log := partial "readerly/find-layout.html" "reading-log" -}}
+{{- if and $log (ne $log.RelPermalink $.RelPermalink) -}}
+  {{- $more = $log.RelPermalink -}}
+{{- else -}}
+  {{- $count = T "books" (len $entries) -}}
+{{- end -}}
+<section class="section section--band" aria-labelledby="reading-title">
+      <div class="wrap">
+        {{ partial "readerly/section-head.html" (dict "id" "reading-title" "heading" ($config.heading | default (T "currently_reading")) "count" $count "note" $config.note "more_url" $more "more_label" (T "my_reading_log")) }}
+        <ul class="book-grid book-grid--compact">
+          {{- range $entries }}
+          <li>
+          {{ partial "readerly/book-card.html" (dict "entry" . "variant" "compact") }}
+          </li>
+          {{- end }}
+        </ul>
+      </div>
+    </section>
+{{- end -}}

@@ -1,0 +1,31 @@
+{{- /* The Read, Want to read and Did not finish shelves. The page's year limits Read to that year; shelves.<status>.note sets a shelf's note and shelves.<status>: false hides it. */ -}}
+{{- $config := .Params.shelves | default dict -}}
+{{- $year := .Params.year -}}
+{{- $shelves := slice -}}
+{{- range slice "read" "want" "dnf" -}}
+  {{- $status := . -}}
+  {{- $own := index $config $status -}}
+  {{- if ne $own false -}}
+    {{- $entries := partial "readerly/entries.html" (dict "status" $status "year" (cond (eq $status "read") $year nil)) -}}
+    {{- if $entries -}}
+      {{- $heading := T (printf "shelf_%s" $status) -}}
+      {{- if and (eq $status "read") $year }}{{ $heading = T "shelf_read_year" (dict "Year" $year) }}{{ end -}}
+      {{- $note := "" -}}
+      {{- if reflect.IsMap $own }}{{ $note = $own.note }}{{ end -}}
+      {{- if and (not $note) (eq $status "read") }}{{ $note = T "shelf_read_note" }}{{ end -}}
+      {{- $shelves = $shelves | append (dict "status" $status "entries" $entries "heading" $heading "note" $note) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- with $shelves -}}
+<section class="section">
+      <div class="wrap">
+{{- range . }}
+        <div class="shelf-section" aria-labelledby="{{ .status }}-title">
+          {{ partial "readerly/section-head.html" (dict "id" (printf "%s-title" .status) "heading" .heading "count" (T "books" (len .entries)) "note" .note) }}
+          {{ partial "readerly/shelf.html" (dict "entries" .entries "label" .heading) }}
+        </div>
+{{- end }}
+      </div>
+    </section>
+{{- end -}}

@@ -1,0 +1,10 @@
+{{- /* The heading row of a section: .id, .heading, .count, .note, .more_url, .more_label. */ -}}
+<div class="section-head">
+  <h2 id="{{ .id }}">{{ .heading }}{{ with .count }} <span class="count">{{ . }}</span>{{ end }}</h2>
+  {{- if .more_url }}
+  <a class="more-link" href="{{ .more_url }}">{{ .more_label }} {{ partial "readerly/icon.html" (dict "name" "arrow-right") }}</a>
+  {{- else if .note }}
+  <p>{{ .note }}</p>
+  {{- end }}
+</div>
+{{- /**/ -}}

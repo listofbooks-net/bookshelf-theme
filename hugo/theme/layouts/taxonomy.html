@@ -1,0 +1,18 @@
+{{ define "main" }}
+<div class="wrap">
+      <header class="archive-header">
+        <h1>{{ .Title }}</h1>
+        {{- with .Params.lead }}
+        <p class="lead">{{ . }}</p>
+        {{- end }}
+      </header>
+      {{- with .Content }}
+      <div class="entry-content">
+{{ . }}
+      </div>
+      {{- end }}
+      {{- with .Data.Terms }}
+      {{ partial "readerly/term-list.html" .ByCount }}
+      {{- end }}
+    </div>
+{{ end }}

@@ -1,0 +1,1 @@
+{{ define "main" }}{{ partial "readerly/archive.html" (dict "page" . "posts" (partial "readerly/paginator.html" .).Pages "count" (len .Pages) "pager" true "search" true) }}{{ end }}

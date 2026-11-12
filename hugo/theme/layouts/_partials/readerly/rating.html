@@ -1,0 +1,4 @@
+{{- /* Stars for .value (0 to 5). .large adds " / 5". Nothing without a value. */ -}}
+{{- with .value -}}
+<span class="rating{{ if $.large }} rating--large{{ end }}" style="--rating: {{ . | safeCSS }}" role="img" aria-label="{{ T "rated" (dict "Count" .) }}"></span><span aria-hidden="true">{{ . }}{{ if $.large }} / 5{{ end }}</span>
+{{- end -}}

@@ -1,0 +1,30 @@
+{{- /* A sign-up form that posts to params.readerly.newsletter.action. The page's newsletter overrides any of its keys. */ -}}
+{{- $n := merge (site.Params.readerly.newsletter | default dict) (.Params.newsletter | default dict) -}}
+{{- with $n.action -}}
+<section class="section section--band" id="newsletter"{{ if $n.heading }} aria-labelledby="newsletter-title"{{ end }}>
+      <div class="wrap">
+        <div class="newsletter">
+          {{- if or $n.eyebrow $n.heading }}
+          <div class="newsletter__intro">
+            {{- with $n.eyebrow }}
+            <span class="eyebrow">{{ . }}</span>
+            {{- end }}
+            {{- with $n.heading }}
+            <h2 id="newsletter-title">{{ . }}</h2>
+            {{- end }}
+          </div>
+          {{- end }}
+          <form class="newsletter__form" action="{{ . }}" method="post">
+            <label for="newsletter-email">{{ T "email_address" }}</label>
+            <div class="newsletter__row">
+              <input class="input" id="newsletter-email" type="email" name="{{ $n.field | default "email" }}" autocomplete="email" required placeholder="you@example.com">
+              <button class="button" type="submit">{{ $n.button | default (T "subscribe") }}</button>
+            </div>
+            {{- with $n.note }}
+            <p class="newsletter__note">{{ . }}</p>
+            {{- end }}
+          </form>
+        </div>
+      </div>
+    </section>
+{{- end -}}

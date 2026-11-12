@@ -1,0 +1,9 @@
+{{- /* A horizontal shelf of compact cards: .entries, .label. */ -}}
+<ul class="shelf" tabindex="0" aria-label="{{ T "scrollable_shelf" (dict "Name" .label) }}">
+          {{- range .entries }}
+          <li>
+              {{ partial "readerly/book-card.html" (dict "entry" . "variant" "compact") }}
+          </li>
+          {{- end }}
+        </ul>
+{{- /**/ -}}

@@ -1,0 +1,23 @@
+{{- /* The pager for the page's paginator. Nothing when there is one page. */ -}}
+{{- with partial "readerly/paginator.html" . -}}
+{{- if gt .TotalPages 1 -}}
+<nav class="pagination" aria-label="{{ T "pagination" }}">
+  <ul>
+    {{- with .Prev }}
+    <li><a class="pagination__dir" href="{{ .URL }}">{{ partial "readerly/icon.html" (dict "name" "arrow-left") }} {{ T "newer" }}</a></li>
+    {{- else }}
+    <li><span class="pagination__dir is-disabled" aria-disabled="true">{{ partial "readerly/icon.html" (dict "name" "arrow-left") }} {{ T "newer" }}</span></li>
+    {{- end }}
+    {{- $current := .PageNumber }}
+    {{- range .Pagers }}
+    <li><a href="{{ .URL }}"{{ if eq .PageNumber $current }} aria-current="page"{{ end }}><span class="visually-hidden">{{ T "page" }} </span>{{ .PageNumber }}</a></li>
+    {{- end }}
+    {{- with .Next }}
+    <li><a class="pagination__dir" href="{{ .URL }}">{{ T "older" }} {{ partial "readerly/icon.html" (dict "name" "arrow-right") }}</a></li>
+    {{- else }}
+    <li><span class="pagination__dir is-disabled" aria-disabled="true">{{ T "older" }} {{ partial "readerly/icon.html" (dict "name" "arrow-right") }}</span></li>
+    {{- end }}
+  </ul>
+</nav>
+{{- end -}}
+{{- end -}}

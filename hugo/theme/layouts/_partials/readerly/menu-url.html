@@ -1,0 +1,8 @@
+{{- /* The href of a menu entry: its page's URL for pageRef entries, else its url. */ -}}
+{{- $href := "" -}}
+{{- with .Page -}}
+  {{- $href = .RelPermalink -}}
+{{- else -}}
+  {{- $href = partial "readerly/url.html" .URL -}}
+{{- end -}}
+{{- return $href -}}

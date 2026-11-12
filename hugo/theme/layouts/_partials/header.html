@@ -1,0 +1,42 @@
+{{- $archive := partial "readerly/archive-page.html" . -}}
+{{- $toggle := ne site.Params.readerly.styleToggle false -}}
+<header class="site-header">
+    <div class="wrap">
+      <div class="site-header__bar">
+        <div class="site-branding">
+          <p class="site-title"><a href="{{ site.Home.RelPermalink }}" rel="home">{{ site.Title }}</a></p>
+          {{- with site.Params.tagline }}
+          <p class="site-tagline">{{ . }}</p>
+          {{- end }}
+        </div>
+        {{- if or $archive $toggle }}
+        <div class="site-tools{{ if not $archive }} site-tools--compact{{ end }}">
+          {{- with $archive }}
+          <form class="search-form" role="search" action="{{ .RelPermalink }}" method="get">
+            <label class="visually-hidden" for="search-header">{{ T "search_reviews" }}</label>
+            <input class="input" id="search-header" type="search" name="s" placeholder="{{ T "search_reviews" }}">
+            <button class="icon-button" type="submit" aria-label="{{ T "search" }}">{{ partial "readerly/icon.html" (dict "name" "search") }}</button>
+          </form>
+          {{- end }}
+          {{- if $toggle }}
+          <button class="icon-button theme-toggle" type="button" aria-pressed="false" data-theme-toggle hidden>
+            <span class="visually-hidden">{{ T "dark_theme" }}</span>
+            {{ partial "readerly/icon.html" (dict "name" "moon" "class" "icon-moon") }}
+            {{ partial "readerly/icon.html" (dict "name" "sun" "class" "icon-sun") }}
+          </button>
+          {{- end }}
+        </div>
+        {{- end }}
+      </div>
+      {{- with site.Menus.main }}
+      <nav class="site-nav" aria-label="{{ T "primary_nav" }}">
+        <ul>
+          {{- range . }}
+          {{- $href := partial "readerly/menu-url.html" . }}
+          <li><a href="{{ $href }}"{{ if eq $href $.RelPermalink }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+          {{- end }}
+        </ul>
+      </nav>
+      {{- end }}
+    </div>
+  </header>

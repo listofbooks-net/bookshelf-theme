@@ -1,0 +1,3 @@
+{{- /* A <time> for a date, in params.readerly.dateFormat (a Go layout, localized by Hugo). .layout overrides the format. */ -}}
+<time datetime="{{ .date.Format "2006-01-02" }}">{{ .date | time.Format (.layout | default site.Params.readerly.dateFormat | default "2 January 2006") }}</time>
+{{- /**/ -}}

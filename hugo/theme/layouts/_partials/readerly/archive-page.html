@@ -1,0 +1,8 @@
+{{- /* The page that lists every review: the list page of the first main section, when it has posts. The header and 404 search forms post to it. */ -}}
+{{- $archive := false -}}
+{{- with site.MainSections -}}
+  {{- with site.GetPage (printf "/%s" (index . 0)) -}}
+    {{- if .RegularPagesRecursive }}{{ $archive = . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $archive -}}

@@ -1,0 +1,9 @@
+{{- /* The page language for <html lang>. site.LanguageCode became site.Language.Locale in Hugo 0.158. */ -}}
+{{- $locale := "" -}}
+{{- if ge hugo.Version "0.158.0" -}}
+  {{- $locale = site.Language.Locale -}}
+{{- else -}}
+  {{- $locale = site.LanguageCode -}}
+{{- end -}}
+{{- $locale = $locale | default site.Language.Lang | default "en" -}}
+{{- return $locale -}}

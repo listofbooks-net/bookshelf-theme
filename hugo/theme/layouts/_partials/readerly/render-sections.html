@@ -1,0 +1,11 @@
+{{- /* Renders the page's sections in order. Pages 2 and up of a paginated list show only the reviews. An unknown name stops the build. */ -}}
+{{- $names := partial "readerly/section-names.html" . -}}
+{{- with partial "readerly/paginator.html" . -}}
+  {{- if gt .PageNumber 1 }}{{ $names = slice "recent-reviews" }}{{ end -}}
+{{- end -}}
+{{- range $names -}}
+  {{- if not (templates.Exists (printf "_partials/sections/%s.html" .)) -}}
+    {{- errorf "Readerly: %q in sections of %s is not a section. See the theme README for the list." . $.RelPermalink -}}
+  {{- end }}
+{{ partial (printf "sections/%s.html" .) $ }}
+{{- end -}}

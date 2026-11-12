@@ -1,0 +1,12 @@
+{{- /*
+The sections registry. A page renders .Params.sections, else the default list of
+its layout. Each name is a file in _partials/sections/.
+*/ -}}
+{{- $defaults := dict
+  "home" (slice "intro" "content" "featured-review" "recent-reviews" "currently-reading" "genres" "newsletter")
+  "author" (slice "author-hero" "new-release" "books" "praise" "events" "newsletter")
+  "reading-log" (slice "intro-stats" "currently-reading" "shelves")
+-}}
+{{- $layout := .Layout | default (cond .IsHome "home" "") -}}
+{{- $names := .Params.sections | default (index $defaults $layout) | default slice -}}
+{{- return $names -}}
