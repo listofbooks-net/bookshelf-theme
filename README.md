@@ -63,7 +63,7 @@ CI is `.github/workflows/ci.yml`. GitHub Actions is off for this repository, so 
 act pull_request -W .github/workflows/ci.yml
 ```
 
-It checks that the generated files are up to date, that `theme.json` and the style files match the WordPress schema (`npm ci --prefix tools && node tools/check-theme-json.mjs`), that every PHP file passes `php -l` on PHP 7.4 and 8.4, and every Jekyll check in the next section.
+It checks that the generated files are up to date, that `theme.json` and the style files match the WordPress schema (`npm ci --prefix tools && node tools/check-theme-json.mjs`), that every PHP file passes `php -l` on PHP 7.4 and 8.4, and every Jekyll, Hugo and Ghost check in the sections below.
 
 ## Build and check the Jekyll theme
 
@@ -188,4 +188,4 @@ tools/wp-dev/wp-dev.sh zip-test dist/readerly-1.0.0.zip
 
 ## The footer credit
 
-The footer keeps one link, "Theme by List of Books", to https://www.listofbooks.net/. In WordPress, a site owner can edit or delete it in the Site Editor. In Jekyll, a site owner removes it by adding an empty `_includes/shell/credit.html`, and in Hugo an empty `layouts/_partials/credit.html`.
+The footer keeps one link, "Theme by List of Books", to https://www.listofbooks.net/. In WordPress, a site owner can edit or delete it in the Site Editor. In Jekyll, a site owner removes it by adding an empty `_includes/shell/credit.html`, and in Hugo an empty `layouts/_partials/credit.html`. The Ghost theme prints it next to "Published with Ghost" from `ghost/partials/site/credit.hbs`, which a site owner edits in the theme files.
