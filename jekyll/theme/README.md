@@ -37,6 +37,10 @@ Remove any `theme:` line. Readerly uses the layout names `default`, `home`, `pag
 
 To show nine reviews per page on the home page, also add `jekyll-paginate` to `plugins`, set `paginate: 9`, and name the home page `index.html` (jekyll-paginate does not paginate `index.md`).
 
+### Preview on your computer
+
+Run `bundle exec jekyll serve` in your site. If your Gemfile uses the `github-pages` gem and `_config.yml` has no `description:`, the local build asks the GitHub API for your repository's description, and it can stop with an error when it cannot reach it. Add a `description:` line to `_config.yml`, which also sets your pages' meta description.
+
 ## Write a review
 
 A review is an ordinary post with extra front matter. Every key except `title` is optional. Delete a key and the part it fills disappears. A post with none of the book keys renders as a plain article.
@@ -165,7 +169,7 @@ A misspelt name stops the build with an error that names the missing file.
 
 | Layout | Default sections |
 | --- | --- |
-| `home` | `intro`, `featured-review`, `recent-reviews`, `currently-reading`, `genres`, `newsletter` |
+| `home` | `intro`, `content`, `featured-review`, `recent-reviews`, `currently-reading`, `genres`, `newsletter` |
 | `author` | `author-hero`, `new-release`, `books`, `praise`, `events`, `newsletter` |
 | `reading-log` | `intro-stats`, `currently-reading`, `shelves` |
 

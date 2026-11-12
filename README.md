@@ -68,7 +68,7 @@ tools/jekyll-dev/jekyll-dev.sh build         # build every site on both engines 
 tools/jekyll-dev/jekyll-dev.sh serve demo    # serve the demo at http://localhost:4000/sub/
 ```
 
-`build` builds the demo, the starter (once as published, once with its example draft) and the three fixtures, under the baseurl `/sub`. A build that prints anything, warnings included, fails.
+`build` builds the demo, the starter (once as published, once with its example draft) and the four fixtures, under the baseurl `/sub`. A build that prints anything, warnings included, fails.
 
 To run the checks, install the tools and point `CHROMIUM_PATH` at a Chromium:
 
@@ -81,12 +81,13 @@ CHROMIUM_PATH=/usr/bin/chromium tools/jekyll-dev/jekyll-dev.sh check
 
 1. Each site's HTML is the same on both engines, whitespace aside.
 2. Every internal link and asset resolves to a built file under the baseurl.
-3. The demo has the same markup as the seven design pages (`check-parity.mjs`). Each allowed difference is in `parity-exceptions.json` with its reason.
-4. Every page of every site passes `tools/wp-dev/check-pages.cjs` at 1280 px and 390 px, in Paper and Lamplight: no overflow, broken images, console errors or third-party requests, one h1, no empty headings or sections, and exactly one footer credit.
+3. Every attribute parses, no heading is empty, and each fixture's own cases hold: quotes in titles and authors, the Minima page body, a custom `paginate_path`, an untitled archive and missing titles (`check-markup.mjs`).
+4. The demo has the same markup as the seven design pages (`check-parity.mjs`). Each allowed difference is in `parity-exceptions.json` with its reason.
+5. Every page of every site passes `tools/wp-dev/check-pages.cjs` at 1280 px and 390 px, in Paper and Lamplight: no overflow, broken images, console errors or third-party requests, one h1, no empty headings or sections, and exactly one footer credit.
 
 To compare the design pages with the demo by eye, run `node tools/jekyll-dev/side-by-side.mjs` after a build. It writes `tools/jekyll-dev/out/side-by-side/index.html`.
 
-`tools/publish-jekyll.sh <version>` pushes a release to the two public repositories. Only an operator runs it; see the header of the script.
+`tools/publish-jekyll.sh <version>` pushes a release to the two public repositories: the tag first, then, once the starter builds against that tag, the `v<major>` branch and `main`. Only an operator runs it; see the header of the script.
 
 ## Build the zip
 
