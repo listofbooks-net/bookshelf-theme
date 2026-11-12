@@ -1,0 +1,13 @@
+---
+layout: default
+---
+{%- comment -%}
+Renders page.sections, else the calling layout's sections, in order. Each name is
+a file in _includes/sections/, so a misspelt name fails the build with an error
+that names the missing file. Pages 2 and up of a paginated list show only the reviews.
+{%- endcomment -%}
+{%- assign section_names = page.sections | default: layout.sections -%}
+{%- if paginator.page > 1 -%}{%- assign section_names = "recent-reviews" | split: "," -%}{%- endif -%}
+{%- for section_name in section_names %}
+{% include sections/{{ section_name }}.html %}
+{%- endfor %}

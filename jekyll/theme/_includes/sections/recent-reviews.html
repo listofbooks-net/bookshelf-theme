@@ -1,0 +1,39 @@
+{%- comment -%}
+The review grid: paginator.posts when jekyll-paginate runs on this page, else the
+newest posts. Page 1 leaves out the post the featured-review section shows.
+{%- endcomment -%}
+{%- assign recent_skip = nil -%}
+{%- if paginator.page == nil or paginator.page == 1 -%}
+{%- if section_names contains "featured-review" -%}{%- include data/featured.html -%}{%- assign recent_skip = featured_post.url -%}{%- endif -%}
+{%- endif -%}
+{%- if paginator.posts -%}
+{%- assign recent_source = paginator.posts -%}
+{%- else -%}
+{%- assign recent_source = site.posts | slice: 0, 9 -%}
+{%- endif -%}
+{%- assign recent_posts = "" | split: "" -%}
+{%- for recent_post in recent_source -%}
+{%- if recent_post.url != recent_skip -%}{%- assign recent_posts = recent_posts | push: recent_post -%}{%- endif -%}
+{%- endfor -%}
+{%- if recent_posts.size > 0 -%}
+{%- include data/find-page.html layout="archive" -%}
+<section class="section" aria-labelledby="recent-title">
+      <div class="wrap">
+        {%- if paginator.page > 1 %}
+        <h1 class="visually-hidden">{{ site.title }}: {% include data/t.html key="page_n" n=paginator.page %}</h1>
+        {%- endif %}
+        {%- capture recent_heading %}{% include data/t.html key="recent_reviews" %}{% endcapture %}
+        {%- capture recent_more_label %}{% include data/t.html key="all_reviews" %}{% endcapture %}
+        {%- if found_page %}{% capture recent_more %}{{ found_page.url | relative_url }}{% endcapture %}{% else %}{% assign recent_more = nil %}{% endif %}
+        {% include components/section-head.html id="recent-title" heading=recent_heading more_url=recent_more more_label=recent_more_label %}
+        <ul class="book-grid book-grid--four">
+          {%- for recent_post in recent_posts %}
+          <li>
+          {% include components/book-card.html entry=recent_post excerpt="clamp" %}
+          </li>
+          {%- endfor %}
+        </ul>
+        {% include components/pagination.html %}
+      </div>
+    </section>
+{%- endif -%}

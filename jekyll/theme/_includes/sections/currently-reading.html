@@ -1,0 +1,28 @@
+{%- include data/entries.html status="reading" -%}
+{%- if entries.size > 0 -%}
+{%- assign reading_entries = entries -%}
+{%- include data/find-page.html layout="reading-log" -%}
+{%- assign reading_section = page["currently-reading"] -%}
+{%- capture reading_heading %}{{ reading_section.heading | default: "" }}{% endcapture -%}
+{%- if reading_heading == "" %}{% capture reading_heading %}{% include data/t.html key="currently_reading" %}{% endcapture %}{% endif -%}
+{%- assign reading_count = nil -%}
+{%- assign reading_more = nil -%}
+{%- if found_page and found_page.url != page.url -%}
+{%- capture reading_more %}{{ found_page.url | relative_url }}{% endcapture -%}
+{%- capture reading_more_label %}{% include data/t.html key="my_reading_log" %}{% endcapture -%}
+{%- else -%}
+{%- capture reading_count %}{% if reading_entries.size == 1 %}{% include data/t.html key="books_one" %}{% else %}{% include data/t.html key="books_many" n=reading_entries.size %}{% endif %}{% endcapture -%}
+{%- endif -%}
+<section class="section section--band" aria-labelledby="reading-title">
+      <div class="wrap">
+        {% include components/section-head.html id="reading-title" heading=reading_heading count=reading_count note=reading_section.note more_url=reading_more more_label=reading_more_label %}
+        <ul class="book-grid book-grid--compact">
+          {%- for reading_entry in reading_entries %}
+          <li>
+          {% include components/book-card.html entry=reading_entry variant="compact" %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </section>
+{%- endif -%}

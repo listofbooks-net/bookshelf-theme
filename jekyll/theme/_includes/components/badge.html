@@ -1,0 +1,7 @@
+{%- comment -%} The status badge for include.status. Prints nothing for an unknown status. {%- endcomment -%}
+{%- case include.status -%}
+{%- when "reading" -%}<span class="badge badge--reading">{% include data/t.html key="status_reading" %}</span>
+{%- when "read" -%}<span class="badge badge--read">{% include data/t.html key="status_read" %}</span>
+{%- when "want" -%}<span class="badge badge--want">{% include data/t.html key="status_want" %}</span>
+{%- when "dnf" -%}<span class="badge badge--dnf"><abbr title="{% include data/t.html key="status_dnf" %}">{% include data/t.html key="status_dnf_short" %}</abbr></span>
+{%- endcase -%}

@@ -1,0 +1,45 @@
+{%- include data/find-page.html layout="archive" -%}
+{%- assign header_archive = found_page -%}
+{%- assign header_toggle = true -%}
+{%- if site.readerly.style_toggle == false -%}{%- assign header_toggle = false -%}{%- endif -%}
+<header class="site-header">
+    <div class="wrap">
+      <div class="site-header__bar">
+        <div class="site-branding">
+          <p class="site-title"><a href="{{ "/" | relative_url }}" rel="home">{{ site.title }}</a></p>
+          {%- if site.tagline %}
+          <p class="site-tagline">{{ site.tagline }}</p>
+          {%- endif %}
+        </div>
+        {%- if header_archive or header_toggle %}
+        <div class="site-tools{% unless header_archive %} site-tools--compact{% endunless %}">
+          {%- if header_archive %}
+          <form class="search-form" role="search" action="{{ header_archive.url | relative_url }}" method="get">
+            <label class="visually-hidden" for="search-header">{% include data/t.html key="search_reviews" %}</label>
+            <input class="input" id="search-header" type="search" name="s" placeholder="{% include data/t.html key="search_reviews" %}">
+            <button class="icon-button" type="submit" aria-label="{% include data/t.html key="search" %}">{% include shell/icon.html name="search" %}</button>
+          </form>
+          {%- endif %}
+          {%- if header_toggle %}
+          <button class="icon-button theme-toggle" type="button" aria-pressed="false" data-theme-toggle hidden>
+            <span class="visually-hidden">{% include data/t.html key="dark_theme" %}</span>
+            {% include shell/icon.html name="moon" class="icon-moon" %}
+            {% include shell/icon.html name="sun" class="icon-sun" %}
+          </button>
+          {%- endif %}
+        </div>
+        {%- endif %}
+      </div>
+      {%- if site.readerly.nav %}
+      {%- assign header_here = page.url | replace: "index.html", "" | relative_url %}
+      <nav class="site-nav" aria-label="{% include data/t.html key="primary_nav" %}">
+        <ul>
+          {%- for nav_item in site.readerly.nav %}
+          {%- capture nav_href %}{% include components/url.html url=nav_item.url %}{% endcapture %}
+          <li><a href="{{ nav_href }}"{% if nav_href == header_here %} aria-current="page"{% endif %}>{{ nav_item.title }}</a></li>
+          {%- endfor %}
+        </ul>
+      </nav>
+      {%- endif %}
+    </div>
+  </header>

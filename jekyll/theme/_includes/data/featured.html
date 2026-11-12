@@ -1,0 +1,3 @@
+{%- comment -%} Assigns featured_post: the newest post with featured: true, else the newest post. {%- endcomment -%}
+{%- assign featured_post = site.posts | where: "featured", true | first -%}
+{%- unless featured_post -%}{%- assign featured_post = site.posts | first -%}{%- endunless -%}

@@ -1,0 +1,12 @@
+{%- comment -%}
+Assigns found_page: the first page whose layout is include.layout. For the
+archive layout it skips genre pages, so it finds the page that lists every review.
+{%- endcomment -%}
+{%- assign found_page = nil -%}
+{%- assign find_candidates = site.pages | where: "layout", include.layout -%}
+{%- for find_candidate in find_candidates -%}
+{%- if include.layout != "archive" or find_candidate.genre == nil -%}
+{%- assign found_page = find_candidate -%}
+{%- break -%}
+{%- endif -%}
+{%- endfor -%}

@@ -1,0 +1,15 @@
+{%- comment -%}
+Assigns genre_url for include.name: its genre page (layout: archive, genre: <name>),
+else the archive page filtered with ?genre=, else nil.
+{%- endcomment -%}
+{%- assign genre_page = site.pages | where: "layout", "archive" | where: "genre", include.name | first -%}
+{%- if genre_page -%}
+{%- assign genre_url = genre_page.url | relative_url -%}
+{%- else -%}
+{%- include data/find-page.html layout="archive" -%}
+{%- if found_page -%}
+{%- capture genre_url %}{{ found_page.url | relative_url }}?genre={{ include.name | url_encode }}{% endcapture -%}
+{%- else -%}
+{%- assign genre_url = nil -%}
+{%- endif -%}
+{%- endif -%}

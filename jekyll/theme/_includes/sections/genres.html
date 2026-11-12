@@ -1,0 +1,23 @@
+{%- assign genre_groups = site.posts | group_by: "genre" | sort: "size" | reverse -%}
+{%- assign genre_list = "" | split: "" -%}
+{%- for genre_group in genre_groups -%}
+{%- if genre_group.name != "" -%}{%- assign genre_list = genre_list | push: genre_group -%}{%- endif -%}
+{%- endfor -%}
+{%- if genre_list.size > 0 -%}
+{%- assign genres_section = page.genres -%}
+{%- capture genres_heading %}{{ genres_section.heading | default: "" }}{% endcapture -%}
+{%- if genres_heading == "" %}{% capture genres_heading %}{% include data/t.html key="browse_by_genre" %}{% endcapture %}{% endif -%}
+{%- capture genres_note %}{{ genres_section.note | default: "" }}{% endcapture -%}
+{%- if genres_note == "" %}{% capture genres_note %}{% include data/t.html key="reviews_and_counting" n=site.posts.size %}{% endcapture %}{% endif -%}
+<section class="section" aria-labelledby="genres-title">
+      <div class="wrap">
+        {% include components/section-head.html id="genres-title" heading=genres_heading note=genres_note %}
+        <ul class="toc">
+          {%- for genre_group in genre_list %}
+          {%- capture genre_label %}<span class="toc__name">{{ genre_group.name }}</span><span class="toc__count">{{ genre_group.size }}<span class="visually-hidden"> {% include data/t.html key="reviews_many" n="" %}</span></span>{% endcapture %}
+          <li>{% include components/genre-link.html name=genre_group.name content=genre_label %}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </section>
+{%- endif -%}

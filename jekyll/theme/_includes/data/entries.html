@@ -1,0 +1,24 @@
+{%- comment -%}
+Assigns entries: every book entry with include.status, newest first. Entries are
+review posts plus _data/reading_log.yml, the only two sources of book entries.
+With include.year, only entries finished in that year are kept.
+{%- endcomment -%}
+{%- assign entries = site.posts | where: "status", include.status -%}
+{%- if site.data.reading_log -%}
+{%- assign entries_data = site.data.reading_log | where: "status", include.status -%}
+{%- assign entries = entries | concat: entries_data -%}
+{%- endif -%}
+{%- if include.status == "read" -%}
+{%- assign entries = entries | sort: "finished" | reverse -%}
+{%- endif -%}
+{%- if include.year -%}
+{%- assign entries_year = include.year | append: "" -%}
+{%- assign entries_all = entries -%}
+{%- assign entries = "" | split: "" -%}
+{%- for entry in entries_all -%}
+{%- if entry.finished -%}
+{%- assign entry_year = entry.finished | date: "%Y" -%}
+{%- if entry_year == entries_year -%}{%- assign entries = entries | push: entry -%}{%- endif -%}
+{%- endif -%}
+{%- endfor -%}
+{%- endif -%}

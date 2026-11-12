@@ -1,0 +1,8 @@
+{%- assign section_content = content | strip -%}
+{%- if section_content != "" -%}
+<section class="section">
+      <div class="wrap wrap--content entry-content">
+{{ content }}
+      </div>
+    </section>
+{%- endif -%}

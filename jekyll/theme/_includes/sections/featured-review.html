@@ -1,0 +1,32 @@
+{%- include data/featured.html -%}
+{%- if featured_post -%}
+{%- assign feature = featured_post -%}
+{%- capture feature_href %}{{ feature.url | relative_url }}{% endcapture -%}
+{%- assign feature_words = feature.content | strip_html | number_of_words -%}
+{%- assign feature_minutes = feature_words | divided_by: 200 | at_least: 1 -%}
+{%- assign feature_date_format = site.readerly.date_format | default: "%-d %B %Y" -%}
+<section class="section section--tight" aria-labelledby="latest-title">
+      <div class="wrap">
+        <article class="feature">
+          <a class="cover-link" href="{{ feature_href }}" tabindex="-1" aria-hidden="true">{% include components/cover.html entry=feature alt="decorative" %}</a>
+          <div class="feature__body">
+            <span class="eyebrow">{% if feature.featured %}{% include data/t.html key="featured_review" %}{% else %}{% include data/t.html key="latest_review" %}{% endif %}{% if feature.genre %} &middot; {{ feature.genre }}{% endif %}</span>
+            <h2 class="feature__title" id="latest-title"><a href="{{ feature_href }}">{{ feature.book_title | default: feature.title }}</a></h2>
+            {%- capture feature_byline %}{% if feature.book_author %}{% include data/t.html key="by" n=feature.book_author %}{% endif %}{% if feature.book_author and feature.series %} &middot; {% endif %}{{ feature.series }}{% endcapture %}
+            {%- if feature_byline != "" %}
+            <p class="muted">{{ feature_byline }}</p>
+            {%- endif %}
+            {%- if feature.rating %}
+            <div class="rating-line">{% include components/rating.html value=feature.rating size="large" %}</div>
+            {%- endif %}
+            {%- assign feature_excerpt = feature.excerpt | strip_html | strip %}
+            {%- if feature_excerpt != "" %}
+            <p class="lead">{{ feature_excerpt }}</p>
+            {%- endif %}
+            <p class="book-card__meta"><time datetime="{{ feature.date | date: "%Y-%m-%d" }}">{{ feature.date | date: feature_date_format }}</time> &middot; {% include data/t.html key="min_read" n=feature_minutes %}</p>
+            <a class="button" href="{{ feature_href }}">{% include data/t.html key="read_the_review" %} {% include shell/icon.html name="arrow-right" %}</a>
+          </div>
+        </article>
+      </div>
+    </section>
+{%- endif -%}

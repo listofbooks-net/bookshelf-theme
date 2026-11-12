@@ -1,0 +1,27 @@
+{%- assign footer = site.readerly.footer -%}
+<footer class="site-footer">
+    <div class="wrap">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-title"><a href="{{ "/" | relative_url }}">{{ site.title }}</a></p>
+          {%- if footer.about %}
+          <p>{{ footer.about }}</p>
+          {%- endif %}
+        </div>
+        {%- for footer_column in footer.columns %}{% if footer_column.links %}
+        <nav aria-label="{{ footer_column.title | escape }}">
+          <h2>{{ footer_column.title }}</h2>
+          <ul class="footer-links">
+            {%- for footer_link in footer_column.links %}
+            <li><a href="{% include components/url.html url=footer_link.url %}">{{ footer_link.title }}</a></li>
+            {%- endfor %}
+          </ul>
+        </nav>
+        {%- endif %}{% endfor %}
+      </div>
+      <div class="site-footer__bottom">
+        <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}.{% if footer.copyright %} {{ footer.copyright }}{% endif %}</p>
+        {% include shell/credit.html %}
+      </div>
+    </div>
+  </footer>

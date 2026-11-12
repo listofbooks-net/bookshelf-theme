@@ -1,0 +1,142 @@
+---
+layout: default
+---
+{%- comment -%}
+A blog post. Each part renders only when its data exists, so a post with no book
+keys is a plain article and a post with every key is a full review.
+{%- endcomment -%}
+{%- assign post_title = page.book_title | default: page.title -%}
+{%- assign post_date_format = site.readerly.date_format | default: "%-d %B %Y" -%}
+{%- assign post_author_name = page.author.name | default: page.author | default: site.author.name -%}
+{%- if page.author.name or page.author == nil %}{% assign post_author_url = page.author.url | default: site.author.url %}{% else %}{% assign post_author_url = nil %}{% endif -%}
+{%- assign post_words = content | strip_html | number_of_words -%}
+{%- assign post_minutes = post_words | divided_by: 200 | at_least: 1 -%}
+{%- assign post_tags = "" | split: "" -%}
+{%- if page.genre %}{% assign post_tags = post_tags | push: page.genre %}{% endif -%}
+{%- for post_tag in page.tags %}{% unless post_tags contains post_tag %}{% assign post_tags = post_tags | push: post_tag %}{% endunless %}{% endfor -%}
+<article class="review">
+      <div class="wrap wrap--content">
+        <header class="entry-header">
+          {%- if post_tags.size > 0 %}
+          <ul class="tags" aria-label="{% include data/t.html key="genres_and_tags" %}">
+            {%- for post_tag in post_tags %}
+            <li>{% include components/genre-link.html name=post_tag class="tag" %}</li>
+            {%- endfor %}
+          </ul>
+          {%- endif %}
+          <h1>{{ page.title }}</h1>
+          {%- if page.lead %}
+          <p class="lead">{{ page.lead }}</p>
+          {%- endif %}
+          <p class="entry-meta">
+            {%- if post_author_name %}
+            <span>{% include data/t.html key="byline" %} {% if post_author_url %}<a href="{% include components/url.html url=post_author_url %}">{{ post_author_name }}</a>{% else %}{{ post_author_name }}{% endif %}</span>
+            {%- endif %}
+            <time datetime="{{ page.date | date: "%Y-%m-%d" }}">{{ page.date | date: post_date_format }}</time>
+            <span>{% include data/t.html key="min_read" n=post_minutes %}</span>
+          </p>
+        </header>
+        {%- if page.cover or page.book_author or page.series or page.pages or page.publication or page.rating or page.status %}
+
+        <aside class="book-panel" aria-labelledby="book-panel-title">
+          <div>{% include components/cover.html entry=page alt="described" %}</div>
+          <div>
+            <h2 class="book-panel__title" id="book-panel-title">{{ post_title }}</h2>
+            {%- if page.book_author %}
+            <p class="book-panel__author">{% include data/t.html key="by" n=page.book_author %}</p>
+            {%- endif %}
+            {%- capture post_details %}
+              {%- if page.series %}
+              <dt>{% include data/t.html key="series" %}</dt>
+              <dd>{{ page.series }}</dd>
+              {%- endif %}
+              {%- if page.pages %}
+              <dt>{% include data/t.html key="pages" %}</dt>
+              <dd>{{ page.pages }}</dd>
+              {%- endif %}
+              {%- if page.publication %}
+              <dt>{% include data/t.html key="published" %}</dt>
+              <dd>{{ page.publication }}</dd>
+              {%- endif %}
+              {%- if page.rating %}
+              <dt>{% include data/t.html key="my_rating" %}</dt>
+              <dd><span class="rating-line">{% include components/rating.html value=page.rating size="large" %}</span></dd>
+              {%- endif %}
+              {%- capture post_badge %}{% include components/badge.html status=page.status %}{% endcapture %}
+              {%- if post_badge != "" %}
+              <dt>{% include data/t.html key="status" %}</dt>
+              <dd>{{ post_badge }}{% if page.finished %} <span class="muted">{% capture post_finished %}{{ page.finished | date: "%-d %B" }}{% endcapture %}{% include data/t.html key="finished_on" n=post_finished %}</span>{% endif %}</dd>
+              {%- endif %}
+            {%- endcapture %}
+            {%- assign post_details_check = post_details | strip %}
+            {%- if post_details_check != "" %}
+            <dl class="details">{{ post_details }}
+            </dl>
+            {%- endif %}
+          </div>
+        </aside>
+        {%- endif %}
+
+        <div class="entry-content">
+{{ content }}
+          {%- if page.verdict %}
+
+          <section class="verdict" aria-labelledby="verdict-title">
+            <div class="verdict__head">
+              <h2 id="verdict-title">{% include data/t.html key="my_verdict" %}</h2>
+              {%- if page.rating %}
+              <div class="rating-line">{% include components/rating.html value=page.rating size="large" %}</div>
+              {%- endif %}
+            </div>
+            {%- if page.verdict.summary %}
+            <p class="verdict__summary">{{ page.verdict.summary }}</p>
+            {%- endif %}
+            {%- if page.verdict.liked or page.verdict.disliked %}
+            <div class="verdict__lists">
+              {%- if page.verdict.liked %}
+              <div>
+                <h3>{% include data/t.html key="what_worked" %}</h3>
+                <ul>
+                  {%- for verdict_item in page.verdict.liked %}
+                  <li>{{ verdict_item }}</li>
+                  {%- endfor %}
+                </ul>
+              </div>
+              {%- endif %}
+              {%- if page.verdict.disliked %}
+              <div>
+                <h3>{% include data/t.html key="less_so" %}</h3>
+                <ul>
+                  {%- for verdict_item in page.verdict.disliked %}
+                  <li>{{ verdict_item }}</li>
+                  {%- endfor %}
+                </ul>
+              </div>
+              {%- endif %}
+            </div>
+            {%- endif %}
+          </section>
+          {%- endif %}
+        </div>
+        {%- if site.author.name and site.author.bio %}
+
+        <aside class="bio-card" aria-labelledby="bio-title">
+          {%- if site.author.avatar %}
+          <img src="{% include components/url.html url=site.author.avatar %}" width="400" height="400" alt="{% include data/t.html key="portrait_of" n=site.author.name %}">
+          {%- endif %}
+          <div class="bio-card__body">
+            <span class="eyebrow">{% include data/t.html key="reviewed_by" %}</span>
+            <h2 class="bio-card__name" id="bio-title">{{ site.author.name }}</h2>
+            <p>{{ site.author.bio }}</p>
+            {%- if site.author.links %}
+            <p>{% for bio_link in site.author.links %}<a href="{% include components/url.html url=bio_link.url %}">{{ bio_link.title }}</a>{% unless forloop.last %} &middot; {% endunless %}{% endfor %}</p>
+            {%- elsif site.author.url %}
+            <p><a href="{% include components/url.html url=site.author.url %}">{% include data/t.html key="more_about" n=site.author.name %}</a></p>
+            {%- endif %}
+          </div>
+        </aside>
+        {%- endif %}
+        {%- include components/related.html %}
+        {%- include comments.html %}
+      </div>
+    </article>

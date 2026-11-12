@@ -1,0 +1,32 @@
+{%- assign hero = page.hero -%}
+{%- assign hero_name = page.title | default: site.title -%}
+<section class="section" id="about" aria-label="{% include data/t.html key="about_author" n=hero_name %}">
+      <div class="wrap">
+        <div class="author-hero">
+          {%- if hero.portrait %}
+          <div class="author-hero__portrait">
+            <img src="{% include components/url.html url=hero.portrait %}" width="800" height="1000" alt="{% include data/t.html key="portrait_of" n=hero_name %}">
+          </div>
+          {%- endif %}
+          <div class="author-hero__body">
+            {%- if hero.eyebrow %}
+            <span class="eyebrow">{{ hero.eyebrow }}</span>
+            {%- endif %}
+            <h1>{{ hero_name }}</h1>
+            {%- if hero.lead %}
+            <p class="lead">{{ hero.lead | markdownify | remove: "<p>" | remove: "</p>" | strip }}</p>
+            {%- endif %}
+            {%- if hero.text %}
+            <p class="muted">{{ hero.text | markdownify | remove: "<p>" | remove: "</p>" | strip }}</p>
+            {%- endif %}
+            {%- if hero.buttons %}
+            <div class="buttons">
+              {%- for hero_button in hero.buttons %}
+              <a class="button{% unless forloop.first %} button--outline{% endunless %}" href="{% include components/url.html url=hero_button.url %}">{{ hero_button.title }}</a>
+              {%- endfor %}
+            </div>
+            {%- endif %}
+          </div>
+        </div>
+      </div>
+    </section>

@@ -1,0 +1,9 @@
+{%- comment -%} Prints a whole number with a thousands separator (site.readerly.thousands, default ","). {%- endcomment -%}
+{%- assign number_digits = include.value | append: "" -%}
+{%- assign number_size = number_digits.size -%}
+{%- for number_i in (1..number_size) -%}
+{%- assign number_at = number_i | minus: 1 -%}
+{{- number_digits | slice: number_at -}}
+{%- assign number_rest = number_size | minus: number_i | modulo: 3 -%}
+{%- if number_rest == 0 and number_i < number_size %}{{ site.readerly.thousands | default: "," }}{% endif -%}
+{%- endfor -%}
