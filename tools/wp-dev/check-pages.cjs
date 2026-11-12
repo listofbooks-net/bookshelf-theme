@@ -1,16 +1,33 @@
 // Screenshots every demo page at desktop and mobile width and checks what a
 // reviewer would otherwise check by eye. Exits 1 when any check fails.
 //
-//   node tools/wp-dev/check-pages.cjs <site url> <output dir> [label]
+//   node tools/wp-dev/check-pages.cjs <site url> <output dir> [label] [page map]
+//
+// The page map is a JSON file; the default, pages.json beside this file, lists
+// the WordPress demo. Its keys:
+//   pages        { name: path } to check, relative to the site url
+//   notFound     names that must answer HTTP 404
+//   mobileMenu   { open, panel, close } selectors of a menu toggle to exercise at 390 px
+//   colorScheme  { <label>: "light" | "dark" } emulated for that label
 //
 // Set PLAYWRIGHT_MODULE to a Playwright install and CHROMIUM_PATH to a browser
 // when they are not resolvable from this directory.
 
-const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const fs = require('fs');
+const path = require('path');
 
-const USAGE = 'usage: node check-pages.cjs <site url> <output dir> [label]';
-const [base, out, label = 'paper'] = process.argv.slice(2);
+function loadPlaywright() {
+	for (const name of [process.env.PLAYWRIGHT_MODULE, 'playwright', 'playwright-core'].filter(Boolean)) {
+		try {
+			return require(name);
+		} catch {}
+	}
+	throw new Error('Playwright not found: set PLAYWRIGHT_MODULE, or run npm ci --prefix tools');
+}
+const { chromium } = loadPlaywright();
+
+const USAGE = 'usage: node check-pages.cjs <site url> <output dir> [label] [page map]';
+const [base, out, label = 'paper', mapFile = path.join(__dirname, 'pages.json')] = process.argv.slice(2);
 if (!base || !out) {
 	console.error(USAGE);
 	process.exit(2);
@@ -23,19 +40,9 @@ try {
 	process.exit(2);
 }
 
-const pages = {
-	home: '/',
-	'home-page-2': '/page/2/',
-	review: '/the-salt-orchard/',
-	author: '/author-home/',
-	'reading-log': '/reading-log/',
-	about: '/about/',
-	contact: '/contact/',
-	archive: '/category/literary-fiction/',
-	search: '/?s=ledger',
-	'search-empty': '/?s=zzzzqqq',
-	'404': '/this-page-does-not-exist/',
-};
+const map = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
+const pages = map.pages;
+const notFound = new Set(map.notFound ?? []);
 const viewports = { desktop: { width: 1280, height: 900 }, mobile: { width: 390, height: 844 } };
 const CREDIT = 'https://www.listofbooks.net';
 
@@ -48,7 +55,10 @@ async function checkPage(context, name, path, vpName) {
 	const page = await context.newPage();
 	try {
 		page.on('console', (m) => {
-			if (m.type() === 'error' && !(name === '404' && m.location().url === base + path)) problems.push(`console: ${m.text()}`);
+			const source = m.location().url;
+			// Chromium asks for /favicon.ico on its own when a page names no icon.
+			const expected = (notFound.has(name) && source === base + path) || source.endsWith('/favicon.ico');
+			if (m.type() === 'error' && !expected) problems.push(`console: ${m.text()} (${source})`);
 		});
 		page.on('pageerror', (e) => problems.push(`page error: ${e.message}`));
 		page.on('request', (r) => {
@@ -65,7 +75,7 @@ async function checkPage(context, name, path, vpName) {
 		}
 		if (!response) return problems;
 
-		const expected = name === '404' ? 404 : 200;
+		const expected = notFound.has(name) ? 404 : 200;
 		if (response.status() !== expected) problems.push(`HTTP ${response.status()}, expected ${expected}`);
 		const phpMessages = ((await response.text()).match(PHP_MESSAGE) || []).slice(0, 3);
 		if (phpMessages.length) problems.push(`PHP: ${phpMessages.map((m) => m.replace(/<[^>]+>/g, '')).join(' | ')}`);
@@ -83,6 +93,13 @@ async function checkPage(context, name, path, vpName) {
 				credits: credits.map((a) => ({ text: a.textContent.trim(), rel: a.getAttribute('rel') })),
 				creditish: document.querySelectorAll('a[href*="listofbooks.net"]').length,
 				h1: document.querySelectorAll('h1').length,
+				emptyHeadings: [...document.querySelectorAll('h1, h2, h3, h4, h5, h6')].filter((h) => !h.textContent.trim()).map((h) => h.outerHTML.slice(0, 80)),
+				emptySections: [...document.querySelectorAll('main section')]
+					.filter((s) => {
+						const heading = s.querySelector('h2');
+						return heading && s.textContent.replace(/\s+/g, '') === heading.textContent.replace(/\s+/g, '');
+					})
+					.map((s) => s.querySelector('h2').textContent.trim()),
 				fonts: [...document.fonts].filter((f) => f.status === 'loaded').map((f) => `${f.family} ${f.style}`),
 			};
 		}, CREDIT);
@@ -93,18 +110,21 @@ async function checkPage(context, name, path, vpName) {
 		if (info.credits[0] && (info.credits[0].rel !== null || info.credits[0].text !== 'Theme by List of Books')) problems.push(`credit link wrong: ${JSON.stringify(info.credits[0])}`);
 		if (!info.fonts.some((f) => f.startsWith('Fraunces')) || !info.fonts.some((f) => f.startsWith('Literata'))) problems.push(`fonts loaded: ${info.fonts.join(', ')}`);
 		if (info.h1 !== 1) problems.push(`expected exactly one h1, found ${info.h1}`);
+		if (info.emptyHeadings.length) problems.push(`empty headings: ${info.emptyHeadings.join(' | ')}`);
+		if (info.emptySections.length) problems.push(`sections with only a heading: ${info.emptySections.join(' | ')}`);
 
-		if (vpName === 'mobile') {
-			const toggle = page.locator('.readerly-header .wp-block-navigation__responsive-container-open').first();
+		const menu = map.mobileMenu;
+		if (vpName === 'mobile' && menu) {
+			const toggle = page.locator(menu.open).first();
 			if (await toggle.isVisible()) {
 				await toggle.click();
 				await page.waitForTimeout(300);
-				const links = await page.locator('.wp-block-navigation__responsive-container.is-menu-open a').count();
+				const links = await page.locator(`${menu.panel} a`).count();
 				if (!links) problems.push('mobile menu opened with no links');
 				if (name === 'home') await page.screenshot({ path: `${out}/${name}-menu-open-${vpName}-${label}.png` });
-				await page.locator('.wp-block-navigation__responsive-container-close').first().click();
+				await page.locator(menu.close).first().click();
 				await page.waitForTimeout(200);
-				if (await page.locator('.wp-block-navigation__responsive-container.is-menu-open').count()) problems.push('mobile menu did not close');
+				if (await page.locator(menu.panel).count()) problems.push('mobile menu did not close');
 			} else {
 				problems.push('mobile menu toggle not visible');
 			}
@@ -125,7 +145,8 @@ async function checkPage(context, name, path, vpName) {
 	const failures = [];
 	try {
 		for (const [vpName, viewport] of Object.entries(viewports)) {
-			const context = await browser.newContext({ viewport, deviceScaleFactor: 1 });
+			const colorScheme = map.colorScheme?.[label];
+			const context = await browser.newContext({ viewport, deviceScaleFactor: 1, ...(colorScheme ? { colorScheme } : {}) });
 			try {
 				for (const [name, path] of Object.entries(pages)) {
 					const problems = await checkPage(context, name, path, vpName);
